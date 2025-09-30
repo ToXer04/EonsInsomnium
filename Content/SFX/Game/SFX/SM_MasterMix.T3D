@@ -1,0 +1,5 @@
+Begin Object Class=/Script/Engine.SoundMix Name="SM_MasterMix" ExportPath="/Script/Engine.SoundMix'/Game/SFX/SM_MasterMix.SM_MasterMix'"
+   SoundClassEffects(0)=(SoundClassObject="/Script/Engine.SoundClass'/Game/SFX/SC_Music.SC_Music'")
+   SoundClassEffects(1)=(SoundClassObject="/Script/Engine.SoundClass'/Game/SFX/SC_Dialogues.SC_Dialogues'")
+   SoundClassEffects(2)=(SoundClassObject="/Script/Engine.SoundClass'/Game/SFX/SC_SFX.SC_SFX'")
+End Object
