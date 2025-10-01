@@ -1,6 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=38 format=3 uid="uid://ddonb1ria8edw"]
 
+[ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
+[ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
+[ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/State_MC_Idle.gd" id="3_qkdcl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kyqiw"]
 atlas = ExtResource("1_rpqav")
@@ -231,6 +234,7 @@ animations = [{
 size = Vector2(36, 139)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_auuog")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rxg2u")
@@ -240,3 +244,11 @@ offset = Vector2(0, -540)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -70)
 shape = SubResource("RectangleShape2D_xixlo")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("2_kyqiw")
+current_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://dwqv65m8ieqgg"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_qkdcl")
