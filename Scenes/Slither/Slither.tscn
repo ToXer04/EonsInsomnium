@@ -1,11 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhh8or5cis23v"]
+[gd_scene load_steps=18 format=3 uid="uid://dhh8or5cis23v"]
 
 [ext_resource type="Script" uid="uid://digi7pksv27sj" path="res://Scenes/Slither/Slither.gd" id="1_ox16l"]
 [ext_resource type="Texture2D" uid="uid://b1j11v3emvp6q" path="res://Sprites/Mobs/Slither/Animations/Idle/Slither_Idle_Spritesheet.png" id="2_kjjk5"]
+[ext_resource type="Texture2D" uid="uid://ddxiinbj1vxy7" path="res://Sprites/Mobs/Slither/Animations/Walk/Slither_Walk_Spritesheet.png" id="3_i4d8c"]
+[ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="4_gua46"]
+[ext_resource type="Script" uid="uid://dk0pcxq8sg4bc" path="res://Scenes/Slither/State_Slither_Idle.gd" id="5_ocw0j"]
+[ext_resource type="Script" uid="uid://cm2wvvvg4uqi8" path="res://Scenes/Slither/State_Slither_Walk.gd" id="6_5m4qm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1e2hn"]
 atlas = ExtResource("2_kjjk5")
 region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1y7cp"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iu6m"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx4yp"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7kth"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6mmw"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nnv0"]
+atlas = ExtResource("3_i4d8c")
+region = Rect2(3840, 1080, 1920, 1080)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hdkn5"]
 animations = [{
@@ -16,15 +44,45 @@ animations = [{
 "loop": true,
 "name": &"Idle",
 "speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1y7cp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6iu6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx4yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7kth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6mmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6nnv0")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbgbv"]
 size = Vector2(78, 55.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4pxe5"]
+size = Vector2(0.24671032, 3.992486)
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_i4d8c"]
+
 [node name="Slither" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_ox16l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_hdkn5")
 animation = &"Idle"
@@ -35,10 +93,32 @@ offset = Vector2(0, -540)
 position = Vector2(0, -26)
 shape = SubResource("RectangleShape2D_mbgbv")
 
-[node name="RayCast2DRight" type="RayCast2D" parent="."]
-position = Vector2(-1, -17)
-target_position = Vector2(43, 0)
+[node name="FrontTrigger" type="Area2D" parent="."]
+position = Vector2(51, -21)
+scale = Vector2(9.880001, 4.857664)
+collision_layer = 4
 
-[node name="RayCast2DLeft" type="RayCast2D" parent="."]
-position = Vector2(-1, -17)
-target_position = Vector2(-40, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrigger"]
+position = Vector2(-0.910931, -4.3230658)
+shape = SubResource("RectangleShape2D_4pxe5")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+unique_name_in_owner = true
+script = ExtResource("4_gua46")
+current_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://dwqv65m8ieqgg"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_ocw0j")
+
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("6_5m4qm")
+
+[node name="LedgeTrigger" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeTrigger"]
+shape = SubResource("SeparationRayShape2D_i4d8c")
+
+[connection signal="body_entered" from="FrontTrigger" to="." method="_on_front_trigger_body_entered"]
+[connection signal="area_exited" from="LedgeTrigger" to="." method="_on_ledge_trigger_area_exited"]
+[connection signal="body_exited" from="LedgeTrigger" to="." method="_on_ledge_trigger_body_exited"]
