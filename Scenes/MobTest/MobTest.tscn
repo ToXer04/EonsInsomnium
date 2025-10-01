@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhh8or5cis23v"]
+
+[ext_resource type="Script" uid="uid://digi7pksv27sj" path="res://Scenes/MobTest/mob_test.gd" id="1_ox16l"]
+[ext_resource type="Texture2D" uid="uid://p5mtc2gua5eu" path="res://Sprites/Mobs/Tankbug/Idle/Tankbug_Idle_Spritesheet.png" id="2_ui4as"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxx4j"]
+atlas = ExtResource("2_ui4as")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hdkn5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxx4j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbgbv"]
+size = Vector2(178, 120)
+
+[node name="MobTest" type="Node2D"]
+script = ExtResource("1_ox16l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_hdkn5")
+offset = Vector2(0, -540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -60)
+shape = SubResource("RectangleShape2D_mbgbv")
