@@ -1,9 +1,11 @@
-[gd_scene load_steps=38 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=51 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
 [ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://cwqfvw4fkf3vu" path="res://Sprites/MC/Walk/MC_Walk_Spritesheet.png" id="3_fp6xj"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/State_MC_Idle.gd" id="3_qkdcl"]
+[ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/State_MC_Walk.gd" id="6_jyfwi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kyqiw"]
 atlas = ExtResource("1_rpqav")
@@ -129,6 +131,50 @@ region = Rect2(9600, 4320, 1920, 1080)
 atlas = ExtResource("1_rpqav")
 region = Rect2(0, 5400, 1920, 1080)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyfwi"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fnoa"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fites"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6jfd"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(5760, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ejsj"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0axkr"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7vqg"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(3840, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kksrp"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(5760, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3tio4"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(0, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq7m6"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(1920, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_po2a2"]
+atlas = ExtResource("3_fp6xj")
+region = Rect2(3840, 2160, 1920, 1080)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_rxg2u"]
 animations = [{
 "frames": [{
@@ -228,6 +274,44 @@ animations = [{
 "loop": true,
 "name": &"Idle",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyfwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fnoa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fites")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6jfd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ejsj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0axkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7vqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kksrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3tio4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq7m6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_po2a2")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
@@ -237,8 +321,9 @@ size = Vector2(36, 139)
 script = ExtResource("1_auuog")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"Idle"
+animation = &"Walk"
 offset = Vector2(0, -540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -246,9 +331,13 @@ position = Vector2(0, -70)
 shape = SubResource("RectangleShape2D_xixlo")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+unique_name_in_owner = true
 script = ExtResource("2_kyqiw")
 current_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://dwqv65m8ieqgg"
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("3_qkdcl")
+
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("6_jyfwi")
