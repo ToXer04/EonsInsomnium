@@ -9,9 +9,9 @@ func _enter_state() -> void:
 
 
 # Called every frame when this state is active.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not sprite.is_playing():
-		state_machine.set_current_state($"../JumpFall")
+		state_machine.set_current_state(state_machine.get_node("JumpFall"))
 
 
 # Called when the state machine exits this state.

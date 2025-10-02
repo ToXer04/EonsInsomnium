@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		state_machine.set_current_state($"StateMachine/JumpStart")
+		state_machine.set_current_state(state_machine.get_node("JumpStart"))
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.

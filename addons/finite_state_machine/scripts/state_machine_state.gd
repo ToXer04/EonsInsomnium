@@ -25,7 +25,7 @@ signal state_exited
 func _enter_state() -> void:
 	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 # Called when the state machine exits this state.

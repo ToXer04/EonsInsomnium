@@ -9,9 +9,9 @@ func _enter_state() -> void:
 
 
 # Called every frame when this state is active.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if $"../..".is_on_floor():
-		state_machine.set_current_state($"../JumpLand")
+		state_machine.set_current_state(state_machine.get_node("JumpLand"))
 
 
 # Called when the state machine exits this state.
