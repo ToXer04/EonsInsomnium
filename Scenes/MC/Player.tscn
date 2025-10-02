@@ -1,11 +1,17 @@
-[gd_scene load_steps=51 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=65 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
 [ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://beubkefcde3dn" path="res://Sprites/MC/Jump/MC_Jump_Spritesheet.png" id="3_b7vqg"]
 [ext_resource type="Texture2D" uid="uid://cwqfvw4fkf3vu" path="res://Sprites/MC/Walk/MC_Walk_Spritesheet.png" id="3_fp6xj"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/State_MC_Idle.gd" id="3_qkdcl"]
 [ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/State_MC_Walk.gd" id="6_jyfwi"]
+[ext_resource type="Script" uid="uid://dw2f0wkv6pc3x" path="res://Scenes/MC/State_MC_JumpStart.gd" id="8_kksrp"]
+[ext_resource type="Script" uid="uid://ywjavgqxcjko" path="res://Scenes/MC/State_MC_JumpRise.gd" id="9_3tio4"]
+[ext_resource type="Script" uid="uid://cfc7hjn6oj47d" path="res://Scenes/MC/State_MC_JumpTransition.gd" id="10_rq7m6"]
+[ext_resource type="Script" uid="uid://dhry0sfr5bnj0" path="res://Scenes/MC/State_MC_JumpFall.gd" id="11_po2a2"]
+[ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/State_MC_JumpLand.gd" id="12_txbll"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kyqiw"]
 atlas = ExtResource("1_rpqav")
@@ -130,6 +136,38 @@ region = Rect2(9600, 4320, 1920, 1080)
 [sub_resource type="AtlasTexture" id="AtlasTexture_avx33"]
 atlas = ExtResource("1_rpqav")
 region = Rect2(0, 5400, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgxtr"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(3840, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxpxg"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(0, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5hdx"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(1920, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7krmn"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1oiy"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e43bt"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yw7o"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gguga"]
+atlas = ExtResource("3_b7vqg")
+region = Rect2(1920, 1080, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyfwi"]
 atlas = ExtResource("3_fp6xj")
@@ -277,6 +315,55 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_xgxtr")
+}],
+"loop": true,
+"name": &"JumpFall",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxpxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5hdx")
+}],
+"loop": false,
+"name": &"JumpLand",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7krmn")
+}],
+"loop": true,
+"name": &"JumpRise",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1oiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e43bt")
+}],
+"loop": false,
+"name": &"JumpStart",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1yw7o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gguga")
+}],
+"loop": false,
+"name": &"JumpTransition",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jyfwi")
 }, {
 "duration": 1.0,
@@ -324,7 +411,7 @@ script = ExtResource("1_auuog")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"Walk"
+animation = &"JumpLand"
 offset = Vector2(0, -540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -342,3 +429,18 @@ script = ExtResource("3_qkdcl")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("6_jyfwi")
+
+[node name="JumpStart" type="Node" parent="StateMachine"]
+script = ExtResource("8_kksrp")
+
+[node name="JumpRise" type="Node" parent="StateMachine"]
+script = ExtResource("9_3tio4")
+
+[node name="JumpTransition" type="Node" parent="StateMachine"]
+script = ExtResource("10_rq7m6")
+
+[node name="JumpFall" type="Node" parent="StateMachine"]
+script = ExtResource("11_po2a2")
+
+[node name="JumpLand" type="Node" parent="StateMachine"]
+script = ExtResource("12_txbll")

@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var state_machine: StateMachine = %StateMachine
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -12,6 +13,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
+		state_machine.set_current_state($"StateMachine/JumpStart")
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
