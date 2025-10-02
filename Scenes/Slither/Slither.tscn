@@ -76,6 +76,7 @@ size = Vector2(78, 55.5)
 size = Vector2(0.24671032, 3.992486)
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_i4d8c"]
+length = 10.64096
 
 [node name="Slither" type="CharacterBody2D"]
 collision_layer = 4
@@ -117,8 +118,9 @@ script = ExtResource("6_5m4qm")
 [node name="LedgeTrigger" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeTrigger"]
+position = Vector2(42, 0)
+scale = Vector2(2.4234424, 1.098824)
 shape = SubResource("SeparationRayShape2D_i4d8c")
 
 [connection signal="body_entered" from="FrontTrigger" to="." method="_on_front_trigger_body_entered"]
-[connection signal="area_exited" from="LedgeTrigger" to="." method="_on_ledge_trigger_area_exited"]
 [connection signal="body_exited" from="LedgeTrigger" to="." method="_on_ledge_trigger_body_exited"]
