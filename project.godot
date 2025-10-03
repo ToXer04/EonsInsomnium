@@ -15,6 +15,10 @@ run/main_scene="uid://d1dj2nirm0m0x"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Singleton="*res://Singleton/singleton.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg")
