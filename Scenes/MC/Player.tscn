@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=73 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/State_MC_JumpLand.gd" id="12_txbll"]
 [ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/State_MC_AttackFrontal.gd" id="14_rq7m6"]
 [ext_resource type="Script" uid="uid://cutpkfeqi3mx4" path="res://Scenes/MC/State_MC_Dash.gd" id="16_po2a2"]
+[ext_resource type="Script" uid="uid://dan1billuvdhn" path="res://Scenes/MC/State_MC_WallClimb.gd" id="17_txbll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
@@ -453,7 +454,7 @@ unique_name_in_owner = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"Dash"
+animation = &"Idle"
 offset = Vector2(0, -540)
 
 [node name="StateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]
@@ -488,3 +489,6 @@ script = ExtResource("14_rq7m6")
 
 [node name="Dash" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("16_po2a2")
+
+[node name="WallClimb" type="Node" parent="Visuals/StateMachine"]
+script = ExtResource("17_txbll")

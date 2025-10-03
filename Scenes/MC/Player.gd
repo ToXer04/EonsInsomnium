@@ -5,11 +5,11 @@ extends CharacterBody2D
 
 const DEFAULT_STATE = "Idle"
 
+# Move const
 const SPEED = 400.0
-const ACCEL = 0.15
-const DECEL = 0.1
-const VELOCITY_DEADZONE = 5.0   # soglia di tolleranza
-
+const ACCEL = .35
+const DECEL = .35
+const VELOCITY_DEADZONE = 10.0
 
 # Jump const
 const JUMP_INITIAL = -750.0
@@ -22,12 +22,15 @@ var jump_time: float = 0.0
 
 # Dash const
 const DASH_SPEED = 2000.0
-const DASH_DURATION = 0.2  # in secondi
+const DASH_DURATION = 0.2
+const DASH_COOLDOWN = 0.5
 
 # Dash var
 var dashing: bool = false
 var dash_time: float = 0.0
 var dash_direction: int = 0
+var dash_cooldown_timer: float = 0.0
+var can_dash: bool = true
 
 func _ready() -> void:
 	var start_state = state_machine.get_node(DEFAULT_STATE)
@@ -35,6 +38,16 @@ func _ready() -> void:
 		state_machine.set_current_state(start_state)
 
 func _physics_process(delta: float) -> void:
+	# gestiamo cooldown dash
+	if dash_cooldown_timer > 0.0:
+		dash_cooldown_timer -= delta
+		if dash_cooldown_timer < 0.0:
+			dash_cooldown_timer = 0.0
+
+	# reset dash quando tocchi il terreno
+	if is_on_floor():
+		can_dash = true
+
 	if dashing:
 		# Durante la dash niente gravità, niente verticale
 		velocity.y = 0
@@ -63,16 +76,19 @@ func _physics_process(delta: float) -> void:
 		# Movimento orizzontale (solo se non in dash)
 		var direction := Input.get_axis("Move_Left", "Move_Right")
 		if direction:
-			# accelerazione verso la direzione scelta
 			velocity.x = lerp(velocity.x, direction * SPEED, ACCEL)
 			visuals.scale.x = direction
 		else:
-			# decelerazione graduale verso 0
 			velocity.x = lerp(velocity.x, 0.0, DECEL)
 
 		# correzione: se la velocità è minuscola, forziamo a zero
 		if abs(velocity.x) < VELOCITY_DEADZONE:
 			velocity.x = 0
+
+	# Cambia stato in caduta se stai scendendo
+	if velocity.y > 0:
+		state_machine.set_current_state(state_machine.get_node("JumpFall"))
+
 	move_and_slide()
 
 
@@ -94,8 +110,15 @@ func _input(event):
 		state_machine.set_current_state(state_machine.get_node("AttackFrontal"))
 
 	# Dash
-	if event.is_action_pressed("Dash") and not dashing:
+	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0:
 		dashing = true
 		dash_time = 0.0
 		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
 		state_machine.set_current_state(state_machine.get_node("Dash"))
+		
+		# consumo dash se in aria
+		if not is_on_floor():
+			can_dash = false
+		
+		# parte il cooldown
+		dash_cooldown_timer = DASH_COOLDOWN
