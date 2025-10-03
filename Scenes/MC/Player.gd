@@ -34,6 +34,7 @@ var can_dash: bool = true
 
 func _ready() -> void:
 	var start_state = state_machine.get_node(DEFAULT_STATE)
+	Singleton.player = self
 	if start_state:
 		state_machine.set_current_state(start_state)
 
