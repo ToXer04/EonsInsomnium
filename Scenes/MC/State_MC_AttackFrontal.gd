@@ -5,16 +5,13 @@ extends StateMachineState
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	sprite.play("JumpLand")
+	sprite.play("AttackFrontal")
 
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:
 	if not sprite.is_playing():
-		if $"../../..".velocity.x == 0:
-				state_machine.set_current_state(state_machine.get_node("Idle"))
-		else:
-			state_machine.set_current_state(state_machine.get_node("Walk"))
+		state_machine.set_current_state(state_machine.get_node("Idle"))
 
 
 # Called when the state machine exits this state.

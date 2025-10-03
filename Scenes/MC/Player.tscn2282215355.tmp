@@ -1,36 +1,20 @@
-[gd_scene load_steps=72 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=65 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
-[ext_resource type="Texture2D" uid="uid://dg8spthwuw1di" path="res://Sprites/MC/Attacks/AttackNormal/MC_AttackNormal_Spritesheet.png" id="2_3tio4"]
 [ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
 [ext_resource type="Texture2D" uid="uid://beubkefcde3dn" path="res://Sprites/MC/Jump/MC_Jump_Spritesheet.png" id="3_b7vqg"]
 [ext_resource type="Texture2D" uid="uid://cwqfvw4fkf3vu" path="res://Sprites/MC/Walk/MC_Walk_Spritesheet.png" id="3_fp6xj"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/State_MC_Idle.gd" id="3_qkdcl"]
-[ext_resource type="Texture2D" uid="uid://u8yyr7q5hn0b" path="res://Sprites/MC/Dash/MC_DashTrail_Spritesheet.png" id="3_rq7m6"]
 [ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/State_MC_Walk.gd" id="6_jyfwi"]
 [ext_resource type="Script" uid="uid://dw2f0wkv6pc3x" path="res://Scenes/MC/State_MC_JumpStart.gd" id="8_kksrp"]
 [ext_resource type="Script" uid="uid://ywjavgqxcjko" path="res://Scenes/MC/State_MC_JumpRise.gd" id="9_3tio4"]
 [ext_resource type="Script" uid="uid://cfc7hjn6oj47d" path="res://Scenes/MC/State_MC_JumpTransition.gd" id="10_rq7m6"]
 [ext_resource type="Script" uid="uid://dhry0sfr5bnj0" path="res://Scenes/MC/State_MC_JumpFall.gd" id="11_po2a2"]
 [ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/State_MC_JumpLand.gd" id="12_txbll"]
-[ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/State_MC_AttackFrontal.gd" id="14_rq7m6"]
-[ext_resource type="Script" uid="uid://cutpkfeqi3mx4" path="res://Scenes/MC/State_MC_Dash.gd" id="16_po2a2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_txbll"]
-atlas = ExtResource("2_3tio4")
-region = Rect2(0, 0, 1920, 1080)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cf7kd"]
-atlas = ExtResource("2_3tio4")
-region = Rect2(1920, 0, 1920, 1080)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_llj08"]
-atlas = ExtResource("3_rq7m6")
-region = Rect2(0, 0, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kyqiw"]
 atlas = ExtResource("1_rpqav")
@@ -236,25 +220,6 @@ region = Rect2(3840, 2160, 1920, 1080)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_txbll")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cf7kd")
-}],
-"loop": false,
-"name": &"AttackFrontal",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_llj08")
-}],
-"loop": true,
-"name": &"Dash",
-"speed": 1.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_kyqiw")
 }, {
 "duration": 1.0,
@@ -357,7 +322,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"JumpFall",
-"speed": 1.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -376,7 +341,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"JumpRise",
-"speed": 1.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -453,7 +418,7 @@ unique_name_in_owner = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"Dash"
+animation = &"Idle"
 offset = Vector2(0, -540)
 
 [node name="StateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]
@@ -482,9 +447,3 @@ script = ExtResource("11_po2a2")
 
 [node name="JumpLand" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("12_txbll")
-
-[node name="AttackFrontal" type="Node" parent="Visuals/StateMachine"]
-script = ExtResource("14_rq7m6")
-
-[node name="Dash" type="Node" parent="Visuals/StateMachine"]
-script = ExtResource("16_po2a2")
