@@ -23,6 +23,9 @@ animations = [{
 
 [node name="FlyingEnemy" type="CharacterBody2D"]
 collision_layer = 4
+motion_mode = 1
+slide_on_ceiling = false
+floor_block_on_wall = false
 script = ExtResource("1_uroug")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -38,6 +41,8 @@ autoplay = "default"
 autostart = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 20.0
 debug_enabled = true
+debug_path_custom_color = Color(1, 0.06666667, 1, 1)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,3 +1,3 @@
 extends Node
 
-var player : CharacterBody2D
+@onready var player: CharacterBody2D = $Player
