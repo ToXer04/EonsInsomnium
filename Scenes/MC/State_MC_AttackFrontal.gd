@@ -7,6 +7,14 @@ extends StateMachineState
 func _enter_state() -> void:
 	sprite.play("AttackFrontal")
 
+	var hitbox = %HitboxTriggerFrontal
+	var overlapping_bodies = hitbox.get_overlapping_bodies()
+
+	for body in overlapping_bodies:
+		if body is Slither:
+			body.onHit(owner.damage)
+
+
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:

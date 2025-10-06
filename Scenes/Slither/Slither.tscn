@@ -78,7 +78,7 @@ size = Vector2(0.24671032, 3.992486)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4d8c"]
 
 [node name="Slither" type="CharacterBody2D"]
-collision_layer = 4
+collision_layer = 8
 script = ExtResource("1_ox16l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -96,11 +96,19 @@ shape = SubResource("RectangleShape2D_mbgbv")
 [node name="FrontTrigger" type="Area2D" parent="."]
 position = Vector2(51, -21)
 scale = Vector2(9.880001, 4.857664)
-collision_layer = 4
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrigger"]
 position = Vector2(-0.910931, -4.3230658)
 shape = SubResource("RectangleShape2D_4pxe5")
+
+[node name="LedgeTrigger" type="Area2D" parent="."]
+position = Vector2(43, 9)
+scale = Vector2(0.20000052, 0.9600006)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeTrigger"]
+shape = SubResource("RectangleShape2D_i4d8c")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
 unique_name_in_owner = true
@@ -113,13 +121,6 @@ script = ExtResource("5_ocw0j")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("6_5m4qm")
-
-[node name="LedgeTrigger" type="Area2D" parent="."]
-position = Vector2(43, 9)
-scale = Vector2(0.20000052, 0.9600006)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeTrigger"]
-shape = SubResource("RectangleShape2D_i4d8c")
 
 [connection signal="body_entered" from="FrontTrigger" to="." method="_on_front_trigger_body_entered"]
 [connection signal="body_exited" from="LedgeTrigger" to="." method="_on_ledge_trigger_body_exited"]

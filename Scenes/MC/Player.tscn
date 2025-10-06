@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=76 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Idle/MC_Idle_Spritesheet.png" id="1_rpqav"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/State_MC_Idle.gd" id="3_qkdcl"]
 [ext_resource type="Texture2D" uid="uid://u8yyr7q5hn0b" path="res://Sprites/MC/Dash/MC_DashTrail_Spritesheet.png" id="3_rq7m6"]
 [ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/State_MC_Walk.gd" id="6_jyfwi"]
+[ext_resource type="Texture2D" uid="uid://bvk1dj1ccvcqo" path="res://Sprites/MC/WallClimb/MC_WallClimb_Spritesheet.png" id="7_xgxtr"]
 [ext_resource type="Script" uid="uid://dw2f0wkv6pc3x" path="res://Scenes/MC/State_MC_JumpStart.gd" id="8_kksrp"]
 [ext_resource type="Script" uid="uid://ywjavgqxcjko" path="res://Scenes/MC/State_MC_JumpRise.gd" id="9_3tio4"]
 [ext_resource type="Script" uid="uid://cfc7hjn6oj47d" path="res://Scenes/MC/State_MC_JumpTransition.gd" id="10_rq7m6"]
@@ -233,6 +234,10 @@ region = Rect2(1920, 2160, 1920, 1080)
 atlas = ExtResource("3_fp6xj")
 region = Rect2(3840, 2160, 1920, 1080)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8cdk"]
+atlas = ExtResource("7_xgxtr")
+region = Rect2(0, 0, 1920, 1080)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_rxg2u"]
 animations = [{
 "frames": [{
@@ -438,13 +443,32 @@ animations = [{
 "loop": true,
 "name": &"Walk",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8cdk")
+}],
+"loop": true,
+"name": &"WallClimb",
+"speed": 1.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgxtr"]
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_auuog")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -70)
+shape = SubResource("RectangleShape2D_xixlo")
+
+[node name="HurtboxTrigger" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="HurtboxCollision" type="CollisionShape2D" parent="HurtboxTrigger"]
 position = Vector2(0, -70)
 shape = SubResource("RectangleShape2D_xixlo")
 
@@ -454,7 +478,7 @@ unique_name_in_owner = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"Idle"
+animation = &"AttackFrontal"
 offset = Vector2(0, -540)
 
 [node name="StateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]
@@ -492,3 +516,21 @@ script = ExtResource("16_po2a2")
 
 [node name="WallClimb" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("17_txbll")
+
+[node name="WallDetector" type="RayCast2D" parent="Visuals"]
+position = Vector2(0, -62.999996)
+rotation = -1.5707964
+scale = Vector2(10, 10)
+target_position = Vector2(-5.9010375e-07, 13.499999)
+
+[node name="HitboxTriggerFrontal" type="Area2D" parent="Visuals"]
+unique_name_in_owner = true
+position = Vector2(74, -73)
+scale = Vector2(5.361499, 9.64576)
+collision_layer = 0
+collision_mask = 8
+
+[node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerFrontal"]
+shape = SubResource("RectangleShape2D_xgxtr")
+
+[connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]
