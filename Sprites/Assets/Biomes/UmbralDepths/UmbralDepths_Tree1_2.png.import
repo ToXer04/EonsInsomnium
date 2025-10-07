@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4iajhs48c5y2"
-path="res://.godot/imported/Vine.png-780aabd3200d8d8ef51869768afe66f2.ctex"
+uid="uid://dyaf8e7fypipm"
+path="res://.godot/imported/UmbralDepths_Tree1_2.png-27957a6c4eb3e7f6dc7a787f4ede1045.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Assets/Environment/Vine/Vine.png"
-dest_files=["res://.godot/imported/Vine.png-780aabd3200d8d8ef51869768afe66f2.ctex"]
+source_file="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Tree1_2.png"
+dest_files=["res://.godot/imported/UmbralDepths_Tree1_2.png-27957a6c4eb3e7f6dc7a787f4ede1045.ctex"]
 
 [params]
 

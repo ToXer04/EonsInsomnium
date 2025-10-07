@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkta66qg54b8a"
-path="res://.godot/imported/UmbralDepths_Trees3.png-24e01a9d6eafbdf5947950c52dc9e50f.ctex"
+uid="uid://bsdqrt2400a6e"
+path="res://.godot/imported/UmbralDepths_Tree1_1.png-2b94a7fdfcfe3c4a0a1485dcf88cd71e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Trees3.png"
-dest_files=["res://.godot/imported/UmbralDepths_Trees3.png-24e01a9d6eafbdf5947950c52dc9e50f.ctex"]
+source_file="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Tree1_1.png"
+dest_files=["res://.godot/imported/UmbralDepths_Tree1_1.png-2b94a7fdfcfe3c4a0a1485dcf88cd71e.ctex"]
 
 [params]
 

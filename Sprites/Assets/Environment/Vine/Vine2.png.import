@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hhbk0saiwgtf"
-path="res://.godot/imported/Vine4x.png-8341c9b67f18e32d9d6078e00d130fc5.ctex"
+uid="uid://dxu510byu41ik"
+path="res://.godot/imported/Vine2.png-f2068016ea4681ab6d74bee0e82bd26c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Assets/Environment/Vine/Vine4x.png"
-dest_files=["res://.godot/imported/Vine4x.png-8341c9b67f18e32d9d6078e00d130fc5.ctex"]
+source_file="res://Sprites/Assets/Environment/Vine/Vine2.png"
+dest_files=["res://.godot/imported/Vine2.png-f2068016ea4681ab6d74bee0e82bd26c.ctex"]
 
 [params]
 
