@@ -51,7 +51,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="BlackBG" type="TextureRect" parent="."]
 modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
