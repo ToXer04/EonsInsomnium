@@ -1,0 +1,83 @@
+[gd_scene load_steps=7 format=3 uid="uid://mvn3t4pknqee"]
+
+[ext_resource type="Script" uid="uid://c1cttko8ye2yo" path="res://Scenes/Levels/UI_Startup/UI_Startup.gd" id="1_eit36"]
+[ext_resource type="Texture2D" uid="uid://b8d8oulfpbkom" path="res://Sprites/Logos/Tryxe Logo.png" id="2_xfjuq"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_eit36"]
+
+[sub_resource type="Animation" id="Animation_duq6v"]
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 5, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_djdrh"]
+resource_name = "Startup"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1tvj"]
+_data = {
+&"RESET": SubResource("Animation_duq6v"),
+&"Startup": SubResource("Animation_djdrh")
+}
+
+[node name="UI_Startup" type="CanvasLayer"]
+script = ExtResource("1_eit36")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("CanvasTexture_eit36")
+expand_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_xfjuq")
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1tvj")
+}
+
+[connection signal="animation_finished" from="TextureRect/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

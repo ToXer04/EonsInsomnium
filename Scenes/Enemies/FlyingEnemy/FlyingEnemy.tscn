@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3wswvi14nk0i"]
+
+[ext_resource type="Script" uid="uid://dvbhoec4e0kqq" path="res://Scenes/Enemies/Enemy.gd" id="1_xjw0c"]
+[ext_resource type="Script" uid="uid://b11gqmejq8a3c" path="res://Scenes/Enemies/FlyingEnemy/FlyingEnemy.gd" id="2_vj3c4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15xsl"]
+
+[node name="FlyingEnemy" type="Node2D"]
+script = ExtResource("1_xjw0c")
+metadata/_custom_type_script = "uid://dvbhoec4e0kqq"
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 8
+script = ExtResource("2_vj3c4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_15xsl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
