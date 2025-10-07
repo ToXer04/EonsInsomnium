@@ -1,6 +1,5 @@
 extends CharacterBody2D
 @onready var nav2d: NavigationAgent2D = $NavigationAgent2D
-@onready var debug_label: Label = $"../DebugLabel"
 var speed: float = 100.0
 
 func  _physics_process(delta: float) -> void:

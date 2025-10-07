@@ -39,6 +39,7 @@ var wall_climbing: bool = false
 var wall_dir: int = 0
 
 func _ready() -> void:
+	Singleton.player = self
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
