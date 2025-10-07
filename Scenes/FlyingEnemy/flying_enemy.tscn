@@ -22,7 +22,7 @@ animations = [{
 }]
 
 [node name="FlyingEnemy" type="CharacterBody2D"]
-collision_layer = 4
+collision_layer = 8
 motion_mode = 1
 slide_on_ceiling = false
 floor_block_on_wall = false
