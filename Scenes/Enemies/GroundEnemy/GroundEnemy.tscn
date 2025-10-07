@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://do5qjtwkgql85"]
+
+[ext_resource type="Script" uid="uid://dpjr8gl6oq4fh" path="res://Scenes/Enemies/GroundEnemy/GroundEnemy.gd" id="1_2xdfl"]
+[ext_resource type="Script" uid="uid://dvbhoec4e0kqq" path="res://Scenes/Enemies/Enemy.gd" id="2_vd1wt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7u3tr"]
+size = Vector2(78, 49)
+
+[node name="GroundEnemy" type="Node2D"]
+script = ExtResource("2_vd1wt")
+metadata/_custom_type_script = "uid://dvbhoec4e0kqq"
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 8
+script = ExtResource("1_2xdfl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_7u3tr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]

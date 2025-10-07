@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name FlyingEnemy
 @onready var nav2d: NavigationAgent2D = $NavigationAgent2D
 var speed: float = 100.0
 
