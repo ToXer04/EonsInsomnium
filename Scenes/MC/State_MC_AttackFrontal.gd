@@ -11,7 +11,7 @@ func _enter_state() -> void:
 	var overlapping_bodies = hitbox.get_overlapping_bodies()
 
 	for body in overlapping_bodies:
-		if body is Slither:
+		if body is Enemy:
 			body.onHit(owner.damage)
 
 

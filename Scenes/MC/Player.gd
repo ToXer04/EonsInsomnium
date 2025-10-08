@@ -152,7 +152,7 @@ func _input(event):
 		dash_cooldown_timer = DASH_COOLDOWN
 
 func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
-	if body is Slither:
+	if body is Enemy:
 		takeDamage(body.damage)
 		if health <= 0:
 			death()
