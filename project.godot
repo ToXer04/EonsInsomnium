@@ -18,16 +18,17 @@ config/icon="res://icon.svg"
 [autoload]
 
 Singleton="*res://Singleton/singleton.gd"
+NetworkManager="*res://Singleton/NetworkManager.gd"
 
-[display]
+[debug]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
-window/size/mode=3
+multirun/number_of_windows=2
+multirun/add_custom_args=true
+multirun/window_args=["listen", "join"]
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg")
+enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg", "res://addons/multirun/plugin.cfg")
 
 [global_group]
 

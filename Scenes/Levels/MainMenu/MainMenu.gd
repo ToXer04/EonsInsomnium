@@ -100,7 +100,8 @@ func _input(event):
 			go_to_section(1)
 		elif current_section == 1:
 			if in_join_layer:
-				print("Join Dream selected for slot ", current_slot + 1)
+				NetworkManager.join_game("127.0.0.1") # per ora IP locale
+				print("Tentativo di connessione...")
 			elif in_delete_layer:
 				print("Delete File selected for slot ", current_slot + 1)
 			else:
@@ -111,7 +112,9 @@ func _input(event):
 			match current_menu_button:
 				0:
 					get_tree().change_scene_to_file("res://scenes/Levels/Game/Game.tscn")
-					 
+				1:
+					NetworkManager.host_game()
+					print("Hosting partita...")
 
 	# ---------------------------------------------------------
 	# INPUT: CANCEL
