@@ -1,11 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://dim1thy2wfnlh"]
+[gd_scene load_steps=18 format=3 uid="uid://dim1thy2wfnlh"]
 
 [ext_resource type="Texture2D" uid="uid://b7p4gi2aih35i" path="res://Scenes/Levels/MainMenu/Assets/BG_Main1.png" id="1_5kab6"]
 [ext_resource type="Script" uid="uid://hbsm516bbg32" path="res://Scenes/Levels/MainMenu/MainMenu.gd" id="1_n6m84"]
 [ext_resource type="Texture2D" uid="uid://g6jyaoaoy8fh" path="res://Scenes/Levels/MainMenu/Assets/GameLogo.png" id="3_iyg2c"]
 [ext_resource type="Texture2D" uid="uid://duqpefs7mb5p8" path="res://Scenes/Levels/MainMenu/Assets/BG_Main2.png" id="4_m6b4a"]
+[ext_resource type="Texture2D" uid="uid://wut8x45dlpk" path="res://Scenes/Levels/MainMenu/Assets/SaveFiles/SaveFile1.png" id="5_oa4lq"]
+[ext_resource type="Texture2D" uid="uid://b26ech181ax32" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button1.png" id="6_06lca"]
+[ext_resource type="Texture2D" uid="uid://d2x2h4k6e2ya0" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button2.png" id="7_gx241"]
+[ext_resource type="Texture2D" uid="uid://b25mfokqkhbxy" path="res://Scenes/Levels/MainMenu/Assets/BG_Main3.png" id="8_mox3a"]
+[ext_resource type="Texture2D" uid="uid://ckc4vnvtl6r2" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button3.png" id="9_61klc"]
+[ext_resource type="Texture2D" uid="uid://6m8a3q4dm63" path="res://Scenes/Levels/MainMenu/Assets/BG_Main4.png" id="9_es3uv"]
+[ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_46aql"]
+[ext_resource type="Texture2D" uid="uid://nmo8wuii613e" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button5.png" id="11_6f2ds"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_n6m84"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa4lq"]
+bg_color = Color(0, 0, 0, 0.4)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [sub_resource type="Animation" id="Animation_5kab6"]
 resource_name = "FadeLogo"
@@ -117,7 +138,6 @@ offset_right = 480.0
 offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(320, 180)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("3_iyg2c")
@@ -155,21 +175,364 @@ size_flags_vertical = 3
 texture = ExtResource("4_m6b4a")
 expand_mode = 2
 
-[node name="Label" type="Label" parent="SectionsContainer/BG2"]
+[node name="FilesContainer" type="PanelContainer" parent="SectionsContainer/BG2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -300.0
+offset_right = 500.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oa4lq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SectionsContainer/BG2/FilesContainer"]
+layout_mode = 2
+
+[node name="File1Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File2Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File3Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG2"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -350.00012
-offset_top = -255.0
-offset_right = 350.00012
-offset_bottom = -80.0
+offset_left = -250.0
+offset_top = -336.0
+offset_right = 250.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 128
-text = "Test2"
+theme_override_constants/separation = -10
+
+[node name="DeleteFileButton" type="TextureRect" parent="SectionsContainer/BG2/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/ButtonsContainer/DeleteFileButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Delete File"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JoinDreamButton" type="TextureRect" parent="SectionsContainer/BG2/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("7_gx241")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/ButtonsContainer/JoinDreamButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Join Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BG3" type="TextureRect" parent="SectionsContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3840.0
+offset_right = 3840.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("8_mox3a")
+expand_mode = 2
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -385.0
+offset_right = 300.0
+offset_bottom = 385.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(300, 0)
+theme_override_constants/separation = -10
+
+[node name="EnterDreamButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("9_61klc")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/EnterDreamButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Enter Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InviteDreamersButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("10_46aql")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/InviteDreamersButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite Dreamers"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("11_6f2ds")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/SettingsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChallengesButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/ChallengesButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Challenges"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BG4" type="TextureRect" parent="SectionsContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5760.0
+offset_right = 5760.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("9_es3uv")
+expand_mode = 2
+
+[node name="FilesContainer" type="PanelContainer" parent="SectionsContainer/BG4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -300.0
+offset_right = 500.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oa4lq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SectionsContainer/BG4/FilesContainer"]
+layout_mode = 2
+
+[node name="File1Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File2Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File3Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 3"
 horizontal_alignment = 1
 vertical_alignment = 1
 

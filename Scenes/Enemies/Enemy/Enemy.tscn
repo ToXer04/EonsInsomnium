@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgubvdfgrj15i"]
+
+[ext_resource type="Script" uid="uid://dvbhoec4e0kqq" path="res://Scenes/Enemies/Enemy/Enemy.gd" id="1_ucmt6"]
+[ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_8o0hk"]
+[ext_resource type="Script" uid="uid://b3c8ylmcgans7" path="res://Scenes/Enemies/Enemy/State_Enemy_Death.gd" id="3_3iwb3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3iwb3"]
+
+[node name="Enemy" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 8
+script = ExtResource("1_ucmt6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_3iwb3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+
+[node name="StateMachine" type="Node" parent="CharacterBody2D"]
+script = ExtResource("2_8o0hk")
+metadata/_custom_type_script = "uid://dwqv65m8ieqgg"
+
+[node name="Death" type="Node" parent="CharacterBody2D/StateMachine"]
+script = ExtResource("3_3iwb3")
