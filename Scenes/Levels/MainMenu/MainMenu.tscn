@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dim1thy2wfnlh"]
+[gd_scene load_steps=19 format=3 uid="uid://dim1thy2wfnlh"]
 
 [ext_resource type="Texture2D" uid="uid://b7p4gi2aih35i" path="res://Scenes/Levels/MainMenu/Assets/BG_Main1.png" id="1_5kab6"]
 [ext_resource type="Script" uid="uid://hbsm516bbg32" path="res://Scenes/Levels/MainMenu/MainMenu.gd" id="1_n6m84"]
@@ -16,12 +16,25 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_n6m84"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa4lq"]
-bg_color = Color(0, 0, 0, 0.4)
+bg_color = Color(0, 0, 0, 0.4509804)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color(0, 0, 0, 1)
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61klc"]
+bg_color = Color(0, 0, 0, 0.9529412)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
 border_blend = true
 corner_radius_top_left = 100
 corner_radius_top_right = 100
@@ -324,6 +337,49 @@ text = "Join Dream"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="JoinLobbyContainer" type="PanelContainer" parent="SectionsContainer/BG2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -265.0
+offset_right = 400.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 220)
+theme_override_styles/panel = SubResource("StyleBoxFlat_61klc")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG2/JoinLobbyContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Join Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JoinCode" type="LineEdit" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+placeholder_text = "Enter Lobby Code..."
+alignment = 1
+
 [node name="BG3" type="TextureRect" parent="SectionsContainer"]
 layout_mode = 1
 anchors_preset = 15
@@ -440,7 +496,7 @@ size_flags_vertical = 3
 texture = ExtResource("9_es3uv")
 expand_mode = 2
 
-[node name="FilesContainer" type="PanelContainer" parent="SectionsContainer/BG4"]
+[node name="PlayersContainer" type="PanelContainer" parent="SectionsContainer/BG4"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -455,84 +511,73 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oa4lq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SectionsContainer/BG4/FilesContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer"]
 layout_mode = 2
 
-[node name="File1Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+[node name="LobbyCode" type="Label" parent="SectionsContainer/BG4/PlayersContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 10
-
-[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container/SlotContent"]
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("5_oa4lq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File1Container/SlotContent"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "File 1"
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "Lobby Code: ABC123"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="File2Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_top = 50
 
-[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+[node name="Player1" type="Label" parent="SectionsContainer/BG4/PlayersContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("5_oa4lq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File2Container/SlotContent"]
-layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 48
-text = "File 2"
+text = "Player 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="File3Container" type="MarginContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer"]
+[node name="Player2" type="Label" parent="SectionsContainer/BG4/PlayersContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 10
-
-[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container/SlotContent"]
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("5_oa4lq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="SectionsContainer/BG4/FilesContainer/HBoxContainer/File3Container/SlotContent"]
-layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 48
-text = "File 3"
+text = "Player 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG4"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -280.0
+offset_right = 250.0
+offset_bottom = 55.999756
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -10
+
+[node name="InviteButton" type="TextureRect" parent="SectionsContainer/BG4/ButtonsContainer"]
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG4/ButtonsContainer/InviteButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite"
 horizontal_alignment = 1
 vertical_alignment = 1
 
