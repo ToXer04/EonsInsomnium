@@ -5,6 +5,7 @@ var animation_started := false
 var skipped := false
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	# Attendi qualche secondo prima di far partire l'animazione
 	await get_tree().create_timer(2).timeout
 	if not skipped:
@@ -25,5 +26,4 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		_go_to_menu()
 
 func _go_to_menu() -> void:
-	print("Done")
-	get_tree().change_scene_to_file("res://scenes/Levels/MainMenu/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Levels/MainMenu/MainMenu.tscn")
