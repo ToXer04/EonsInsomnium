@@ -55,6 +55,11 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 		print("ATTENZIONE: lobby_code_label non assegnato!")
 
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
+	
+	var peer = SteamMultiplayerPeer.new()
+	peer.create_host(lobby_id)
+	multiplayer.multiplayer_peer = peer
+
 
 func on_invite_button_pressed() -> void:
 	if lobby_id == 0:
@@ -92,6 +97,10 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		print("Join avvenuto:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
 		get_tree().call_group("MainMenu", "go_to_section", 3)
+		var peer = SteamMultiplayerPeer.new()
+		peer.join_host(lobby_id)
+		multiplayer.multiplayer_peer = peer
+
 
 # ------------------------
 # LOBBY MEMBERS
