@@ -2,8 +2,11 @@
 extends Node
 
 var lobby_code_label: Label = null
-
 var lobby_id: int = 0
+
+# Segnali per comunicare a tutti i client
+signal disband_lobby
+signal kick_player(steam_id)
 
 func _ready() -> void:
 	var init_result = Steam.steamInit(3961570)
@@ -18,9 +21,11 @@ func _ready() -> void:
 
 	print("SteamLobbyManager ready")
 
+	disband_lobby.connect(_on_disband_lobby)
+	kick_player.connect(_on_kick_player)
+	
 func _process(_delta):
 	Steam.run_callbacks()
-
 
 func generate_lobby_code() -> String:
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -33,7 +38,6 @@ func generate_lobby_code() -> String:
 # HOST / INVITE
 # ------------------------
 func host_lobby(max_players: int = 4) -> void:
-	# Tipo: FRIENDS_ONLY => join solo tramite invite o link
 	print("Avvio Creazione Lobby")
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_players)
 	print("Termine Creazione Lobby")
@@ -47,37 +51,29 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 	lobby_id = this_lobby_id
 	Steam.setLobbyJoinable(lobby_id, true)
 
-	# Genera e salva un codice casuale nella lobby
 	var code = generate_lobby_code()
 	Steam.setLobbyData(lobby_id, "lobby_code", code)
 
-	# Mostra il codice nell'interfaccia
 	if lobby_code_label:
 		lobby_code_label.text = code
 	else:
 		print("ATTENZIONE: lobby_code_label non assegnato!")
-	
+
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 
 func on_invite_button_pressed() -> void:
-	print(lobby_id)
 	if lobby_id == 0:
 		print("Devi prima creare una lobby")
 		return
-	# apre l'overlay Steam invitando amici alla lobby corrente
 	Steam.activateGameOverlayInviteDialog(lobby_id)
 
 # ------------------------
 # JOIN VIA CODICE
 # ------------------------
 func join_by_code(code: String) -> void:
-	# Imposta il filtro PRIMA della richiesta
 	Steam.addRequestLobbyListResultCountFilter(1)
 	Steam.addRequestLobbyListStringFilter("lobby_code", code, Steam.LOBBY_COMPARISON_EQUAL)
-
-	# Richiedi la lista filtrata
 	Steam.requestLobbyList()
-
 
 func _on_lobby_match_list(lobbies_found: Array) -> void:
 	if lobbies_found.size() == 0:
@@ -89,7 +85,7 @@ func _on_lobby_match_list(lobbies_found: Array) -> void:
 	Steam.joinLobby(lobby_found)
 
 # ------------------------
-# CALLBACKS / JOIN REQUEST (quando un amico clicca l'invito)
+# CALLBACKS / JOIN REQUEST
 # ------------------------
 func _on_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
 	print("Invite da:", Steam.getFriendPersonaName(friend_id))
@@ -99,12 +95,11 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		lobby_id = this_lobby_id
 		print("Join avvenuto:", lobby_id)
-		
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
-		# imposta il MultiplayerPeer per comunicare via Steam (dipende dal plugin scelto)
-		# es: multiplayer.multiplayer_peer = SteamMultiplayerPeer.new()
-		# poi client-side fai smp.connect_to_lobby(lobby_id) oppure smp.create_client(host_steam_id)
 
+# ------------------------
+# LOBBY MEMBERS
+# ------------------------
 func get_lobby_members() -> Array:
 	var members = []
 	if lobby_id == 0:
@@ -116,3 +111,35 @@ func get_lobby_members() -> Array:
 		var player_name = Steam.getFriendPersonaName(steam_id)
 		members.append(player_name)
 	return members
+
+# ------------------------
+# DISBAND LOBBY
+# ------------------------
+func disband_lobby_pressed() -> void:
+	if lobby_id == 0:
+		print("Non c'è una lobby da disbandare")
+		return
+	print("Disband Lobby: segnale inviato a tutti i client")
+	emit_signal("disband_lobby")
+	lobby_id = 0
+	get_tree().call_group("MainMenu", "go_to_section", 0)
+
+# ------------------------
+# KICK PLAYER
+# ------------------------
+func kick_player_pressed(target_steam_id: int) -> void:
+	if lobby_id == 0:
+		print("Non c'è una lobby attiva")
+		return
+	print("Kick Player:", Steam.getFriendPersonaName(target_steam_id))
+	emit_signal("kick_player", target_steam_id)
+
+func _on_disband_lobby():
+	print("Lobby disbandata! Torno al menu principale")
+	Steam.leaveLobby(lobby_id)
+	get_tree().call_group("MainMenu", "go_to_section", 0)
+
+func _on_kick_player(steam_id):
+	if steam_id == Steam.getSteamID():
+		print("Sono stato kickato!")
+		get_tree().call_group("MainMenu", "go_to_section", 0)

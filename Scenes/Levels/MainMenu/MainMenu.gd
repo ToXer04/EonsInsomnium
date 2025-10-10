@@ -8,6 +8,10 @@ extends CanvasLayer
 @onready var join_lobby_container: PanelContainer = %JoinLobbyContainer
 @onready var menu_buttons := [%EnterDreamButton, %InviteDreamersButton, %SettingsButton, %ChallengesButton]
 
+# nuovi nodi per lobby UI
+@onready var players_container: Node = %PlayersFramesContainer
+@onready var disband_node: TextureRect = %DisbandDream
+
 var current_section := 0
 var total_sections := 4
 
@@ -24,10 +28,18 @@ var tween_active := true
 var slot_tween_active := false
 var popup_active_ind := 0
 
+# ---- navigation per lobby UI (section 3) ----
+# lobby_nav_index: 0..2 -> Player2,3,4 ; 3 -> Disband
+var lobby_nav_index := 0
+const LOBBY_NAV_SLOTS := 3  # numero di slot selezionabili (2,3,4)
+var lobby_nav_active := false
+
 func _ready() -> void:
 	SteamLobbyManager.lobby_code_label = %LobbyCode
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
+	# assicurati che disband_node sia visibile/aggiornato
+	_update_lobby_nav_visual()
 
 func _process(_delta):
 	if SteamLobbyManager.lobby_id != 0:
@@ -43,8 +55,14 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _input(event):
 	if tween_active or slot_tween_active:
 		return
+
+	# Se siamo nella sezione multiplayer (3), gestiamo la navigazione dei player/disband
+	if current_section == 3:
+		_handle_lobby_navigation_input(event)
+		return
+
 	# ---------------------------------------------------------
-	# INPUT: MOVE RIGHT / LEFT
+	# INPUT: MOVE RIGHT / LEFT (sezioni normali)
 	# ---------------------------------------------------------
 	if event.is_action_pressed("Move_Right"):
 		if current_section == 0:
@@ -128,11 +146,12 @@ func _input(event):
 				0:
 					get_tree().change_scene_to_file("res://scenes/Levels/Game/Game.tscn")
 				1:
-					if SteamLobbyManager.lobby_id != 0:
+					if SteamLobbyManager.lobby_id == 0:
 						SteamLobbyManager.host_lobby(4)
 					go_to_section(3)
 		elif current_section == 3:
-			SteamLobbyManager.on_invite_button_pressed()
+			# qui è gestito dal _handle_lobby_navigation_input, ma teniamo fallback
+			_handle_lobby_click()
 	# ---------------------------------------------------------
 	# INPUT: CANCEL
 	# ---------------------------------------------------------
@@ -154,6 +173,83 @@ func _input(event):
 					)
 
 # ---------------------------------------------------------
+# HANDLERS LOBBY NAV
+# ---------------------------------------------------------
+
+var last_lobby_slot_index := 0
+
+func _handle_lobby_navigation_input(event):
+	# Movimento orizzontale tra i 3 slot (Player2..4)
+	if event.is_action_pressed("Move_Right"):
+		# se ero su Disband, torno a ultimo slot
+		if lobby_nav_index == LOBBY_NAV_SLOTS:
+			lobby_nav_index = LOBBY_NAV_SLOTS - 1
+		else:
+			lobby_nav_index = (lobby_nav_index + 1) % LOBBY_NAV_SLOTS
+		_update_lobby_nav_visual()
+		return
+	elif event.is_action_pressed("Move_Left"):
+		if lobby_nav_index == LOBBY_NAV_SLOTS:
+			lobby_nav_index = 0
+		else:
+			lobby_nav_index = (lobby_nav_index - 1 + LOBBY_NAV_SLOTS) % LOBBY_NAV_SLOTS
+		_update_lobby_nav_visual()
+		return
+
+	# Move Down -> vai su Disband
+	if event.is_action_pressed("Move_Down"):
+		if lobby_nav_index < LOBBY_NAV_SLOTS:
+			last_lobby_slot_index = lobby_nav_index
+		lobby_nav_index = LOBBY_NAV_SLOTS
+		_update_lobby_nav_visual()
+		return
+
+	# Move Up -> se siamo su Disband, torniamo all'ultimo selezionato (default 0)
+	if event.is_action_pressed("Move_Up"):
+		if lobby_nav_index == LOBBY_NAV_SLOTS:
+			lobby_nav_index = last_lobby_slot_index
+			_update_lobby_nav_visual()
+		return
+
+	# Click / Accept
+	if event.is_action_pressed("Click"):
+		_handle_lobby_click()
+		return
+	
+	if event.is_action_pressed("ui_cancel"):
+		go_to_section(2)
+	
+# click handler per lobby UI
+func _handle_lobby_click():
+	# Se siamo su disband
+	if lobby_nav_index == LOBBY_NAV_SLOTS:
+		# Disband: distruggi o lascia la lobby
+		if SteamLobbyManager.lobby_id == 0:
+			print("Nessuna lobby da disbandare")
+			return
+		SteamLobbyManager.disband_lobby_pressed()
+		_update_lobby_nav_visual()
+		return
+
+	# Altrimenti siamo su uno slot tra Player2..4
+	var slot_idx = lobby_nav_index  # 0 => Player2, 1 => Player3, 2 => Player4
+	var members = SteamLobbyManager.get_lobby_members()
+	var target_member_index = slot_idx + 1  # members[0] è host
+	if target_member_index < members.size():
+		# c'è un player: proviamo a kickare
+		# otteniamo lo steam id dell'utente
+		var lid = SteamLobbyManager.lobby_id
+		var steam_id = Steam.getLobbyMemberByIndex(lid, target_member_index)
+		SteamLobbyManager._on_kick_player(steam_id)
+	else:
+		# slot vuoto -> apri overlay invite
+		if SteamLobbyManager.lobby_id == 0:
+			print("Non hai una lobby attiva.")
+			return
+		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
+		print("Apro overlay invite per lobby", SteamLobbyManager.lobby_id)
+
+# ---------------------------------------------------------
 # TRANSIZIONE SEZIONE
 # ---------------------------------------------------------
 func go_to_section(index: int) -> void:
@@ -171,7 +267,7 @@ func go_to_section(index: int) -> void:
 	tween.finished.connect(func(): tween_active = false)
 
 # ---------------------------------------------------------
-# SELEZIONE SLOT
+# SELEZIONE SLOT (save files)
 # ---------------------------------------------------------
 func select_slot(index: int):
 	if tween_active or slot_tween_active or popup_active_ind != 0:
@@ -212,9 +308,8 @@ func select_slot(index: int):
 	)
 
 # ---------------------------------------------------------
-# AGGIORNA SELEZIONE VISIVA
+# AGGIORNA SELEZIONE VISIVA (save files)
 # ---------------------------------------------------------
-
 func initial_update_selection_visual():
 	for i in range(slots.size()):
 		var slot = slots[i]
@@ -319,17 +414,26 @@ func update_selection_visual():
 					.set_ease(Tween.EASE_IN_OUT)
 				btn.scale = Vector2(1, 1)
 
+# ---------------------------------------------------------
+# LOBBY PLAYERS UI
+# ---------------------------------------------------------
 func update_lobby_players_ui():
 	var members = SteamLobbyManager.get_lobby_members()
 
 	# Slot 1: il giocatore locale
-	var frame1 = %PlayersFramesContainer.get_child(0)
-	frame1.get_node("PlayerName").text = members[0] if members.size() > 0 else "Unknown"
+	var frame1 = players_container.get_child(0)
+	var player_container1 = frame1.get_node("PanelContainer/MarginContainer/PlayerContainer")
+	if members.size() > 0:
+		player_container1.visible = true
+		player_container1.get_node("PlayerName").text = members[0]
+	else:
+		player_container1.visible = false
+		player_container1.get_node("PlayerName").text = "Unknown"
 
 	# Slot 2-4
 	for i in range(1, 4):
-		var frame = %PlayersFramesContainer.get_child(i)
-		var player_container = frame.get_node("PlayerContainer")
+		var frame = players_container.get_child(i)
+		var player_container = frame.get_node("PanelContainer/MarginContainer/PlayerContainer")
 		var invite_label = frame.get_node("InviteLabel")
 
 		if i < members.size():
@@ -339,3 +443,42 @@ func update_lobby_players_ui():
 		else:
 			player_container.visible = false
 			invite_label.visible = true
+
+	# aggiorna visual selezione bordo
+	_update_lobby_nav_visual()
+
+# modifica il bordo (StyleBoxFlat) del PanelContainer del frame selezionato
+func _set_panel_border(panel: PanelContainer, white: bool) -> void:
+	# prova a prendere lo stylebox corrente
+	var sb = null
+	if panel.has_method("get_theme_stylebox"):
+		sb = panel.get_theme_stylebox("panel")
+	if sb == null:
+		# fallback: prova a leggere "custom_styles/panel"
+		if panel.has_meta("custom_styles"):
+			sb = panel.get("custom_styles/panel")
+	# se abbiamo un StyleBoxFlat, duplichiamolo e sovrascriviamo
+	if sb and sb is StyleBoxFlat:
+		var copy = sb.duplicate()
+		copy.border_color = Color(1,1,1,1) if white else Color(0,0,0,1)
+		panel.add_theme_stylebox_override("panel", copy)
+	else:
+		# fallback: usa self_modulate per dare un feedback visivo minimo
+		panel.self_modulate = Color(1,1,1,1) if white else Color(1,1,1,1)
+
+# aggiorna visuale della navigazione lobby (bordi e bottone Disband)
+func _update_lobby_nav_visual():
+	# Player frames
+	for i in range(1, 4):
+		var frame = players_container.get_child(i)
+		var panel = frame.get_node("PanelContainer")
+		if lobby_nav_index == i - 1 and current_section == 3:
+			_set_panel_border(panel, true) # selected -> white
+		else:
+			_set_panel_border(panel, false) # not selected -> black
+
+	# Disband button modulate
+	if lobby_nav_index == LOBBY_NAV_SLOTS and current_section == 3:
+		disband_node.modulate = Color(1,1,1,1)
+	else:
+		disband_node.modulate = Color(0.6,0.6,0.6,1)
