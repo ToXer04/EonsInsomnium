@@ -12,19 +12,25 @@ config_version=5
 
 config/name="Eon's Insomnium"
 run/main_scene="uid://mvn3t4pknqee"
+run/print_header=false
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Singleton="*res://Singleton/singleton.gd"
-NetworkManager="*res://Singleton/NetworkManager.gd"
+SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 
 [debug]
 
 multirun/number_of_windows=2
 multirun/add_custom_args=true
 multirun/window_args=["listen", "join"]
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [editor_plugins]
 
@@ -33,6 +39,7 @@ enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg", "res:/
 [global_group]
 
 Map=""
+MainMenu=""
 
 [input]
 
@@ -86,3 +93,9 @@ Dash={
 [physics]
 
 2d/default_gravity=1500.0
+
+[steam]
+
+initialization/app_id=0
+initialization/initialize_on_startup=false
+initialization/embed_callbacks=false

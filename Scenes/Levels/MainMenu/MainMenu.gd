@@ -5,9 +5,11 @@ extends CanvasLayer
 @onready var slots := [%File1Container, %File2Container, %File3Container]
 @onready var delete_button: TextureRect = %DeleteFileButton
 @onready var join_button: TextureRect = %JoinDreamButton
+@onready var join_lobby_container: PanelContainer = %JoinLobbyContainer
 @onready var menu_buttons := [%EnterDreamButton, %InviteDreamersButton, %SettingsButton, %ChallengesButton]
 
 var current_section := 0
+var total_sections := 4
 
 var current_slot := 0
 var current_button := 0 # 0 = Delete, 1 = Join
@@ -20,10 +22,16 @@ var current_menu_button := 0
 const SECTION_WIDTH := 1920
 var tween_active := true
 var slot_tween_active := false
+var popup_active_ind := 0
 
 func _ready() -> void:
+	SteamLobbyManager.lobby_code_label = %LobbyCode
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
+
+func _process(_delta):
+	if SteamLobbyManager.lobby_id != 0:
+		update_lobby_players_ui()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "FadeLogo":
@@ -35,7 +43,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _input(event):
 	if tween_active or slot_tween_active:
 		return
-
 	# ---------------------------------------------------------
 	# INPUT: MOVE RIGHT / LEFT
 	# ---------------------------------------------------------
@@ -59,7 +66,7 @@ func _input(event):
 	elif event.is_action_pressed("Move_Up"):
 		if current_section == 0:
 			return
-		elif current_section == 1:
+		elif current_section == 1 and popup_active_ind == 0:
 			if in_delete_layer:
 				in_delete_layer = false
 				update_selection_visual()
@@ -78,7 +85,7 @@ func _input(event):
 	elif event.is_action_pressed("Move_Down"):
 		if current_section == 0:
 			return
-		elif current_section == 1:
+		elif current_section == 1 and popup_active_ind == 0:
 			if not in_delete_layer and not in_join_layer:
 				in_delete_layer = true
 				current_button = 0 # delete
@@ -99,23 +106,33 @@ func _input(event):
 		if current_section == 0:
 			go_to_section(1)
 		elif current_section == 1:
-			if in_join_layer:
-				NetworkManager.join_game("127.0.0.1") # per ora IP locale
-				print("Tentativo di connessione...")
+			if popup_active_ind == 1:
+				SteamLobbyManager.join_by_code(%JoinCode.text)
+			elif in_join_layer:
+				join_lobby_container.scale = Vector2(0, 0)
+				join_lobby_container.visible = true
+				popup_active_ind = 1
+				var tween = create_tween()
+				tween.tween_property(join_lobby_container, "scale", Vector2(1, 1), 0.35) \
+				.set_trans(Tween.TRANS_SINE) \
+				.set_ease(Tween.EASE_OUT)
+				tween.finished.connect(func():
+					%JoinCode.grab_focus()
+				)
 			elif in_delete_layer:
 				print("Delete File selected for slot ", current_slot + 1)
 			else:
 				go_to_section(2)
-				print("Save Slot ", current_slot + 1, " selected")
 		elif current_section == 2:
-			print("Selected:", menu_buttons[current_menu_button].name)
 			match current_menu_button:
 				0:
 					get_tree().change_scene_to_file("res://scenes/Levels/Game/Game.tscn")
 				1:
-					NetworkManager.host_game()
-					print("Hosting partita...")
-
+					if SteamLobbyManager.lobby_id != 0:
+						SteamLobbyManager.host_lobby(4)
+					go_to_section(3)
+		elif current_section == 3:
+			SteamLobbyManager.on_invite_button_pressed()
 	# ---------------------------------------------------------
 	# INPUT: CANCEL
 	# ---------------------------------------------------------
@@ -123,7 +140,18 @@ func _input(event):
 		if current_section == 0:
 			return
 		else:
-			go_to_section(current_section - 1)
+			match popup_active_ind:
+				0:
+					go_to_section(current_section - 1)
+				1:
+					var tween = create_tween()
+					tween.tween_property(join_lobby_container, "scale", Vector2(0, 0), 0.25) \
+						.set_trans(Tween.TRANS_SINE) \
+						.set_ease(Tween.EASE_IN)
+					tween.finished.connect(func():
+						popup_active_ind = 0
+						join_lobby_container.visible = false
+					)
 
 # ---------------------------------------------------------
 # TRANSIZIONE SEZIONE
@@ -132,7 +160,7 @@ func go_to_section(index: int) -> void:
 	if tween_active:
 		return
 	
-	current_section = clamp(index, 0, 4)
+	current_section = clamp(index, 0, total_sections)
 	var target_x = -current_section * SECTION_WIDTH
 	var tween = create_tween()
 	tween_active = true
@@ -146,7 +174,7 @@ func go_to_section(index: int) -> void:
 # SELEZIONE SLOT
 # ---------------------------------------------------------
 func select_slot(index: int):
-	if slot_tween_active:
+	if tween_active or slot_tween_active or popup_active_ind != 0:
 		return
 
 	var prev_slot := current_slot
@@ -290,3 +318,24 @@ func update_selection_visual():
 					.set_trans(Tween.TRANS_SINE)\
 					.set_ease(Tween.EASE_IN_OUT)
 				btn.scale = Vector2(1, 1)
+
+func update_lobby_players_ui():
+	var members = SteamLobbyManager.get_lobby_members()
+
+	# Slot 1: il giocatore locale
+	var frame1 = %PlayersFramesContainer.get_child(0)
+	frame1.get_node("PlayerName").text = members[0] if members.size() > 0 else "Unknown"
+
+	# Slot 2-4
+	for i in range(1, 4):
+		var frame = %PlayersFramesContainer.get_child(i)
+		var player_container = frame.get_node("PlayerContainer")
+		var invite_label = frame.get_node("InviteLabel")
+
+		if i < members.size():
+			player_container.visible = true
+			player_container.get_node("PlayerName").text = members[i]
+			invite_label.visible = false
+		else:
+			player_container.visible = false
+			invite_label.visible = true
