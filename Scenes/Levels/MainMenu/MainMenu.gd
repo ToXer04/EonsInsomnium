@@ -29,6 +29,10 @@ func _ready() -> void:
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
 
+func _process(_delta):
+	if SteamLobbyManager.lobby_id != 0:
+		update_lobby_players_ui()
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "FadeLogo":
 		tween_active = false
@@ -124,8 +128,8 @@ func _input(event):
 				0:
 					get_tree().change_scene_to_file("res://scenes/Levels/Game/Game.tscn")
 				1:
-					SteamLobbyManager.host_lobby(4)
-					SteamLobbyManager.on_invite_button_pressed()
+					if SteamLobbyManager.lobby_id != 0:
+						SteamLobbyManager.host_lobby(4)
 					go_to_section(3)
 		elif current_section == 3:
 			SteamLobbyManager.on_invite_button_pressed()
@@ -314,3 +318,24 @@ func update_selection_visual():
 					.set_trans(Tween.TRANS_SINE)\
 					.set_ease(Tween.EASE_IN_OUT)
 				btn.scale = Vector2(1, 1)
+
+func update_lobby_players_ui():
+	var members = SteamLobbyManager.get_lobby_members()
+
+	# Slot 1: il giocatore locale
+	var frame1 = %PlayersFramesContainer.get_child(0)
+	frame1.get_node("PlayerName").text = members[0] if members.size() > 0 else "Unknown"
+
+	# Slot 2-4
+	for i in range(1, 4):
+		var frame = %PlayersFramesContainer.get_child(i)
+		var player_container = frame.get_node("PlayerContainer")
+		var invite_label = frame.get_node("InviteLabel")
+
+		if i < members.size():
+			player_container.visible = true
+			player_container.get_node("PlayerName").text = members[i]
+			invite_label.visible = false
+		else:
+			player_container.visible = false
+			invite_label.visible = true
