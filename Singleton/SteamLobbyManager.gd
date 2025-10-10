@@ -1,12 +1,10 @@
 # SteamLobbyManager.gd
 extends Node
 
+signal kick_player(target_steam_id: int)
+
 var lobby_code_label: Label = null
 var lobby_id: int = 0
-
-# Segnali per comunicare a tutti i client
-signal disband_lobby
-signal kick_player(steam_id)
 
 func _ready() -> void:
 	var init_result = Steam.steamInit(3961570)
@@ -18,11 +16,8 @@ func _ready() -> void:
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	Steam.join_requested.connect(_on_lobby_join_requested)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-
+	
 	print("SteamLobbyManager ready")
-
-	disband_lobby.connect(_on_disband_lobby)
-	kick_player.connect(_on_kick_player)
 	
 func _process(_delta):
 	Steam.run_callbacks()
@@ -96,6 +91,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		lobby_id = this_lobby_id
 		print("Join avvenuto:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
+		get_tree().call_group("MainMenu", "go_to_section", 3)
 
 # ------------------------
 # LOBBY MEMBERS
@@ -108,38 +104,41 @@ func get_lobby_members() -> Array:
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
 	for i in range(member_count):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
-		var player_name = Steam.getFriendPersonaName(steam_id)
-		members.append(player_name)
+		if steam_id:
+			var player_name = Steam.getFriendPersonaName(steam_id)
+			members.append(player_name)
 	return members
 
 # ------------------------
-# DISBAND LOBBY
+# DISBAND / KICK
 # ------------------------
-func disband_lobby_pressed() -> void:
+func disband_lobby_pressed():
 	if lobby_id == 0:
 		print("Non c'è una lobby da disbandare")
 		return
-	print("Disband Lobby: segnale inviato a tutti i client")
-	emit_signal("disband_lobby")
-	lobby_id = 0
-	get_tree().call_group("MainMenu", "go_to_section", 0)
+	print("Disband Lobby: RPC inviato a tutti i client")
+	rpc_disband_lobby()  # invia a tutti i client
 
-# ------------------------
-# KICK PLAYER
-# ------------------------
 func kick_player_pressed(target_steam_id: int) -> void:
 	if lobby_id == 0:
 		print("Non c'è una lobby attiva")
 		return
 	print("Kick Player:", Steam.getFriendPersonaName(target_steam_id))
-	emit_signal("kick_player", target_steam_id)
+	rpc_id(target_steam_id, "rpc_kick_player")  # invia RPC solo al target
 
-func _on_disband_lobby():
+@rpc("authority", "call_remote", "reliable")
+func rpc_disband_lobby():
 	print("Lobby disbandata! Torno al menu principale")
-	Steam.leaveLobby(lobby_id)
+	if lobby_id != 0:
+		Steam.leaveLobby(lobby_id)
+		lobby_id = 0
 	get_tree().call_group("MainMenu", "go_to_section", 0)
 
-func _on_kick_player(steam_id):
-	if steam_id == Steam.getSteamID():
-		print("Sono stato kickato!")
-		get_tree().call_group("MainMenu", "go_to_section", 0)
+
+@rpc("any_peer", "call_remote", "reliable")
+func rpc_kick_player():
+	print("Sei stato kickato dalla lobby!")
+	if lobby_id != 0:
+		Steam.leaveLobby(lobby_id)
+		lobby_id = 0
+	get_tree().call_group("MainMenu", "go_to_section", 0)
