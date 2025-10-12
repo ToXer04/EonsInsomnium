@@ -6,6 +6,8 @@ var velocity_dir = Vector2.RIGHT
 var found = false
 var initialized = false
 var surface
+var turned = false
+var wall
 
 func _ready() -> void:
 	speed = 100
@@ -23,20 +25,32 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	raycastunder.force_raycast_update()
 	raycastfront.force_raycast_update()
-	rotation = velocity_dir.angle()
 	if not initialized:
 		initialized = true
 		return
 	if raycastfront.is_colliding():
-		var wall = raycastfront.get_collision_normal()
+		print("a")
+		await get_tree().process_frame
+		raycastunder.force_raycast_update()
+		wall = raycastfront.get_collision_normal()
 		var tangent = Vector2(-wall.y, wall.x).normalized()
 		velocity_dir = tangent
-	
+		rotation = velocity_dir.angle()
+		position += wall * -raycastfront.get_collision_point().distance_to(global_position) * 1
 	
 	if raycastunder.is_colliding():
-		surface = raycastunder.get_collision_normal()
+		wall = raycastunder.get_collision_normal()
+		turned = false
 	else:
-		return
+		if not turned:
+			print("c")
+			await get_tree().process_frame
+			raycastunder.force_raycast_update()
+			var tangent = Vector2(-wall.y, wall.x).normalized()
+			velocity_dir = velocity_dir.rotated(deg_to_rad(90))
+			rotation = velocity_dir.angle()
+			position += tangent * 35
+			turned = true
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
