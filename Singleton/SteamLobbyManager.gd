@@ -3,6 +3,7 @@ extends Node
 
 var lobby_code_label: Label = null
 var lobby_id: int = 0
+var code: String = ""
 
 func _ready() -> void:
 	var init_result = Steam.steamInit(3961570)
@@ -36,12 +37,11 @@ func _read_p2p_messages():
 					_on_kick_received()
 
 
-func generate_lobby_code() -> String:
+func generate_lobby_code():
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	var code = ""
+	code = ""
 	for i in range(6):
 		code += chars[randi() % chars.length()]
-	return code
 
 # ------------------------
 # HOST / INVITE
@@ -60,13 +60,8 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 	lobby_id = this_lobby_id
 	Steam.setLobbyJoinable(lobby_id, true)
 
-	var code = generate_lobby_code()
+	generate_lobby_code()
 	Steam.setLobbyData(lobby_id, "lobby_code", code)
-
-	if lobby_code_label:
-		lobby_code_label.text = code
-	else:
-		print("ATTENZIONE: lobby_code_label non assegnato!")
 
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 
@@ -79,9 +74,9 @@ func on_invite_button_pressed() -> void:
 # ------------------------
 # JOIN VIA CODICE
 # ------------------------
-func join_by_code(code: String) -> void:
+func join_by_code(JoinCode: String) -> void:
 	Steam.addRequestLobbyListResultCountFilter(1)
-	Steam.addRequestLobbyListStringFilter("lobby_code", code, Steam.LOBBY_COMPARISON_EQUAL)
+	Steam.addRequestLobbyListStringFilter("lobby_code", JoinCode, Steam.LOBBY_COMPARISON_EQUAL)
 	Steam.requestLobbyList()
 
 func _on_lobby_match_list(lobbies_found: Array) -> void:
@@ -103,6 +98,7 @@ func _on_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		lobby_id = this_lobby_id
+		lobby_code_label.text = code
 		print("Joined lobby:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
 		get_tree().call_group("MainMenu", "go_to_section", 3)
