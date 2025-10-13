@@ -46,14 +46,6 @@ func generate_lobby_code() -> String:
 # ------------------------
 # HOST / INVITE
 # ------------------------
-func _on_lobby_chat_update(lobby_id, changed_user, making_change_user, chat_state):
-	# Questo callback viene chiamato quando qualcuno entra o esce dalla lobby
-	# Apriamo una sessione P2P con tutti i membri
-	for member in get_lobby_members():
-		if int(member) != Steam.getSteamID():
-			Steam.acceptP2PSessionWithUser(int(member))
-
-
 func host_lobby(max_players: int = 4) -> void:
 	print("Avvio Creazione Lobby")
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_players)
@@ -130,9 +122,9 @@ func get_lobby_members() -> Array:
 	for i in range(member_count):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
 		if steam_id:
-			var player_name = Steam.getFriendPersonaName(steam_id)
-			members.append(player_name)
+			members.append(steam_id) # <--- qui metti l'id, non il nome
 	return members
+
 
 # ------------------------
 # DISBAND / KICK
@@ -149,8 +141,10 @@ func send_message_to_all(message: String):
 	var buffer = message.to_utf8_buffer()
 
 	for member_id in get_lobby_members():
-		var target_id = int(member_id) # FORZA qui il cast a INT
-		Steam.sendP2PPacket(target_id, buffer, 0)
+		if int(member_id) != Steam.getSteamID(): # non inviare a te stesso
+			Steam.acceptP2PSessionWithUser(int(member_id)) # apri sessione se non già aperta
+			Steam.sendP2PPacket(int(member_id), buffer, Steam.P2PSend.P2P_SEND_RELIABLE, 0)
+
 
 
 func kick_player(player_steam_id):
