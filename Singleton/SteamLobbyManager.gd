@@ -19,18 +19,23 @@ func _ready() -> void:
 	
 func _process(_delta):
 	Steam.run_callbacks()
-	print(Steam.getAvailableP2PPacketSize(0))
-	while Steam.getAvailableP2PPacketSize(0) > 0:
-		var size = Steam.getAvailableP2PPacketSize(0)
-		var data = Steam.readP2PPacket(size, 0)
+	_read_p2p_messages()
 
-		if data.size() > 0:
-			var message = data.buffer.get_string_from_utf8()
+func _read_p2p_messages():
+	while Steam.getAvailableP2PPacketSize(0) > 0:
+		var packet = Steam.readP2PPacket(Steam.getAvailableP2PPacketSize(0), 0)
+		if packet and packet.has("data"):
+			var message = packet.data.get_string_from_utf8()
+			var sender = packet.steam_id_remote
+			print("Ricevuto da ", sender, ": ", message)
+
 			match message:
 				"DISBAND":
 					_on_disband_received()
 				"KICK":
 					_on_kick_received()
+
+
 func generate_lobby_code() -> String:
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	var code = ""
