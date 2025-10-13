@@ -592,16 +592,18 @@ theme_override_constants/margin_bottom = 50
 
 [node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 75
 
 [node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "PlayerName"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
 
 [node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
@@ -634,16 +636,18 @@ theme_override_constants/margin_bottom = 50
 
 [node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 75
 
 [node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "PlayerName"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
 
 [node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
@@ -694,16 +698,18 @@ theme_override_constants/margin_bottom = 50
 
 [node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 75
 
 [node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "PlayerName"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
 
 [node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
@@ -754,16 +760,18 @@ theme_override_constants/margin_bottom = 50
 
 [node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 75
 
 [node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 text = "PlayerName"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
 
 [node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
 layout_mode = 2

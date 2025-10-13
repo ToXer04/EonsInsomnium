@@ -114,7 +114,10 @@ func _input(event):
 				in_join_layer = true
 				update_selection_visual()
 		elif current_section == 2:
-			current_menu_button = clamp(current_menu_button + 1, 0, menu_buttons.size()-1)
+			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+				current_menu_button = clamp(current_menu_button + 1, 0, menu_buttons.size()-1)
+			else:
+				current_menu_button = clamp(current_menu_button + 1, 1, menu_buttons.size()-2)
 			update_selection_visual()
 
 	# ---------------------------------------------------------
@@ -156,7 +159,7 @@ func _input(event):
 	# INPUT: CANCEL
 	# ---------------------------------------------------------
 	elif event.is_action_pressed("ui_cancel"):
-		if current_section == 0:
+		if current_section == 0 or (current_section == 2 and Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id)):
 			return
 		else:
 			match popup_active_ind:
@@ -227,6 +230,7 @@ func _handle_lobby_click():
 			SteamLobbyManager.disband_lobby()
 		else:
 			Steam.leaveLobby(SteamLobbyManager.lobby_id)
+			SteamLobbyManager._on_lobby_left()
 		_update_lobby_nav_visual()
 		return
 
