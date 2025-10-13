@@ -344,6 +344,10 @@ func initial_update_selection_visual():
 			slot.scale = Vector2(1,1)
 	delete_button.modulate = Color(1, 1, 1, 1) if in_delete_layer else Color(0.6, 0.6, 0.6, 1)
 	join_button.modulate = Color(1, 1, 1, 1) if in_join_layer else Color(0.6, 0.6, 0.6, 1)
+	if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+		current_menu_button = clamp(current_menu_button, 0, menu_buttons.size()-1)
+	else:
+		current_menu_button = clamp(current_menu_button, 1, menu_buttons.size()-2)
 	for i in range(menu_buttons.size()):
 		var btn = menu_buttons[i]
 		var tween = create_tween()
@@ -403,6 +407,10 @@ func update_selection_visual():
 		delete_button.modulate = Color(1, 1, 1, 1) if in_delete_layer else Color(0.6, 0.6, 0.6, 1)
 		join_button.modulate = Color(1, 1, 1, 1) if in_join_layer else Color(0.6, 0.6, 0.6, 1)
 	elif current_section == 2:
+		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			current_menu_button = clamp(current_menu_button, 0, menu_buttons.size()-1)
+		else:
+			current_menu_button = clamp(current_menu_button, 1, menu_buttons.size()-2)
 		for i in range(menu_buttons.size()):
 			var btn = menu_buttons[i]
 			var tween = create_tween()
@@ -457,6 +465,7 @@ func update_lobby_players_ui():
 	disband_node.get_node("DisbandDreamLabel").visible = Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id)
 	disband_node.get_node("LeaveDreamLabel").visible = Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id)
 	_update_lobby_nav_visual()
+	update_selection_visual()
 
 # modifica il bordo (StyleBoxFlat) del PanelContainer del frame selezionato
 func _set_panel_border(panel: PanelContainer, white: bool) -> void:
