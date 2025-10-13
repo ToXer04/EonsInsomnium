@@ -1,8 +1,6 @@
 # SteamLobbyManager.gd
 extends Node
 
-signal kick_player(target_steam_id: int)
-
 var lobby_code_label: Label = null
 var lobby_id: int = 0
 
@@ -21,7 +19,18 @@ func _ready() -> void:
 	
 func _process(_delta):
 	Steam.run_callbacks()
+	print(Steam.getAvailableP2PPacketSize(0))
+	while Steam.getAvailableP2PPacketSize(0) > 0:
+		var size = Steam.getAvailableP2PPacketSize(0)
+		var data = Steam.readP2PPacket(size, 0)
 
+		if data.size() > 0:
+			var message = data.buffer.get_string_from_utf8()
+			match message:
+				"DISBAND":
+					_on_disband_received()
+				"KICK":
+					_on_kick_received()
 func generate_lobby_code() -> String:
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	var code = ""
@@ -55,11 +64,6 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 		print("ATTENZIONE: lobby_code_label non assegnato!")
 
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
-	
-	var peer = SteamMultiplayerPeer.new()
-	peer.create_host(lobby_id)
-	multiplayer.multiplayer_peer = peer
-
 
 func on_invite_button_pressed() -> void:
 	if lobby_id == 0:
@@ -97,10 +101,6 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		print("Join avvenuto:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
 		get_tree().call_group("MainMenu", "go_to_section", 3)
-		var peer = SteamMultiplayerPeer.new()
-		peer.join_host(lobby_id)
-		multiplayer.multiplayer_peer = peer
-
 
 # ------------------------
 # LOBBY MEMBERS
@@ -121,33 +121,25 @@ func get_lobby_members() -> Array:
 # ------------------------
 # DISBAND / KICK
 # ------------------------
-func disband_lobby_pressed():
-	if lobby_id == 0:
-		print("Non c'è una lobby da disbandare")
-		return
-	print("Disband Lobby: RPC inviato a tutti i client")
-	rpc_disband_lobby()  # invia a tutti i client
-
-func kick_player_pressed(target_steam_id: int) -> void:
-	if lobby_id == 0:
-		print("Non c'è una lobby attiva")
-		return
-	print("Kick Player:", Steam.getFriendPersonaName(target_steam_id))
-	rpc_id(target_steam_id, "rpc_kick_player")  # invia RPC solo al target
-
-@rpc("authority", "call_remote", "reliable")
-func rpc_disband_lobby():
-	print("Lobby disbandata! Torno al menu principale")
-	if lobby_id != 0:
-		Steam.leaveLobby(lobby_id)
-		lobby_id = 0
+func _on_disband_received():
+	Steam.leaveLobby(lobby_id)
 	get_tree().call_group("MainMenu", "go_to_section", 0)
 
-
-@rpc("any_peer", "call_remote", "reliable")
-func rpc_kick_player():
-	print("Sei stato kickato dalla lobby!")
-	if lobby_id != 0:
-		Steam.leaveLobby(lobby_id)
-		lobby_id = 0
+func _on_kick_received():
+	Steam.leaveLobby(lobby_id)
 	get_tree().call_group("MainMenu", "go_to_section", 0)
+
+func send_message_to_all(message: String):
+	var buffer = message.to_utf8_buffer()
+
+	for member_id in get_lobby_members():
+		var target_id = int(member_id) # FORZA qui il cast a INT
+		Steam.sendP2PPacket(target_id, buffer, 0)
+
+
+func kick_player(player_steam_id):
+	var target_id = int(player_steam_id)
+	Steam.sendP2PPacket(target_id, "KICK".to_utf8_buffer(), 0)
+
+func disband_lobby():
+	send_message_to_all("DISBAND")

@@ -227,7 +227,7 @@ func _handle_lobby_click():
 		if SteamLobbyManager.lobby_id == 0:
 			print("Nessuna lobby da disbandare")
 			return
-		SteamLobbyManager.disband_lobby_pressed()
+		SteamLobbyManager.disband_lobby()
 		_update_lobby_nav_visual()
 		return
 
@@ -240,7 +240,7 @@ func _handle_lobby_click():
 		# otteniamo lo steam id dell'utente
 		var lid = SteamLobbyManager.lobby_id
 		var steam_id = Steam.getLobbyMemberByIndex(lid, target_member_index)
-		SteamLobbyManager._on_kick_player(steam_id)
+		SteamLobbyManager.kick_player(steam_id)
 	else:
 		# slot vuoto -> apri overlay invite
 		if SteamLobbyManager.lobby_id == 0:
