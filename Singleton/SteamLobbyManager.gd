@@ -24,11 +24,11 @@ func _process(_delta):
 func _read_p2p_messages():
 	while Steam.getAvailableP2PPacketSize(0) > 0:
 		var packet = Steam.readP2PPacket(Steam.getAvailableP2PPacketSize(0), 0)
+		print("Ricevuto")
 		if packet and packet.has("data"):
 			var message = packet.data.get_string_from_utf8()
-			var sender = packet.steam_id_remote
-			print("Ricevuto da ", sender, ": ", message)
-
+			print(message)
+			print("Ricevuto da ", "sender", ": ", message)
 			match message:
 				"DISBAND":
 					_on_disband_received()
@@ -46,6 +46,14 @@ func generate_lobby_code() -> String:
 # ------------------------
 # HOST / INVITE
 # ------------------------
+func _on_lobby_chat_update(lobby_id, changed_user, making_change_user, chat_state):
+	# Questo callback viene chiamato quando qualcuno entra o esce dalla lobby
+	# Apriamo una sessione P2P con tutti i membri
+	for member in get_lobby_members():
+		if int(member) != Steam.getSteamID():
+			Steam.acceptP2PSessionWithUser(int(member))
+
+
 func host_lobby(max_players: int = 4) -> void:
 	print("Avvio Creazione Lobby")
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_players)
@@ -103,9 +111,12 @@ func _on_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		lobby_id = this_lobby_id
-		print("Join avvenuto:", lobby_id)
+		print("Joined lobby:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
 		get_tree().call_group("MainMenu", "go_to_section", 3)
+		for member in get_lobby_members():
+			if int(member) != Steam.getSteamID():
+				Steam.acceptP2PSessionWithUser(int(member))
 
 # ------------------------
 # LOBBY MEMBERS
@@ -144,7 +155,7 @@ func send_message_to_all(message: String):
 
 func kick_player(player_steam_id):
 	var target_id = int(player_steam_id)
-	Steam.sendP2PPacket(target_id, "KICK".to_utf8_buffer(), 0)
+	Steam.sendP2PPacket(target_id, "KICK".to_utf8_buffer(), Steam.P2PSend.P2P_SEND_RELIABLE, 0)
 
 func disband_lobby():
 	send_message_to_all("DISBAND")
