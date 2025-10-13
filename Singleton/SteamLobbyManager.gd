@@ -15,7 +15,6 @@ func _ready() -> void:
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	Steam.join_requested.connect(_on_lobby_join_requested)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-	
 	print("SteamLobbyManager ready")
 	
 func _process(_delta):
@@ -107,6 +106,12 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 			if int(member) != Steam.getSteamID():
 				Steam.acceptP2PSessionWithUser(int(member))
 
+func _on_lobby_left():
+	lobby_id = 0
+	code = ""
+	get_tree().call_group("MainMenu", "go_to_section", 0)
+	get_tree().call_group("MainMenu", "update_lobby_players_ui")
+
 # ------------------------
 # LOBBY MEMBERS
 # ------------------------
@@ -139,15 +144,14 @@ func get_lobby_members_names() -> Array:
 # ------------------------
 func _on_disband_received():
 	Steam.leaveLobby(lobby_id)
-	get_tree().call_group("MainMenu", "go_to_section", 0)
+	_on_lobby_left()
 
 func _on_kick_received():
 	Steam.leaveLobby(lobby_id)
-	get_tree().call_group("MainMenu", "go_to_section", 0)
+	_on_lobby_left()
 
 func send_message_to_all(message: String):
 	var buffer = message.to_utf8_buffer()
-
 	for member_id in get_lobby_members():
 		if int(member_id) != Steam.getSteamID(): # non inviare a te stesso
 			Steam.acceptP2PSessionWithUser(int(member_id)) # apri sessione se non già aperta
@@ -161,3 +165,5 @@ func kick_player(player_steam_id):
 
 func disband_lobby():
 	send_message_to_all("DISBAND")
+	Steam.leaveLobby(lobby_id)
+	_on_lobby_left()
