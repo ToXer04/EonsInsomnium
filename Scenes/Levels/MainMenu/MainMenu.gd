@@ -87,17 +87,16 @@ func _input(event):
 		elif current_section == 1 and popup_active_ind == 0:
 			if in_delete_layer:
 				in_delete_layer = false
-				update_selection_visual()
 			elif in_join_layer:
 				in_join_layer = false
 				in_delete_layer = true
 				current_button = 0
-				update_selection_visual()
 		elif current_section == 2:
-			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id) or SteamLobbyManager.lobby_id == 0:
 				current_menu_button = clamp(current_menu_button - 1, 0, menu_buttons.size()-1)
 			else:
 				current_menu_button = clamp(current_menu_button - 1, 1, menu_buttons.size()-2)
+		update_selection_visual()
 
 	# ---------------------------------------------------------
 	# INPUT: MOVE DOWN
@@ -116,7 +115,7 @@ func _input(event):
 				in_join_layer = true
 				update_selection_visual()
 		elif current_section == 2:
-			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id) or SteamLobbyManager.lobby_id == 0:
 				current_menu_button = clamp(current_menu_button + 1, 0, menu_buttons.size()-1)
 			else:
 				current_menu_button = clamp(current_menu_button + 1, 1, menu_buttons.size()-2)
@@ -354,10 +353,16 @@ func initial_update_selection_visual():
 				.set_ease(Tween.EASE_IN_OUT)
 			btn.scale = Vector2(1.05, 1.05)
 		else:
-			tween.tween_property(btn, "modulate", Color(0.6, 0.6, 0.6, 1), 0.2)\
-				.set_trans(Tween.TRANS_SINE)\
-				.set_ease(Tween.EASE_IN_OUT)
-			btn.scale = Vector2(1, 1)
+			if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) and (i == 0 or i == 3) and SteamLobbyManager.lobby_id != 0:
+				tween.tween_property(btn, "modulate", Color(0.2, 0.2, 0.2, 1), 0.1)\
+					.set_trans(Tween.TRANS_SINE)\
+					.set_ease(Tween.EASE_IN_OUT)
+				btn.scale = Vector2(1, 1)
+			else:
+				tween.tween_property(btn, "modulate", Color(0.6, 0.6, 0.6, 1), 0.1)\
+					.set_trans(Tween.TRANS_SINE)\
+					.set_ease(Tween.EASE_IN_OUT)
+				btn.scale = Vector2(1, 1)
 
 func update_selection_visual():
 	if current_section == 1:
@@ -398,8 +403,6 @@ func update_selection_visual():
 		delete_button.modulate = Color(1, 1, 1, 1) if in_delete_layer else Color(0.6, 0.6, 0.6, 1)
 		join_button.modulate = Color(1, 1, 1, 1) if in_join_layer else Color(0.6, 0.6, 0.6, 1)
 	elif current_section == 2:
-		menu_buttons[0].modulate = Color(0.2, 0.2, 0.2, 1) if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) else Color(0.6, 0.6, 0.6, 1)
-		menu_buttons[3].modulate = Color(0.2, 0.2, 0.2, 1) if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) else Color(0.6, 0.6, 0.6, 1)
 		for i in range(menu_buttons.size()):
 			var btn = menu_buttons[i]
 			var tween = create_tween()
@@ -409,10 +412,16 @@ func update_selection_visual():
 					.set_ease(Tween.EASE_IN_OUT)
 				btn.scale = Vector2(1, 1.01)
 			else:
-				tween.tween_property(btn, "modulate", Color(0.6, 0.6, 0.6, 1), 0.1)\
-					.set_trans(Tween.TRANS_SINE)\
-					.set_ease(Tween.EASE_IN_OUT)
-				btn.scale = Vector2(1, 1)
+				if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) and (i == 0 or i == 3) and SteamLobbyManager.lobby_id != 0:
+					tween.tween_property(btn, "modulate", Color(0.2, 0.2, 0.2, 1), 0.1)\
+						.set_trans(Tween.TRANS_SINE)\
+						.set_ease(Tween.EASE_IN_OUT)
+					btn.scale = Vector2(1, 1)
+				else:
+					tween.tween_property(btn, "modulate", Color(0.6, 0.6, 0.6, 1), 0.1)\
+						.set_trans(Tween.TRANS_SINE)\
+						.set_ease(Tween.EASE_IN_OUT)
+					btn.scale = Vector2(1, 1)
 
 # ---------------------------------------------------------
 # LOBBY PLAYERS UI
