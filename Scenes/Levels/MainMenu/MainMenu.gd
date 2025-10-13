@@ -233,7 +233,7 @@ func _handle_lobby_click():
 
 	# Altrimenti siamo su uno slot tra Player2..4
 	var slot_idx = lobby_nav_index  # 0 => Player2, 1 => Player3, 2 => Player4
-	var members = SteamLobbyManager.get_lobby_members()
+	var members = SteamLobbyManager.get_lobby_members_names()
 	var target_member_index = slot_idx + 1  # members[0] è host
 	if target_member_index < members.size():
 		# c'è un player: proviamo a kickare
@@ -418,7 +418,7 @@ func update_selection_visual():
 # LOBBY PLAYERS UI
 # ---------------------------------------------------------
 func update_lobby_players_ui():
-	var members = SteamLobbyManager.get_lobby_members()
+	var members = SteamLobbyManager.get_lobby_members_names()
 
 	# Slot 1: il giocatore locale
 	var frame1 = players_container.get_child(0)
