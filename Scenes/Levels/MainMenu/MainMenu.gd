@@ -224,9 +224,6 @@ func _handle_lobby_click():
 	# Se siamo su disband
 	if lobby_nav_index == LOBBY_NAV_SLOTS:
 		# Disband: distruggi o lascia la lobby
-		if SteamLobbyManager.lobby_id == 0:
-			print("Nessuna lobby da disbandare")
-			return
 		SteamLobbyManager.disband_lobby()
 		_update_lobby_nav_visual()
 		return
@@ -242,12 +239,7 @@ func _handle_lobby_click():
 		var steam_id = Steam.getLobbyMemberByIndex(lid, target_member_index)
 		SteamLobbyManager.kick_player(steam_id)
 	else:
-		# slot vuoto -> apri overlay invite
-		if SteamLobbyManager.lobby_id == 0:
-			print("Non hai una lobby attiva.")
-			return
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
-		print("Apro overlay invite per lobby", SteamLobbyManager.lobby_id)
 
 # ---------------------------------------------------------
 # TRANSIZIONE SEZIONE
