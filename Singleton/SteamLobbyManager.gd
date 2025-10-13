@@ -113,7 +113,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 # ------------------------
 # LOBBY MEMBERS
 # ------------------------
-func get_lobby_members_names() -> Array:
+func get_lobby_members() -> Array:
 	var members = []
 	if lobby_id == 0:
 		return members
@@ -125,7 +125,7 @@ func get_lobby_members_names() -> Array:
 			members.append(steam_id) # <--- qui metti l'id, non il nome
 	return members
 
-func get_lobby_members() -> Array:
+func get_lobby_members_names() -> Array:
 	var members = []
 	if lobby_id == 0:
 		return members
