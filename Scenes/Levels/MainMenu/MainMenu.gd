@@ -223,8 +223,10 @@ func _handle_lobby_navigation_input(event):
 func _handle_lobby_click():
 	# Se siamo su disband
 	if lobby_nav_index == LOBBY_NAV_SLOTS:
-		# Disband: distruggi o lascia la lobby
-		SteamLobbyManager.disband_lobby()
+		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			SteamLobbyManager.disband_lobby()
+		else:
+			Steam.leaveLobby(SteamLobbyManager.lobby_id)
 		_update_lobby_nav_visual()
 		return
 
@@ -233,11 +235,9 @@ func _handle_lobby_click():
 	var members = SteamLobbyManager.get_lobby_members_names()
 	var target_member_index = slot_idx + 1  # members[0] è host
 	if target_member_index < members.size():
-		# c'è un player: proviamo a kickare
-		# otteniamo lo steam id dell'utente
-		var lid = SteamLobbyManager.lobby_id
-		var steam_id = Steam.getLobbyMemberByIndex(lid, target_member_index)
-		SteamLobbyManager.kick_player(steam_id)
+		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			var steam_id = Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, target_member_index)
+			SteamLobbyManager.kick_player(steam_id)
 	else:
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
 
@@ -437,6 +437,8 @@ func update_lobby_players_ui():
 			invite_label.visible = true
 
 	# aggiorna visual selezione bordo
+	disband_node.get_node("DisbandDreamLabel").visible = Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id)
+	disband_node.get_node("LeaveDreamLabel").visible = Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id)
 	_update_lobby_nav_visual()
 
 # modifica il bordo (StyleBoxFlat) del PanelContainer del frame selezionato

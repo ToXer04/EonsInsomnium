@@ -70,17 +70,17 @@ func _on_lobby_match_list(lobbies_found: Array) -> void:
 		return
 
 	var lobby_found = lobbies_found[0]
-	if lobby_found == lobby_id:
-		return
-	Steam.joinLobby(lobby_found)
+	if lobby_id != lobby_found:
+		Steam.leaveLobby(lobby_id)
+		Steam.joinLobby(lobby_found)
 
 # ------------------------
 # CALLBACKS / JOIN REQUEST
 # ------------------------
 func _on_lobby_join_requested(this_lobby_id: int, _friend_id: int) -> void:
-	if this_lobby_id == lobby_id:
-		return
-	Steam.joinLobby(this_lobby_id)
+	if lobby_id != this_lobby_id:
+		Steam.leaveLobby(lobby_id)
+		Steam.joinLobby(this_lobby_id)
 
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
