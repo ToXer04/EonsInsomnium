@@ -94,8 +94,10 @@ func _input(event):
 				current_button = 0
 				update_selection_visual()
 		elif current_section == 2:
-			current_menu_button = clamp(current_menu_button - 1, 0, menu_buttons.size()-1)
-			update_selection_visual()
+			if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+				current_menu_button = clamp(current_menu_button - 1, 0, menu_buttons.size()-1)
+			else:
+				current_menu_button = clamp(current_menu_button - 1, 1, menu_buttons.size()-2)
 
 	# ---------------------------------------------------------
 	# INPUT: MOVE DOWN
@@ -147,7 +149,7 @@ func _input(event):
 		elif current_section == 2:
 			match current_menu_button:
 				0:
-					get_tree().change_scene_to_file("res://scenes/Levels/Game/Game.tscn")
+					get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 				1:
 					if SteamLobbyManager.lobby_id == 0:
 						SteamLobbyManager.host_lobby(4)
@@ -396,6 +398,8 @@ func update_selection_visual():
 		delete_button.modulate = Color(1, 1, 1, 1) if in_delete_layer else Color(0.6, 0.6, 0.6, 1)
 		join_button.modulate = Color(1, 1, 1, 1) if in_join_layer else Color(0.6, 0.6, 0.6, 1)
 	elif current_section == 2:
+		menu_buttons[0].modulate = Color(0.2, 0.2, 0.2, 1) if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) else Color(0.6, 0.6, 0.6, 1)
+		menu_buttons[3].modulate = Color(0.2, 0.2, 0.2, 1) if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) else Color(0.6, 0.6, 0.6, 1)
 		for i in range(menu_buttons.size()):
 			var btn = menu_buttons[i]
 			var tween = create_tween()
