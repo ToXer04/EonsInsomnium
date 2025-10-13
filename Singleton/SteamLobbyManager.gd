@@ -98,6 +98,7 @@ func _on_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		lobby_id = this_lobby_id
+		code = Steam.getLobbyData(lobby_id, "lobby_code")
 		lobby_code_label.text = code
 		print("Joined lobby:", lobby_id)
 		get_tree().call_group("MainMenu", "update_lobby_players_ui")
