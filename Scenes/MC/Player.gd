@@ -4,8 +4,6 @@ extends CharacterBody2D
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 
-
-
 const DEFAULT_STATE = "Idle"
 
 # Variables

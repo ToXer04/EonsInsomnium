@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b0efhxa43vbs0"]
+[gd_scene load_steps=32 format=3 uid="uid://b0efhxa43vbs0"]
 
 [ext_resource type="PackedScene" uid="uid://dd02clwn5j5e8" path="res://Scenes/Enemies/GroundEnemy/GroundEnemy.tscn" id="1_txcyk"]
 [ext_resource type="Script" uid="uid://dk0pcxq8sg4bc" path="res://Scenes/Enemies/Slither/State_Slither_Idle.gd" id="2_bt1th"]
@@ -168,6 +168,17 @@ size = Vector2(0.5, 15)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bt1th"]
 size = Vector2(0.5, 8)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_acthg"]
+properties/0/path = NodePath("CharacterBody2D/AnimatedSprite2D:animation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
 [node name="Slither" instance=ExtResource("1_txcyk")]
 
 [node name="CharacterBody2D" parent="." index="0"]
@@ -180,10 +191,8 @@ shape = SubResource("RectangleShape2D_lrg1t")
 [node name="AnimatedSprite2D" parent="CharacterBody2D" index="1"]
 position = Vector2(3, -516)
 sprite_frames = SubResource("SpriteFrames_bt1th")
-animation = &"Death"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 4
-frame_progress = 0.56324375
 
 [node name="FrontTrigger" type="Area2D" parent="CharacterBody2D" index="2"]
 
@@ -194,7 +203,8 @@ shape = SubResource("RectangleShape2D_mqmxf")
 [node name="LedgeTrigger" type="Area2D" parent="CharacterBody2D" index="3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LedgeTrigger" index="0"]
-position = Vector2(42.75, 26)
+position = Vector2(50, 26)
+scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_bt1th")
 
 [node name="StateMachine" parent="CharacterBody2D" index="4" node_paths=PackedStringArray("current_state")]
@@ -205,6 +215,9 @@ script = ExtResource("2_bt1th")
 
 [node name="Walk" type="Node" parent="CharacterBody2D/StateMachine" index="1"]
 script = ExtResource("3_lrg1t")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="1"]
+replication_config = SubResource("SceneReplicationConfig_acthg")
 
 [connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="CharacterBody2D/FrontTrigger" to="CharacterBody2D" method="_on_front_trigger_body_entered"]
