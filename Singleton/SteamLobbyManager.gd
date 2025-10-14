@@ -5,6 +5,9 @@ var lobby_code_label: Label = null
 var lobby_id: int = 0
 var code: String = ""
 @export var max_players: int = 4  # max players including host
+@export var enet_port: int = 8910  # porta ENet
+
+var _enet_peer: ENetMultiplayerPeer = null
 
 # ------------------------
 # Ready
@@ -36,8 +39,13 @@ func _read_p2p_messages():
 				"START_GAME":
 					_start_game_rpc()
 				_:
-					# eventuali messaggi custom
-					pass
+					if message.begins_with("HOSTINFO:"):
+						var parts = message.substr(9, message.length()).split(":")
+						if parts.size() == 2:
+							var ip = parts[0]
+							var port = int(parts[1])
+							connect_to_enet_host(ip, port)
+						continue
 
 # ------------------------
 # Send message to all lobby members via Steam P2P
@@ -50,10 +58,11 @@ func send_message_to_all(message: String):
 			Steam.sendP2PPacket(int(member_id), buffer, Steam.P2PSend.P2P_SEND_RELIABLE, 0)
 
 # ------------------------
-# Host starts the game
+# Host starts the game (Steam + ENet)
 # ------------------------
 func start_hosting_game():
 	print("📡 Host avvia il gioco")
+	start_enet_server()
 	send_message_to_all("START_GAME")
 	_start_game_rpc()
 
@@ -166,3 +175,76 @@ func disband_lobby():
 	send_message_to_all("DISBAND")
 	Steam.leaveLobby(lobby_id)
 	_on_lobby_left()
+
+# ------------------------
+# ENet Networking
+# ------------------------
+func start_enet_server():
+	if multiplayer.multiplayer_peer != null:
+		print("ENet server/client già creato")
+		return
+	
+	var peer = ENetMultiplayerPeer.new()
+	var err = peer.create_server(enet_port, max_players - 1)
+	if err != OK:
+		push_error("Fallita creazione ENet server: %s" % str(err))
+		return
+
+	multiplayer.multiplayer_peer = peer
+	_enet_peer = peer
+	print("✅ ENet server creato sulla porta %d" % enet_port)
+
+	peer.peer_connected.connect(_on_peer_connected)
+	peer.peer_disconnected.connect(_on_peer_disconnected)
+	peer.connection_failed.connect(_on_connection_failed)
+	peer.server_disconnected.connect(_on_server_disconnected)
+
+	var ip = _get_public_ip()
+	var msg = "HOSTINFO:%s:%d" % [ip, enet_port]
+	send_message_to_all(msg)
+	print("✉️ HOSTINFO inviato ai membri della lobby:", msg)
+
+func connect_to_enet_host(ip: String, port: int):
+	if multiplayer.multiplayer_peer != null:
+		print("ENet client già connesso")
+		return
+	
+	var peer = ENetMultiplayerPeer.new()
+	var err = peer.create_client(ip, port)
+	if err != OK:
+		push_error("Fallita creazione ENet client: %s" % str(err))
+		return
+
+	multiplayer.multiplayer_peer = peer
+	_enet_peer = peer
+	print("🔌 ENet client creato, connettendo a %s:%d" % [ip, port])
+
+	peer.peer_connected.connect(_on_peer_connected)
+	peer.peer_disconnected.connect(_on_peer_disconnected)
+	peer.connection_failed.connect(_on_connection_failed)
+	peer.server_disconnected.connect(_on_server_disconnected)
+
+# ------------------------
+# ENet signals
+# ------------------------
+func _on_peer_connected(id):
+	print("✅ ENet peer connesso:", id)
+
+func _on_peer_disconnected(id):
+	print("❌ ENet peer disconnesso:", id)
+
+func _on_connection_failed():
+	print("💀 Connessione ENet fallita")
+
+func _on_server_disconnected():
+	print("⚡ Disconnesso dal server ENet")
+
+# ------------------------
+# Helper: trova IP locale o pubblico
+# ------------------------
+func _get_public_ip() -> String:
+	var addrs = IP.get_local_addresses()
+	for a in addrs:
+		if typeof(a) == TYPE_STRING and a.is_valid_ip_address() and not a.begins_with("127.") and not a.contains(":"):
+			return a
+	return "127.0.0.1"
