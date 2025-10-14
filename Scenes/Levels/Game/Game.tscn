@@ -893,7 +893,6 @@ navigation_polygon = SubResource("NavigationPolygon_3mrqo")
 position = Vector2(-3704, -2013)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cx8xant0iuem6")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
 
