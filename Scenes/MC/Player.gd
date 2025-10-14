@@ -45,6 +45,8 @@ func _ready() -> void:
 		state_machine.set_current_state(start_state)
 
 func _physics_process(delta: float) -> void:
+	if multiplayer.get_unique_id() != get_multiplayer_authority():
+		return
 	# cooldown dash
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer -= delta
@@ -114,6 +116,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _input(event):
+	if multiplayer.get_unique_id() != get_multiplayer_authority():
+		return
 	# Jump
 	if event.is_action_pressed("Jump") and not dashing:
 		if is_on_floor():

@@ -148,7 +148,7 @@ func _input(event):
 		elif current_section == 2:
 			match current_menu_button:
 				0:
-					get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
+					start_game()
 				1:
 					if SteamLobbyManager.lobby_id == 0:
 						SteamLobbyManager.host_lobby(4)
@@ -175,6 +175,11 @@ func _input(event):
 						popup_active_ind = 0
 						join_lobby_container.visible = false
 					)
+
+@rpc("call_local")
+func start_game():
+	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
+
 
 # ---------------------------------------------------------
 # HANDLERS LOBBY NAV
@@ -355,7 +360,7 @@ func initial_update_selection_visual():
 			tween.tween_property(btn, "modulate", Color(1, 1, 1, 1), 0.2)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_ease(Tween.EASE_IN_OUT)
-			btn.scale = Vector2(1.05, 1.05)
+			btn.scale = Vector2(1, 1.01)
 		else:
 			if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id) and (i == 0 or i == 3) and SteamLobbyManager.lobby_id != 0:
 				tween.tween_property(btn, "modulate", Color(0.2, 0.2, 0.2, 1), 0.1)\
@@ -387,7 +392,7 @@ func update_selection_visual():
 				tween.tween_property(slot, "modulate", Color(0.749, 0.0, 0.0, 0.75), 0.1)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_ease(Tween.EASE_IN_OUT)
-				slot.scale = Vector2(1.01,1.01)
+				slot.scale = Vector2(1.01, 1.01)
 
 			# Slot evidenziato mentre sei in Join
 			elif in_join_layer and i == previous_slot:
@@ -395,7 +400,7 @@ func update_selection_visual():
 				tween.tween_property(slot, "modulate", Color(0.75,0.75,0.75,1), 0.1)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_ease(Tween.EASE_IN_OUT)
-				slot.scale = Vector2(1.01,1.01)
+				slot.scale = Vector2(1.01, 1.01)
 
 			# Altri slot scuri
 			else:
@@ -403,7 +408,7 @@ func update_selection_visual():
 				tween.tween_property(slot, "modulate", Color(0.5,0.5,0.5,1), 0.1)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_ease(Tween.EASE_IN_OUT)
-				slot.scale = Vector2(1,1)
+				slot.scale = Vector2(1, 1)
 		delete_button.modulate = Color(1, 1, 1, 1) if in_delete_layer else Color(0.6, 0.6, 0.6, 1)
 		join_button.modulate = Color(1, 1, 1, 1) if in_join_layer else Color(0.6, 0.6, 0.6, 1)
 	elif current_section == 2:
