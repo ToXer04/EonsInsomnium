@@ -13,6 +13,10 @@ func spawn_players():
 		_spawn_player(peer_id)
 	_spawn_player(multiplayer.get_unique_id()) # anche l'host
 
+func spawn_players_steam():
+	for steam_id in SteamLobbyManager.get_lobby_members():
+		_spawn_player(steam_id)
+
 func _spawn_player(id):
 	print("Spawno per: ", id)
 	var player = preload("res://Scenes/MC/Player.tscn").instantiate()
