@@ -24,9 +24,10 @@ func _ready() -> void:
 
 	# Steam P2P reading will keep working like before
 	# Also connect multiplayer signals used for ENet
-	multiplayer.connect("peer_connected", Callable(self, "_on_peer_connected"))
-	multiplayer.connect("peer_disconnected", Callable(self, "_on_peer_disconnected"))
-	multiplayer.connect("connection_failed", Callable(self, "_on_connection_failed"))
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 func _process(_delta):
 	Steam.run_callbacks()
@@ -92,8 +93,7 @@ func start_hosting_game():
 
 func _wait_for_all_connections() -> bool:
 	var total_players = Steam.getNumLobbyMembers(lobby_id)
-	print(multiplayer.get_peers().size(), " ", total_players)
-	while multiplayer.get_peers().size() < total_players:
+	while multiplayer.get_peers().size() != total_players:
 		print("Aspetto connessioni... ho %s/%s" % [multiplayer.get_peers().size() + 1, total_players])
 		await get_tree().create_timer(0.2).timeout
 	return true
@@ -102,6 +102,20 @@ func _wait_for_all_connections() -> bool:
 # ------------------------
 # CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
 # ------------------------
+func _on_peer_connected(id):
+	print("✅ Peer connesso:", id)
+
+func _on_peer_disconnected(id):
+	print("❌ Peer disconnesso:", id)
+
+func _on_connection_failed():
+	print("💀 Connessione ENet fallita")
+
+func _on_server_disconnected():
+	print("⚡ Disconnesso dal server")
+
+
+
 func _handle_hostinfo_message(msg: String) -> void:
 	# expected format HOSTINFO:ip:port
 	var payload = msg.substr(HOSTINFO_PREFIX.length(), msg.length())
@@ -153,27 +167,6 @@ func _on_start_game_retry():
 		# the client will not have multiplayer set and won't receive RPCs properly.
 		push_warning("Proceeding to game scene without ENet peer set. Multiplayer may malfunction.")
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
-
-# ------------------------
-# ENet multiplayer signals
-# ------------------------
-func _on_peer_connected(id: int) -> void:
-	# runs on host when a client connects, and on clients when the host connects (id = 1 typically)
-	print("Peer connected: %s" % str(id))
-	# optional: when host sees all expected peers, you can rpc start or spawn players
-	if multiplayer.is_server():
-		# check if we have enough connected peers (peer count excludes host)
-		var connected = multiplayer.get_connected_peers().size()
-		print("Connected peers count: %d" % connected)
-		# if you want start only when all joined:
-		# if connected >= max_players - 1:
-		#     rpc("start_game_rpc")
-
-func _on_peer_disconnected(id: int) -> void:
-	print("Peer disconnected: %s" % str(id))
-
-func _on_connection_failed() -> void:
-	push_error("Connection failed (ENet)")
 
 # ------------------------
 # small helper to pick a local IP to advertise (useful on LAN)
