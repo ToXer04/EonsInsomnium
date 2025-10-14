@@ -70,7 +70,7 @@ func start_hosting_game():
 	# only the lobby owner should call this
 	# 1) create ENet server
 	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_server(enet_port, max_players - 1) # max_clients is players minus host
+	var err = peer.create_server(8910, max_players - 1) # max_clients is players minus host
 	if err != OK:
 		push_error("Failed to create ENet server: %s" % str(err))
 		# you may want to show a UI error
@@ -87,7 +87,17 @@ func start_hosting_game():
 
 	# 4) now call the RPC to change scene for everyone (host included)
 	# Decorated function start_game_rpc will run locally and on clients after their ENet connects.
+	await _wait_for_all_connections()
 	rpc("start_game_rpc")
+
+func _wait_for_all_connections() -> bool:
+	var total_players = Steam.getNumLobbyMembers(lobby_id)
+	print(multiplayer.get_peers().size(), " ", total_players)
+	while multiplayer.get_peers().size() < total_players:
+		print("Aspetto connessioni... ho %s/%s" % [multiplayer.get_peers().size() + 1, total_players])
+		await get_tree().create_timer(0.2).timeout
+	return true
+
 
 # ------------------------
 # CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
@@ -100,11 +110,11 @@ func _handle_hostinfo_message(msg: String) -> void:
 		push_error("Bad HOSTINFO payload: %s" % payload)
 		return
 	var ip = parts[0]
-	var port = int(parts[1])
-
+	var port = int(parts[8])
+	print(parts)
 	# create ENet client and attempt connect
 	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_client(ip, port)
+	var err = peer.create_client("127.0.0.1", 8910)
 	if err != OK:
 		push_error("ENet client failed to create: %s" % str(err))
 		return
