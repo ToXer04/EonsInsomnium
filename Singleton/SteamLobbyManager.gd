@@ -23,7 +23,7 @@ func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 
 	# Steam P2P reading will keep working like before
-	# Also connect multiplayer signals used for ENet
+	# Also connect multiplayer signals used for ENet (debug + flow)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connection_failed.connect(_on_connection_failed)
@@ -71,7 +71,7 @@ func start_hosting_game():
 	# only the lobby owner should call this
 	# 1) create ENet server
 	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_server(8910, max_players - 1) # max_clients is players minus host
+	var err = peer.create_server(enet_port, max_players - 1) # max_clients is players minus host
 	if err != OK:
 		push_error("Failed to create ENet server: %s" % str(err))
 		# you may want to show a UI error
@@ -80,22 +80,35 @@ func start_hosting_game():
 	# 2) assign as the global multiplayer peer (so RPCs work)
 	multiplayer.multiplayer_peer = peer
 	_enet_peer = peer
+	print("✅ ENet server creato su %s:%d" % [_get_local_ip_for_clients(), enet_port])
 
 	# 3) send host connection info to lobby members over Steam P2P
 	var host_ip = _get_local_ip_for_clients()
 	var host_msg = "%s%s:%d" % [HOSTINFO_PREFIX, host_ip, enet_port]
 	send_message_to_all(host_msg)
+	print("✉️ HOSTINFO inviato ai membri della lobby:", host_msg)
 
-	# 4) now call the RPC to change scene for everyone (host included)
-	# Decorated function start_game_rpc will run locally and on clients after their ENet connects.
+	# 4) wait for clients to connect (count clients, exclude host)
 	await _wait_for_all_connections()
+	print("✅ Tutti i client connessi (o timeout passato). Lancio start_game RPC.")
 	rpc("start_game_rpc")
 
 func _wait_for_all_connections() -> bool:
+	# total_players = Steam.getNumLobbyMembers(lobby_id)
+	# Expected clients = total_players - 1 (host excluded)
 	var total_players = Steam.getNumLobbyMembers(lobby_id)
-	while multiplayer.get_peers().size() != total_players:
+	var expected_clients = max(0, total_players - 1)
+	var timeout = 10.0 # secondi di attesa massima; evita hang infinito
+	var elapsed = 0.0
+	while multiplayer.get_peers().size() < expected_clients and elapsed < timeout:
 		print("Aspetto connessioni... ho %s/%s" % [multiplayer.get_peers().size() + 1, total_players])
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(0.25).timeout
+		elapsed += 0.25
+
+	if multiplayer.get_peers().size() < expected_clients:
+		push_warning("Timeout: non tutti i client si sono connessi in tempo. Connected: %d / Expected: %d" %
+					 [multiplayer.get_peers().size(), expected_clients])
+	# ritorna comunque true per procedere (puoi cambiare il comportamento)
 	return true
 
 
@@ -103,10 +116,10 @@ func _wait_for_all_connections() -> bool:
 # CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
 # ------------------------
 func _on_peer_connected(id):
-	print("✅ Peer connesso:", id)
+	print("✅ Peer connesso (ENet):", id)
 
 func _on_peer_disconnected(id):
-	print("❌ Peer disconnesso:", id)
+	print("❌ Peer disconnesso (ENet):", id)
 
 func _on_connection_failed():
 	print("💀 Connessione ENet fallita")
@@ -115,20 +128,21 @@ func _on_server_disconnected():
 	print("⚡ Disconnesso dal server")
 
 
-
 func _handle_hostinfo_message(msg: String) -> void:
 	# expected format HOSTINFO:ip:port
 	var payload = msg.substr(HOSTINFO_PREFIX.length(), msg.length())
 	var parts = payload.split(":")
+	# debug
+	print("DEBUG: HOSTINFO parts:", parts)
 	if parts.size() < 2:
 		push_error("Bad HOSTINFO payload: %s" % payload)
 		return
 	var ip = parts[0]
-	var port = int(parts[8])
-	print(parts)
+	var port = int(parts[1])
+
 	# create ENet client and attempt connect
 	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_client("127.0.0.1", 8910)
+	var err = peer.create_client(ip, port)
 	if err != OK:
 		push_error("ENet client failed to create: %s" % str(err))
 		return
@@ -136,8 +150,9 @@ func _handle_hostinfo_message(msg: String) -> void:
 	# set as multiplayer peer (this will trigger multiplayer signals)
 	multiplayer.multiplayer_peer = peer
 	_enet_peer = peer
+	print("🔌 ENet client creato, connettendo a %s:%d" % [ip, port])
 	# note: we do NOT call start_game here - the host will rpc start_game_rpc
-	# once everyone is connected (or immediately after sending HOSTINFO - depends on your logic)
+	# once everyone is connected (or after timeout)
 
 # ------------------------
 # RPC that actually performs the scene change (runs on everyone)
@@ -158,6 +173,7 @@ func start_game_rpc() -> void:
 
 	# Now change scene. replace path with your real game scene path
 	var scene_path = "res://Scenes/Levels/Game/Game.tscn"
+	print("🔁 Cambio scena a Game.tscn")
 	get_tree().change_scene_to_file(scene_path)
 
 func _on_start_game_retry():
@@ -241,6 +257,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		for member in get_lobby_members():
 			if int(member) != Steam.getSteamID():
 				Steam.acceptP2PSessionWithUser(int(member))
+		# Non chiamiamo _connect_to_host() qui: aspettiamo il pacchetto HOSTINFO inviato dall'host via P2P.
 
 func _on_lobby_left():
 	lobby_id = 0
