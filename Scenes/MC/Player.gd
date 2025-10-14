@@ -43,7 +43,11 @@ var wall_dir: int = 0
 
 func _ready() -> void:
 	Singleton.player = self
-	camera.enabled = is_multiplayer_authority()
+	if is_multiplayer_authority():
+		camera.enabled = true
+		camera.make_current()
+	else:
+		camera.enabled = false
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
