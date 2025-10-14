@@ -34,8 +34,6 @@ func _read_p2p_messages():
 					_on_disband_received()
 				"KICK":
 					_on_kick_received()
-				"START_GAME":
-					_start_game_rpc()
 				_:
 					# eventuali messaggi custom
 					pass
@@ -55,15 +53,16 @@ func send_message_to_all(message: String):
 # ------------------------
 func start_hosting_game():
 	print("📡 Host avvia il gioco")
-	send_message_to_all("START_GAME")
-	_start_game_rpc()
+	_start_game.rpc()
 
 # ------------------------
 # RPC-like function called when START_GAME received
 # ------------------------
-func _start_game_rpc():
+@rpc("call_local", "any_peer")
+func _start_game():
 	print("🔁 Cambio scena a Game.tscn")
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
+
 
 # ------------------------
 # Lobby creation/joining

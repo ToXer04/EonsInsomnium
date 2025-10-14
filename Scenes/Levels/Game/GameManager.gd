@@ -3,6 +3,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	multiplayer.multiplayer_peer = SteamLobbyManager.peer
 	print("Ready!")
 	if multiplayer.is_server():
 		print("Sono Host!")
@@ -28,4 +29,4 @@ func _spawn_player(id):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	print(multiplayer.get_peers().size())
