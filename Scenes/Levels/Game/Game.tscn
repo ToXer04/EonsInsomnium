@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=4 uid="uid://d1dj2nirm0m0x"]
+[gd_scene load_steps=73 format=4 uid="uid://d1dj2nirm0m0x"]
 
 [ext_resource type="Script" uid="uid://d1r51sl75kwp1" path="res://Scenes/Levels/Game/GameManager.gd" id="1_p1icc"]
 [ext_resource type="Texture2D" uid="uid://dm8mmfqc76eg2" path="res://Sprites/Assets/Biomes/FullBlack.png" id="2_u44n3"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://cmildt5aj2iid" path="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Tree2_9.png" id="14_202ut"]
 [ext_resource type="Texture2D" uid="uid://psl8nac7d7cr" path="res://Sprites/Assets/Biomes/World/Game/Levels/World/Assets/UmbralDepths_Large.PNG" id="30_hxy8k"]
 [ext_resource type="Texture2D" uid="uid://3v5negrdq5m" path="res://Sprites/Assets/Biomes/World/Game/Levels/World/Assets/UmbralDepths_Medium.PNG" id="31_2t1a5"]
+[ext_resource type="PackedScene" uid="uid://ddonb1ria8edw" path="res://Scenes/MC/Player.tscn" id="33_jdti5"]
 [ext_resource type="PackedScene" uid="uid://b0efhxa43vbs0" path="res://Scenes/Enemies/Slither/Slither.tscn" id="34_suycs"]
 [ext_resource type="Texture2D" uid="uid://pkaoju7hil4i" path="res://Sprites/Assets/Biomes/World/Game/Levels/World/Assets/UmbralDepths_XLarge.PNG" id="35_fj2yu"]
 
@@ -890,3 +891,13 @@ navigation_polygon = SubResource("NavigationPolygon_3mrqo")
 
 [node name="Slither" parent="." instance=ExtResource("34_suycs")]
 position = Vector2(-3704, -2013)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cx8xant0iuem6")
+spawn_path = NodePath("../Players")
+spawn_limit = 4
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("33_jdti5")]
+position = Vector2(665, 2742)
