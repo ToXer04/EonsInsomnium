@@ -53,7 +53,7 @@ func _ready() -> void:
 		state_machine.set_current_state(start_state)
 
 func _physics_process(delta: float) -> void:
-	if is_multiplayer_authority():
+	if not is_multiplayer_authority():
 		return
 	# cooldown dash
 	if dash_cooldown_timer > 0.0:
