@@ -121,7 +121,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 			Steam.acceptP2PSessionWithUser(int(member))
 	if Steam.getLobbyOwner(this_lobby_id) != Steam.getSteamID():
 		peer = SteamMultiplayerPeer.new()
-		peer.create_client(Steam.getSteamID(), 0)
+		peer.create_client(Steam.getLobbyOwner(this_lobby_id), 0)
 		multiplayer.set_multiplayer_peer(peer)
 
 func _on_lobby_left():
