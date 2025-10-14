@@ -148,10 +148,10 @@ func _input(event):
 		elif current_section == 2:
 			match current_menu_button:
 				0:
-					start_game()
+					SteamLobbyManager.start_hosting_game()
 				1:
 					if SteamLobbyManager.lobby_id == 0:
-						SteamLobbyManager.host_lobby(4)
+						SteamLobbyManager.host_lobby()
 					go_to_section(3)
 		elif current_section == 3:
 			# qui è gestito dal _handle_lobby_navigation_input, ma teniamo fallback
@@ -176,9 +176,6 @@ func _input(event):
 						join_lobby_container.visible = false
 					)
 
-@rpc("call_local")
-func start_game():
-	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 
 
 # ---------------------------------------------------------
