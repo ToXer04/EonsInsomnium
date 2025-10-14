@@ -85,9 +85,9 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 	generate_lobby_code()
 	Steam.setLobbyData(lobby_id, "lobby_code", code)
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
-	#peer = SteamMultiplayerPeer.new()
-	#peer.create_host(0)
-	#multiplayer.set_multiplayer_peer(peer)
+	peer = SteamMultiplayerPeer.new()
+	peer.create_host(0)
+	multiplayer.set_multiplayer_peer(peer)
 
 
 func join_by_code(join_code: String) -> void:
@@ -119,9 +119,10 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 	for member in get_lobby_members():
 		if int(member) != Steam.getSteamID():
 			Steam.acceptP2PSessionWithUser(int(member))
-	#peer = SteamMultiplayerPeer.new()
-	#peer.create_client(Steam.getSteamID(), 0)
-	#multiplayer.set_multiplayer_peer(peer)
+	if Steam.getLobbyOwner(this_lobby_id) != Steam.getSteamID():
+		peer = SteamMultiplayerPeer.new()
+		peer.create_client(Steam.getSteamID(), 0)
+		multiplayer.set_multiplayer_peer(peer)
 
 func _on_lobby_left():
 	lobby_id = 0
