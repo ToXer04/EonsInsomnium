@@ -74,23 +74,22 @@ func start_hosting_game():
 	var err = peer.create_server(enet_port, max_players - 1) # max_clients is players minus host
 	if err != OK:
 		push_error("Failed to create ENet server: %s" % str(err))
-		# you may want to show a UI error
 		return
 
 	# 2) assign as the global multiplayer peer (so RPCs work)
 	multiplayer.multiplayer_peer = peer
 	_enet_peer = peer
-	print("✅ ENet server creato su %s:%d" % [_get_local_ip_for_clients(), enet_port])
+	var host_ip = _get_local_ip_for_clients()
+	print("✅ ENet server creato su %s:%d" % [host_ip, enet_port])
 
 	# 3) send host connection info to lobby members over Steam P2P
-	var host_ip = _get_local_ip_for_clients()
 	var host_msg = "%s%s:%d" % [HOSTINFO_PREFIX, host_ip, enet_port]
 	send_message_to_all(host_msg)
 	print("✉️ HOSTINFO inviato ai membri della lobby:", host_msg)
 
 	# 4) wait for clients to connect (count clients, exclude host)
 	await _wait_for_all_connections()
-	print("✅ Tutti i client connessi (o timeout passato). Lancio start_game RPC.")
+	print("✅ Attesa connessioni finita (tutti connessi o timeout). Lancio start_game RPC.")
 	rpc("start_game_rpc")
 
 func _wait_for_all_connections() -> bool:
@@ -101,6 +100,7 @@ func _wait_for_all_connections() -> bool:
 	var timeout = 10.0 # secondi di attesa massima; evita hang infinito
 	var elapsed = 0.0
 	while multiplayer.get_peers().size() < expected_clients and elapsed < timeout:
+		# multiplayer.get_peers().size() è il numero di client connessi al server (host vedrà i client)
 		print("Aspetto connessioni... ho %s/%s" % [multiplayer.get_peers().size() + 1, total_players])
 		await get_tree().create_timer(0.25).timeout
 		elapsed += 0.25
@@ -108,12 +108,10 @@ func _wait_for_all_connections() -> bool:
 	if multiplayer.get_peers().size() < expected_clients:
 		push_warning("Timeout: non tutti i client si sono connessi in tempo. Connected: %d / Expected: %d" %
 					 [multiplayer.get_peers().size(), expected_clients])
-	# ritorna comunque true per procedere (puoi cambiare il comportamento)
 	return true
 
-
 # ------------------------
-# CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
+# ENet signals (debug + hooks)
 # ------------------------
 func _on_peer_connected(id):
 	print("✅ Peer connesso (ENet):", id)
@@ -127,7 +125,9 @@ func _on_connection_failed():
 func _on_server_disconnected():
 	print("⚡ Disconnesso dal server")
 
-
+# ------------------------
+# CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
+# ------------------------
 func _handle_hostinfo_message(msg: String) -> void:
 	# expected format HOSTINFO:ip:port
 	var payload = msg.substr(HOSTINFO_PREFIX.length(), msg.length())
@@ -162,7 +162,6 @@ func start_game_rpc() -> void:
 	# Ensure multiplayer peer is set before changing scene. If a client hasn't connected ENet yet,
 	# their multiplayer.multiplayer_peer might still be null. In that case we wait a bit.
 	if multiplayer.multiplayer_peer == null:
-		# naive wait: spawn a short timer that checks again. You can replace with better UI/timeout.
 		var t = Timer.new()
 		t.one_shot = true
 		t.wait_time = 0.25
@@ -179,23 +178,25 @@ func start_game_rpc() -> void:
 func _on_start_game_retry():
 	# retry entrypoint for start_game
 	if multiplayer.multiplayer_peer == null:
-		# last resort: proceed anyway to avoid infinite wait. If this happens,
-		# the client will not have multiplayer set and won't receive RPCs properly.
 		push_warning("Proceeding to game scene without ENet peer set. Multiplayer may malfunction.")
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 
 # ------------------------
-# small helper to pick a local IP to advertise (useful on LAN)
+# small helper to pick a local IP to advertise (useful on LAN / internet)
 # If internet play, you must supply your public IP or use NAT traversal.
 # ------------------------
 func _get_local_ip_for_clients() -> String:
-	# prefer non-loopback IPv4
 	var addrs = IP.get_local_addresses()
 	for a in addrs:
-		if typeof(a) == TYPE_STRING and a != "127.0.0.1" and not a.begins_with("::"):
+		# Cerchiamo un IPv4 valido (evitiamo IPv6 loopback)
+		if typeof(a) == TYPE_STRING and a.is_valid_ip_address() and not a.begins_with("127.") and not a.contains(":"):
 			return a
-	# fallback
+	# fallback brutale: usa loopback (utile per test sullo stesso PC)
 	return "127.0.0.1"
+
+# chiamata helper: client aspetta il messaggio HOSTINFO; non serve fare altro
+func _connect_to_host():
+	print("📡 In attesa di messaggio HOSTINFO dal server... (client)")
 
 # ------------------------
 # keep your other lobby code...
