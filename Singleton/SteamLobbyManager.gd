@@ -1,205 +1,71 @@
 # SteamLobbyManager.gd
 extends Node
 
-# --- existing fields (kept) ---
 var lobby_code_label: Label = null
 var lobby_id: int = 0
 var code: String = ""
+@export var max_players: int = 4  # max players including host
 
-# --- networking config ---
-@export var enet_port: int = 8910           # change if you want another port
-@export var max_players: int = 4           # max players including host
-const HOSTINFO_PREFIX = "HOSTINFO:"        # message format: HOSTINFO:ip:port
-
-# cached enet peer
-var _enet_peer: ENetMultiplayerPeer = null
-
+# ------------------------
+# Ready
+# ------------------------
 func _ready() -> void:
-	# Steam init & signals (your existing)
 	Steam.steamInit(3961570)
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	Steam.join_requested.connect(_on_lobby_join_requested)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 
-	# Steam P2P reading will keep working like before
-	# Also connect multiplayer signals used for ENet (debug + flow)
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
-
 func _process(_delta):
 	Steam.run_callbacks()
 	_read_p2p_messages()
 
 # ------------------------
-# P2P messages (existing read, extended)
+# P2P messages
 # ------------------------
 func _read_p2p_messages():
 	while Steam.getAvailableP2PPacketSize(0) > 0:
 		var packet = Steam.readP2PPacket(Steam.getAvailableP2PPacketSize(0), 0)
 		if packet and packet.has("data"):
 			var message = packet.data.get_string_from_utf8()
-			if message.begins_with(HOSTINFO_PREFIX):
-				_handle_hostinfo_message(message)
-				continue
-
 			match message:
 				"DISBAND":
 					_on_disband_received()
 				"KICK":
 					_on_kick_received()
+				"START_GAME":
+					_start_game_rpc()
 				_:
-					# handle other custom messages
+					# eventuali messaggi custom
 					pass
 
 # ------------------------
-# HELPERS: send simple messages (reuses your send_message_to_all)
+# Send message to all lobby members via Steam P2P
 # ------------------------
 func send_message_to_all(message: String):
 	var buffer = message.to_utf8_buffer()
 	for member_id in get_lobby_members():
-		if int(member_id) != Steam.getSteamID(): # non inviare a te stesso
-			Steam.acceptP2PSessionWithUser(int(member_id)) # apri sessione se non già aperta
+		if int(member_id) != Steam.getSteamID():
+			Steam.acceptP2PSessionWithUser(int(member_id))
 			Steam.sendP2PPacket(int(member_id), buffer, Steam.P2PSend.P2P_SEND_RELIABLE, 0)
 
 # ------------------------
-# HOSTING (ENet) - called when owner clicks "Start Game"
+# Host starts the game
 # ------------------------
 func start_hosting_game():
-	# only the lobby owner should call this
-	# 1) create ENet server
-	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_server(enet_port, max_players - 1) # max_clients is players minus host
-	if err != OK:
-		push_error("Failed to create ENet server: %s" % str(err))
-		return
-
-	# 2) assign as the global multiplayer peer (so RPCs work)
-	multiplayer.multiplayer_peer = peer
-	_enet_peer = peer
-	var host_ip = _get_local_ip_for_clients()
-	print("✅ ENet server creato su %s:%d" % [host_ip, enet_port])
-
-	# 3) send host connection info to lobby members over Steam P2P
-	var host_msg = "%s%s:%d" % [HOSTINFO_PREFIX, host_ip, enet_port]
-	send_message_to_all(host_msg)
-	print("✉️ HOSTINFO inviato ai membri della lobby:", host_msg)
-
-	# 4) wait for clients to connect (count clients, exclude host)
-	await _wait_for_all_connections()
-	print("✅ Attesa connessioni finita (tutti connessi o timeout). Lancio start_game RPC.")
-	rpc("start_game_rpc")
-
-func _wait_for_all_connections() -> bool:
-	# total_players = Steam.getNumLobbyMembers(lobby_id)
-	# Expected clients = total_players - 1 (host excluded)
-	var total_players = Steam.getNumLobbyMembers(lobby_id)
-	var expected_clients = max(0, total_players - 1)
-	var timeout = 10.0 # secondi di attesa massima; evita hang infinito
-	var elapsed = 0.0
-	while multiplayer.get_peers().size() < expected_clients and elapsed < timeout:
-		# multiplayer.get_peers().size() è il numero di client connessi al server (host vedrà i client)
-		print("Aspetto connessioni... ho %s/%s" % [multiplayer.get_peers().size() + 1, total_players])
-		await get_tree().create_timer(0.25).timeout
-		elapsed += 0.25
-
-	if multiplayer.get_peers().size() < expected_clients:
-		push_warning("Timeout: non tutti i client si sono connessi in tempo. Connected: %d / Expected: %d" %
-					 [multiplayer.get_peers().size(), expected_clients])
-	return true
+	print("📡 Host avvia il gioco")
+	send_message_to_all("START_GAME")
+	_start_game_rpc()
 
 # ------------------------
-# ENet signals (debug + hooks)
+# RPC-like function called when START_GAME received
 # ------------------------
-func _on_peer_connected(id):
-	print("✅ Peer connesso (ENet):", id)
-
-func _on_peer_disconnected(id):
-	print("❌ Peer disconnesso (ENet):", id)
-
-func _on_connection_failed():
-	print("💀 Connessione ENet fallita")
-
-func _on_server_disconnected():
-	print("⚡ Disconnesso dal server")
-
-# ------------------------
-# CLIENT: handle HOSTINFO received via Steam P2P, then connect ENet
-# ------------------------
-func _handle_hostinfo_message(msg: String) -> void:
-	# expected format HOSTINFO:ip:port
-	var payload = msg.substr(HOSTINFO_PREFIX.length(), msg.length())
-	var parts = payload.split(":")
-	# debug
-	print("DEBUG: HOSTINFO parts:", parts)
-	if parts.size() < 2:
-		push_error("Bad HOSTINFO payload: %s" % payload)
-		return
-	var ip = parts[0]
-	var port = int(parts[1])
-
-	# create ENet client and attempt connect
-	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_client(ip, port)
-	if err != OK:
-		push_error("ENet client failed to create: %s" % str(err))
-		return
-
-	# set as multiplayer peer (this will trigger multiplayer signals)
-	multiplayer.multiplayer_peer = peer
-	_enet_peer = peer
-	print("🔌 ENet client creato, connettendo a %s:%d" % [ip, port])
-	# note: we do NOT call start_game here - the host will rpc start_game_rpc
-	# once everyone is connected (or after timeout)
-
-# ------------------------
-# RPC that actually performs the scene change (runs on everyone)
-# ------------------------
-@rpc("any_peer", "call_local", "reliable")
-func start_game_rpc() -> void:
-	# Ensure multiplayer peer is set before changing scene. If a client hasn't connected ENet yet,
-	# their multiplayer.multiplayer_peer might still be null. In that case we wait a bit.
-	if multiplayer.multiplayer_peer == null:
-		var t = Timer.new()
-		t.one_shot = true
-		t.wait_time = 0.25
-		add_child(t)
-		t.start()
-		t.timeout.connect(Callable(self, "_on_start_game_retry"))
-		return
-
-	# Now change scene. replace path with your real game scene path
-	var scene_path = "res://Scenes/Levels/Game/Game.tscn"
+func _start_game_rpc():
 	print("🔁 Cambio scena a Game.tscn")
-	get_tree().change_scene_to_file(scene_path)
-
-func _on_start_game_retry():
-	# retry entrypoint for start_game
-	if multiplayer.multiplayer_peer == null:
-		push_warning("Proceeding to game scene without ENet peer set. Multiplayer may malfunction.")
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 
 # ------------------------
-# small helper to pick a local IP to advertise (useful on LAN / internet)
-# If internet play, you must supply your public IP or use NAT traversal.
-# ------------------------
-func _get_local_ip_for_clients() -> String:
-	var addrs = IP.get_local_addresses()
-	for a in addrs:
-		# Cerchiamo un IPv4 valido (evitiamo IPv6 loopback)
-		if typeof(a) == TYPE_STRING and a.is_valid_ip_address() and not a.begins_with("127.") and not a.contains(":"):
-			return a
-	# fallback brutale: usa loopback (utile per test sullo stesso PC)
-	return "127.0.0.1"
-
-# chiamata helper: client aspetta il messaggio HOSTINFO; non serve fare altro
-func _connect_to_host():
-	print("📡 In attesa di messaggio HOSTINFO dal server... (client)")
-
-# ------------------------
-# keep your other lobby code...
+# Lobby creation/joining
 # ------------------------
 func generate_lobby_code():
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -207,58 +73,47 @@ func generate_lobby_code():
 	for i in range(6):
 		code += chars[randi() % chars.length()]
 
-# Host / Invite
 func host_lobby() -> void:
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_players)
 
 func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 	if result != 1:
 		return
-
 	lobby_id = this_lobby_id
 	Steam.setLobbyJoinable(lobby_id, true)
-
 	generate_lobby_code()
 	Steam.setLobbyData(lobby_id, "lobby_code", code)
-
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 
-func on_invite_button_pressed() -> void:
-	if lobby_id == 0:
-		return
-	Steam.activateGameOverlayInviteDialog(lobby_id)
-
-# Join via code
-func join_by_code(JoinCode: String) -> void:
+func join_by_code(join_code: String) -> void:
 	Steam.addRequestLobbyListResultCountFilter(1)
-	Steam.addRequestLobbyListStringFilter("lobby_code", JoinCode, Steam.LOBBY_COMPARISON_EQUAL)
+	Steam.addRequestLobbyListStringFilter("lobby_code", join_code, Steam.LOBBY_COMPARISON_EQUAL)
 	Steam.requestLobbyList()
+
+func _on_lobby_join_requested(this_lobby_id: int, _friend_id: int) -> void: 
+	if lobby_id != this_lobby_id: 
+		Steam.leaveLobby(lobby_id) 
+		Steam.joinLobby(this_lobby_id)
 
 func _on_lobby_match_list(lobbies_found: Array) -> void:
 	if lobbies_found.size() == 0:
 		return
-
 	var lobby_found = lobbies_found[0]
 	if lobby_id != lobby_found:
 		Steam.leaveLobby(lobby_id)
 		Steam.joinLobby(lobby_found)
 
-func _on_lobby_join_requested(this_lobby_id: int, _friend_id: int) -> void:
-	if lobby_id != this_lobby_id:
-		Steam.leaveLobby(lobby_id)
-		Steam.joinLobby(this_lobby_id)
-
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
-	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
-		lobby_id = this_lobby_id
-		code = Steam.getLobbyData(lobby_id, "lobby_code")
-		lobby_code_label.text = code
-		get_tree().call_group("MainMenu", "update_lobby_players_ui")
-		get_tree().call_group("MainMenu", "go_to_section", 3)
-		for member in get_lobby_members():
-			if int(member) != Steam.getSteamID():
-				Steam.acceptP2PSessionWithUser(int(member))
-		# Non chiamiamo _connect_to_host() qui: aspettiamo il pacchetto HOSTINFO inviato dall'host via P2P.
+	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
+		return
+	lobby_id = this_lobby_id
+	code = Steam.getLobbyData(lobby_id, "lobby_code")
+	lobby_code_label.text = code
+	get_tree().call_group("MainMenu", "update_lobby_players_ui")
+	get_tree().call_group("MainMenu", "go_to_section", 3)
+	for member in get_lobby_members():
+		if int(member) != Steam.getSteamID():
+			Steam.acceptP2PSessionWithUser(int(member))
 
 func _on_lobby_left():
 	lobby_id = 0
@@ -266,12 +121,13 @@ func _on_lobby_left():
 	get_tree().call_group("MainMenu", "go_to_section", 0)
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 
-# Lobby members helpers (unchanged)
+# ------------------------
+# Helpers
+# ------------------------
 func get_lobby_members() -> Array:
 	var members = []
 	if lobby_id == 0:
 		return members
-
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
 	for i in range(member_count):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
@@ -279,20 +135,9 @@ func get_lobby_members() -> Array:
 			members.append(steam_id)
 	return members
 
-func get_lobby_members_names() -> Array:
-	var members = []
-	if lobby_id == 0:
-		return members
-
-	var member_count = Steam.getNumLobbyMembers(lobby_id)
-	for i in range(member_count):
-		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
-		if steam_id:
-			var player_name = Steam.getFriendPersonaName(steam_id)
-			members.append(player_name)
-	return members
-
-# Disband / kick (keeps your existing behavior)
+# ------------------------
+# Disband / Kick
+# ------------------------
 func _on_disband_received():
 	Steam.leaveLobby(lobby_id)
 	_on_lobby_left()
