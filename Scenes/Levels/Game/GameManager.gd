@@ -10,9 +10,9 @@ func _ready():
 		spawn_players()  # solo l'host fa spawn!
 
 func spawn_players():
+	_spawn_player(multiplayer.get_unique_id()) # anche l'host
 	for peer_id in multiplayer.get_peers():
 		_spawn_player(peer_id)
-	_spawn_player(multiplayer.get_unique_id()) # anche l'host
 
 func spawn_players_steam():
 	for steam_id in SteamLobbyManager.get_lobby_members():
@@ -22,9 +22,9 @@ func _spawn_player(id):
 	print("Spawno per: ", id)
 	var player = preload("res://Scenes/MC/Player.tscn").instantiate()
 	player.name = "Player_%s" % id
+	player.set_multiplayer_authority(id)
 	player.global_position = Vector2(7000.0, 2800.0)
 	add_child(player)
-	player.set_multiplayer_authority(id)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
