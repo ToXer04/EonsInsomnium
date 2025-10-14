@@ -8,7 +8,6 @@ var code: String = ""
 @export var enet_port: int = 8910  # porta ENet
 
 var _enet_peer: ENetMultiplayerPeer = null
-var _is_host: bool = false
 
 # ------------------------
 # Ready
@@ -38,23 +37,15 @@ func _read_p2p_messages():
 				"KICK":
 					_on_kick_received()
 				"START_GAME":
-					# Host ha iniziato la partita via Steam: riceviamo l'indicazione
 					_start_game_rpc()
 				_:
 					if message.begins_with("HOSTINFO:"):
-						# formato: HOSTINFO:ip:port
-						var payload = message.substr("HOSTINFO:".length(), message.length())
-						var parts = payload.split(":")
-						print("DEBUG: ricevuto HOSTINFO parts:", parts)
-						if parts.size() >= 2:
+						var parts = message.substr(9, message.length()).split(":")
+						if parts.size() == 2:
 							var ip = parts[0]
 							var port = int(parts[1])
 							connect_to_enet_host(ip, port)
-						else:
-							push_warning("HOSTINFO malformato: %s" % payload)
-					else:
-						# eventuali messaggi custom
-						pass
+						continue
 
 # ------------------------
 # Send message to all lobby members via Steam P2P
@@ -70,21 +61,9 @@ func send_message_to_all(message: String):
 # Host starts the game (Steam + ENet)
 # ------------------------
 func start_hosting_game():
-	# Verifica che siamo davvero l'owner Steam della lobby
-	if not _am_i_lobby_owner():
-		push_error("Solo il proprietario della lobby può avviare la partita.")
-		return
-
-	print("📡 Host avvia il gioco (owner confirmed). SteamID:", Steam.getSteamID(), "LobbyOwner:", Steam.getLobbyOwner(lobby_id))
-	_is_host = true
-
-	# 1) crea ENet server (solo host)
+	print("📡 Host avvia il gioco")
 	start_enet_server()
-
-	# 2) notifica everyone via Steam che la partita parte
 	send_message_to_all("START_GAME")
-
-	# 3) poi lancia la scena (start_game_rpc è locale per l'host e sarà ricevuto via STEAM dai client)
 	_start_game_rpc()
 
 # ------------------------
@@ -92,7 +71,6 @@ func start_hosting_game():
 # ------------------------
 func _start_game_rpc():
 	print("🔁 Cambio scena a Game.tscn")
-	# Nota: la scena verrà cambiata sia sull'host che sui client che riceveranno START_GAME
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 
 # ------------------------
@@ -115,7 +93,6 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 	generate_lobby_code()
 	Steam.setLobbyData(lobby_id, "lobby_code", code)
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
-	print("Lobby creata:", lobby_id, "code:", code)
 
 func join_by_code(join_code: String) -> void:
 	Steam.addRequestLobbyListResultCountFilter(1)
@@ -143,13 +120,9 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 	lobby_code_label.text = code
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 	get_tree().call_group("MainMenu", "go_to_section", 3)
-
-	# accetta P2P session con tutti i membri (utile per passare HOSTINFO etc.)
 	for member in get_lobby_members():
 		if int(member) != Steam.getSteamID():
 			Steam.acceptP2PSessionWithUser(int(member))
-
-	print("Joined lobby:", lobby_id, "my SteamID:", Steam.getSteamID(), "owner:", Steam.getLobbyOwner(lobby_id))
 
 func _on_lobby_left():
 	lobby_id = 0
@@ -183,11 +156,6 @@ func get_lobby_members_names() -> Array:
 			members.append(player_name) 
 	return members
 
-func _am_i_lobby_owner() -> bool:
-	if lobby_id == 0:
-		return false
-	return Steam.getSteamID() == Steam.getLobbyOwner(lobby_id)
-
 # ------------------------
 # Disband / Kick
 # ------------------------
@@ -212,14 +180,8 @@ func disband_lobby():
 # ENet Networking
 # ------------------------
 func start_enet_server():
-	# SOLO l'owner della lobby può creare il server ENet
-	if not _am_i_lobby_owner():
-		push_error("start_enet_server chiamato da un client! Solo l'owner può creare il server.")
-		return
-
-	# Se è già presente un peer, logga e non sovrascrivere (per sicurezza)
 	if multiplayer.multiplayer_peer != null:
-		print("ENet peer già presente, tipo:", multiplayer.multiplayer_peer)
+		print("ENet server/client già creato")
 		return
 	
 	var peer = ENetMultiplayerPeer.new()
@@ -228,59 +190,45 @@ func start_enet_server():
 		push_error("Fallita creazione ENet server: %s" % str(err))
 		return
 
-	# assegna e salva
 	multiplayer.multiplayer_peer = peer
 	_enet_peer = peer
 	print("✅ ENet server creato sulla porta %d" % enet_port)
 
-	# collega segnali sul multiplayer globale (non solo sull'oggetto peer)
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	peer.peer_connected.connect(_on_peer_connected)
+	peer.peer_disconnected.connect(_on_peer_disconnected)
+	peer.connection_failed.connect(_on_connection_failed)
+	peer.server_disconnected.connect(_on_server_disconnected)
 
-	# invia HOSTINFO ai membri (IP usato solo per debug/port forwarding; in Internet reale servirebbe IP pubblico/relay)
 	var ip = _get_public_ip()
 	var msg = "HOSTINFO:%s:%d" % [ip, enet_port]
 	send_message_to_all(msg)
 	print("✉️ HOSTINFO inviato ai membri della lobby:", msg)
 
 func connect_to_enet_host(ip: String, port: int):
-	# I client chiamano questa funzione quando ricevono HOSTINFO via Steam
-	if _am_i_lobby_owner():
-		print("Sono l'owner, non devo connettermi al mio stesso host.")
-		return
-
-	# Se ho già un peer attivo, non faccio nulla
 	if multiplayer.multiplayer_peer != null:
-		print("ENet peer già presente sul client, non connetto di nuovo.")
+		print("ENet client già connesso")
 		return
-
+	
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_client(ip, port)
 	if err != OK:
 		push_error("Fallita creazione ENet client: %s" % str(err))
 		return
 
-	# assegna e salva
 	multiplayer.multiplayer_peer = peer
 	_enet_peer = peer
 	print("🔌 ENet client creato, connettendo a %s:%d" % [ip, port])
 
-	# collega segnali (globali)
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
-
-	# Notare: la connessione è asincrona. Aspettare i segnali per sapere se è andata a buon fine.
+	peer.peer_connected.connect(_on_peer_connected)
+	peer.peer_disconnected.connect(_on_peer_disconnected)
+	peer.connection_failed.connect(_on_connection_failed)
+	peer.server_disconnected.connect(_on_server_disconnected)
 
 # ------------------------
 # ENet signals
 # ------------------------
 func _on_peer_connected(id):
-	print("✅ ENet peer connesso:", id, " (connected_peers size:", multiplayer.get_connected_peers().size(), ")")
-	# Solo l'host (server) vedrà i client connessi via get_connected_peers()
+	print("✅ ENet peer connesso:", id)
 
 func _on_peer_disconnected(id):
 	print("❌ ENet peer disconnesso:", id)
@@ -292,13 +240,11 @@ func _on_server_disconnected():
 	print("⚡ Disconnesso dal server ENet")
 
 # ------------------------
-# Helper: trova IP locale o pubblico (evitiamo APIPA 169.x.x.x)
+# Helper: trova IP locale o pubblico
 # ------------------------
 func _get_public_ip() -> String:
 	var addrs = IP.get_local_addresses()
 	for a in addrs:
-		# cerchiamo un ipv4 valido non-loopback e non APIPA (169.254.x.x)
-		if typeof(a) == TYPE_STRING and a.is_valid_ip_address() and not a.begins_with("127.") and not a.begins_with("169.254.") and not a.contains(":"):
+		if typeof(a) == TYPE_STRING and a.is_valid_ip_address() and not a.begins_with("127.") and not a.contains(":"):
 			return a
-	# fallback brutale per testing locale (se test su stessa macchina)
 	return "127.0.0.1"
