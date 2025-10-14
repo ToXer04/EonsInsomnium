@@ -135,6 +135,18 @@ func get_lobby_members() -> Array:
 			members.append(steam_id)
 	return members
 
+func get_lobby_members_names() -> Array: 
+	var members = [] 
+	if lobby_id == 0: 
+		return members 
+	var member_count = Steam.getNumLobbyMembers(lobby_id) 
+	for i in range(member_count): 
+		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i) 
+		if steam_id: 
+			var player_name = Steam.getFriendPersonaName(steam_id) 
+			members.append(player_name) 
+	return members
+
 # ------------------------
 # Disband / Kick
 # ------------------------
