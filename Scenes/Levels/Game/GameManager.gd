@@ -25,7 +25,6 @@ func _spawn_player(id):
 	var player = preload("res://Scenes/MC/Player.tscn").instantiate() 
 	player.name = "Player_%s" % id 
 	player.set_multiplayer_authority(id) 
-	player.global_position = Vector2(7000.0, 2800.0) 
 	players.add_child(player)
 
 

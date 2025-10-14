@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var camera: Camera2D = $Camera2D
 
 
+
 const DEFAULT_STATE = "Idle"
 
 # Variables
@@ -48,9 +49,8 @@ func _ready() -> void:
 		state_machine.set_current_state(start_state)
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if is_multiplayer_authority():
 		return
-	print(camera.global_position)
 	# cooldown dash
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer -= delta
