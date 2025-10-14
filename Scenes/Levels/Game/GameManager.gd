@@ -19,13 +19,17 @@ func spawn_players_steam():
 		_spawn_player(steam_id)
 
 @rpc("authority", "call_local")
-func _spawn_player(id):
-	print("Spawno per: ", id)
-	var player = preload("res://Scenes/MC/Player.tscn").instantiate()
-	player.name = "Player_%s" % id
-	player.set_multiplayer_authority(id)
+func _spawn_player(peer_id):
+	print("Spawno per: ", peer_id)
+
+	# Usa MultiplayerSpawner per creare il player
+	var spawner = $MultiplayerSpawner  # Assicurati che esista nella scena
+	var player = spawner.spawn("player")  # "player" è lo Spawn ID
+
+	player.name = "Player_%s" % peer_id
+	player.set_multiplayer_authority(peer_id)
 	player.global_position = Vector2(7000.0, 2800.0)
-	add_child(player)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
