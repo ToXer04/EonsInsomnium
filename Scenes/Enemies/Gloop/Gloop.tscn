@@ -165,12 +165,14 @@ animations = [{
 script = ExtResource("2_as7p7")
 
 [node name="RayCast2DFront" type="RayCast2D" parent="CharacterBody2D" index="0"]
-position = Vector2(12, -23)
-target_position = Vector2(44, 0)
+position = Vector2(0, -23)
+scale = Vector2(1, 1.6000001)
+target_position = Vector2(39, 1)
 
 [node name="RayCast2DDown" type="RayCast2D" parent="CharacterBody2D" index="1"]
-position = Vector2(40, -5)
-target_position = Vector2(0, 19)
+position = Vector2(5, -9)
+scale = Vector2(1.96, 1)
+target_position = Vector2(0, 16)
 
 [node name="CollisionShape2D" parent="CharacterBody2D" index="2"]
 position = Vector2(2.5, -28)
