@@ -499,6 +499,9 @@ tile_set = SubResource("TileSet_3mrqo")
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_3mrqo")
 
+[node name="Slither" parent="." instance=ExtResource("34_suycs")]
+position = Vector2(-3704, -2013)
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://ddonb1ria8edw")
 spawn_path = NodePath("../Players")
@@ -506,6 +509,3 @@ spawn_limit = 4
 
 [node name="Players" type="Node2D" parent="."]
 position = Vector2(7000, 2800)
-
-[node name="Slither" parent="." instance=ExtResource("34_suycs")]
-position = Vector2(6500, 2700)
