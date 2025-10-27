@@ -975,3 +975,9 @@ position = Vector2(-3704, -2013)
 
 [node name="Gloop" parent="." instance=ExtResource("37_ov705")]
 position = Vector2(2995, 2077)
+
+[node name="Players" type="Node" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://ddonb1ria8edw")
+spawn_path = NodePath("../Players")
