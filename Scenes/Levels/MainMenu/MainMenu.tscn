@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dim1thy2wfnlh"]
+[gd_scene load_steps=21 format=3 uid="uid://dim1thy2wfnlh"]
 
 [ext_resource type="Texture2D" uid="uid://b7p4gi2aih35i" path="res://Scenes/Levels/MainMenu/Assets/BG_Main1.png" id="1_5kab6"]
 [ext_resource type="Script" uid="uid://hbsm516bbg32" path="res://Scenes/Levels/MainMenu/MainMenu.gd" id="1_n6m84"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://ckc4vnvtl6r2" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button3.png" id="9_61klc"]
 [ext_resource type="Texture2D" uid="uid://6m8a3q4dm63" path="res://Scenes/Levels/MainMenu/Assets/BG_Main4.png" id="9_es3uv"]
 [ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_46aql"]
-[ext_resource type="Texture2D" uid="uid://nmo8wuii613e" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button5.png" id="11_6f2ds"]
 [ext_resource type="Texture2D" uid="uid://hmqt84rfgsc6" path="res://Scenes/Levels/MainMenu/Assets/PlayerBackground.png" id="13_6f2ds"]
 [ext_resource type="Texture2D" uid="uid://rer5uubu274" path="res://Scenes/Levels/MainMenu/Assets/Players/Eon.png" id="14_6f2ds"]
 
@@ -159,37 +158,64 @@ expand_mode = 2
 
 [node name="Logo" type="TextureRect" parent="SectionsContainer/BG1"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -480.0
-offset_top = -270.0
-offset_right = 480.0
-offset_bottom = 270.0
+offset_left = -540.0
+offset_top = 150.0
+offset_right = 540.0
+offset_bottom = 690.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("3_iyg2c")
 expand_mode = 2
 
-[node name="Label" type="Label" parent="SectionsContainer/BG1"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG1"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -350.00012
-offset_top = -255.0
-offset_right = 350.00012
-offset_bottom = -80.0
+offset_left = -250.0
+offset_top = -336.0
+offset_right = 250.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 128
-text = "Press Enter"
+theme_override_constants/separation = -10
+
+[node name="PlayButton" type="TextureRect" parent="SectionsContainer/BG1/ButtonsContainer"]
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG1/ButtonsContainer/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="TextureRect" parent="SectionsContainer/BG1/ButtonsContainer"]
+layout_mode = 2
+texture = ExtResource("7_gx241")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG1/ButtonsContainer/SettingsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -421,9 +447,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -385.0
+offset_top = -290.0
 offset_right = 300.0
-offset_bottom = 385.0
+offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(300, 0)
@@ -462,24 +488,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "Invite Dreamers"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SettingsButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-texture = ExtResource("11_6f2ds")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/SettingsButton"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 48
-text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
