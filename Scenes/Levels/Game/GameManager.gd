@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var players: Node2D = $Players
+@onready var players: Node2D = %Players
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
