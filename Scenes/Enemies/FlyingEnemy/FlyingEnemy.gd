@@ -1,14 +1,15 @@
-extends CharacterBody2D
+extends Enemy
 class_name FlyingEnemy
 @onready var nav2d: NavigationAgent2D = $NavigationAgent2D
-var speed: float = 100.0
+
 
 func  _physics_process(delta: float) -> void:
-	manual_navigation()
-	navigate(delta)
+	if health > 0:
+		manual_navigation()
+		navigate(delta)
 
 func  manual_navigation() -> void:
-	nav2d.target_position = Singleton.player.position + Vector2(0, -150)
+	nav2d.target_position = Singleton.player.global_position + Vector2(0, -150)
 	
 func navigate(_delta: float) -> void:
 	if nav2d.is_navigation_finished():
