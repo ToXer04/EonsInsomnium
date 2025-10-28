@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=4 uid="uid://d1dj2nirm0m0x"]
+[gd_scene load_steps=89 format=4 uid="uid://d1dj2nirm0m0x"]
 
 [ext_resource type="Script" uid="uid://d1r51sl75kwp1" path="res://Scenes/Levels/Game/GameManager.gd" id="1_puqyj"]
 [ext_resource type="Texture2D" uid="uid://dm8mmfqc76eg2" path="res://Sprites/Assets/Biomes/FullBlack.png" id="2_u44n3"]
@@ -36,7 +36,6 @@
 [ext_resource type="Texture2D" uid="uid://3v5negrdq5m" path="res://Sprites/Assets/Biomes/World/Game/Levels/World/Assets/UmbralDepths_Medium.PNG" id="31_2t1a5"]
 [ext_resource type="PackedScene" uid="uid://b0efhxa43vbs0" path="res://Scenes/Enemies/Slither/Slither.tscn" id="34_suycs"]
 [ext_resource type="Texture2D" uid="uid://pkaoju7hil4i" path="res://Sprites/Assets/Biomes/World/Game/Levels/World/Assets/UmbralDepths_XLarge.PNG" id="35_fj2yu"]
-[ext_resource type="PackedScene" uid="uid://c6no3vq2cmktv" path="res://Scenes/Enemies/Cinder/Cinder.tscn" id="36_puqyj"]
 [ext_resource type="PackedScene" uid="uid://6cbs51dn5yfs" path="res://Scenes/Enemies/Gloop/Gloop.tscn" id="37_ov705"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4rm5n"]
@@ -995,10 +994,8 @@ tile_set = SubResource("TileSet_3mrqo")
 [node name="NavigationRegions" type="Node" parent="."]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="NavigationRegions"]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_3mrqo")
-
-[node name="Cinder" parent="NavigationRegions" instance=ExtResource("36_puqyj")]
-position = Vector2(1177, 2439)
 
 [node name="Slither" parent="." instance=ExtResource("34_suycs")]
 position = Vector2(-3704, -2013)
