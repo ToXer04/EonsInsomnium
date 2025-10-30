@@ -40,7 +40,6 @@ func _physics_process(_delta: float) -> void:
 			initialized = true
 			return
 		if raycastfront.is_colliding() and not turningFront and not turningDown:
-			print("a")
 			turningFront = true
 			await get_tree().process_frame
 			raycastfront.force_raycast_update()

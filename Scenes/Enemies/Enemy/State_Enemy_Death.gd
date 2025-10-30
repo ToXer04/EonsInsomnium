@@ -3,7 +3,6 @@ extends StateMachineState
 @onready var sprite: AnimatedSprite2D = $"../../AnimatedSprite2D"
 
 
-
 # Called when the state machine enters this state.
 func _enter_state() -> void:
 	sprite.play("Death")

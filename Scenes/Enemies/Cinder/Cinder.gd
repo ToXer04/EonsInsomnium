@@ -6,5 +6,6 @@ func _ready() -> void:
 	if start_state:
 		state_machine.set_current_state(start_state)
 
+
 func _on_animated_sprite_2d_animation_finished() -> void:
 	queue_free()
