@@ -180,10 +180,8 @@ shape = SubResource("RectangleShape2D_lrg1t")
 [node name="AnimatedSprite2D" parent="CharacterBody2D" index="1"]
 position = Vector2(3, -516)
 sprite_frames = SubResource("SpriteFrames_bt1th")
-animation = &"Death"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 4
-frame_progress = 0.56324375
 
 [node name="FrontTrigger" type="Area2D" parent="CharacterBody2D" index="2"]
 
@@ -194,7 +192,8 @@ shape = SubResource("RectangleShape2D_mqmxf")
 [node name="LedgeTrigger" type="Area2D" parent="CharacterBody2D" index="3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LedgeTrigger" index="0"]
-position = Vector2(42.75, 26)
+position = Vector2(44, 26)
+scale = Vector2(4.3199997, 1)
 shape = SubResource("RectangleShape2D_bt1th")
 
 [node name="StateMachine" parent="CharacterBody2D" index="4" node_paths=PackedStringArray("current_state")]
