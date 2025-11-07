@@ -1,7 +1,6 @@
 # SteamLobbyManager.gd
 extends Node
 
-var lobby_code_label: Label = null
 var lobby_id: int = 0
 var code: String = ""
 @export var max_players: int = 4  # max players including host
@@ -67,12 +66,6 @@ func _start_game():
 # ------------------------
 # Lobby creation/joining
 # ------------------------
-func generate_lobby_code():
-	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	code = ""
-	for i in range(6):
-		code += chars[randi() % chars.length()]
-
 func host_lobby() -> void:
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_players)
 
@@ -81,18 +74,10 @@ func _on_lobby_created(result: int, this_lobby_id: int) -> void:
 		return
 	lobby_id = this_lobby_id
 	Steam.setLobbyJoinable(lobby_id, true)
-	generate_lobby_code()
-	Steam.setLobbyData(lobby_id, "lobby_code", code)
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 	peer = SteamMultiplayerPeer.new()
 	peer.create_host(0)
 	multiplayer.set_multiplayer_peer(peer)
-
-
-func join_by_code(join_code: String) -> void:
-	Steam.addRequestLobbyListResultCountFilter(1)
-	Steam.addRequestLobbyListStringFilter("lobby_code", join_code, Steam.LOBBY_COMPARISON_EQUAL)
-	Steam.requestLobbyList()
 
 func _on_lobby_join_requested(this_lobby_id: int, _friend_id: int) -> void: 
 	if lobby_id != this_lobby_id: 
@@ -111,8 +96,6 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		return
 	lobby_id = this_lobby_id
-	code = Steam.getLobbyData(lobby_id, "lobby_code")
-	lobby_code_label.text = code
 	get_tree().call_group("MainMenu", "update_lobby_players_ui")
 	get_tree().call_group("MainMenu", "go_to_section", 3)
 	for member in get_lobby_members():

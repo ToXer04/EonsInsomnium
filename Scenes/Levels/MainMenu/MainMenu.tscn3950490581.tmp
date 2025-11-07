@@ -1,0 +1,833 @@
+[gd_scene load_steps=21 format=3 uid="uid://dim1thy2wfnlh"]
+
+[ext_resource type="Texture2D" uid="uid://b7p4gi2aih35i" path="res://Scenes/Levels/MainMenu/Assets/BG_Main1.png" id="1_5kab6"]
+[ext_resource type="Script" uid="uid://hbsm516bbg32" path="res://Scenes/Levels/MainMenu/MainMenu.gd" id="1_n6m84"]
+[ext_resource type="Texture2D" uid="uid://g6jyaoaoy8fh" path="res://Scenes/Levels/MainMenu/Assets/GameLogo.png" id="3_iyg2c"]
+[ext_resource type="Texture2D" uid="uid://duqpefs7mb5p8" path="res://Scenes/Levels/MainMenu/Assets/BG_Main2.png" id="4_m6b4a"]
+[ext_resource type="Texture2D" uid="uid://wut8x45dlpk" path="res://Scenes/Levels/MainMenu/Assets/SaveFiles/SaveFile1.png" id="5_oa4lq"]
+[ext_resource type="Texture2D" uid="uid://b26ech181ax32" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button1.png" id="6_06lca"]
+[ext_resource type="Texture2D" uid="uid://d2x2h4k6e2ya0" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button2.png" id="7_gx241"]
+[ext_resource type="Texture2D" uid="uid://b25mfokqkhbxy" path="res://Scenes/Levels/MainMenu/Assets/BG_Main3.png" id="8_mox3a"]
+[ext_resource type="Texture2D" uid="uid://ckc4vnvtl6r2" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button3.png" id="9_61klc"]
+[ext_resource type="Texture2D" uid="uid://6m8a3q4dm63" path="res://Scenes/Levels/MainMenu/Assets/BG_Main4.png" id="9_es3uv"]
+[ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_46aql"]
+[ext_resource type="Texture2D" uid="uid://hmqt84rfgsc6" path="res://Scenes/Levels/MainMenu/Assets/PlayerBackground.png" id="13_6f2ds"]
+[ext_resource type="Texture2D" uid="uid://rer5uubu274" path="res://Scenes/Levels/MainMenu/Assets/Players/Eon.png" id="14_6f2ds"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_n6m84"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa4lq"]
+bg_color = Color(0, 0, 0, 0.4509804)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61klc"]
+bg_color = Color(0, 0, 0, 0.9529412)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yml5"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Animation" id="Animation_5kab6"]
+resource_name = "FadeLogo"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_n6m84"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iyg2c"]
+_data = {
+&"FadeLogo": SubResource("Animation_5kab6"),
+&"RESET": SubResource("Animation_n6m84")
+}
+
+[node name="MainMenu" type="CanvasLayer" groups=["MainMenu"]]
+script = ExtResource("1_n6m84")
+
+[node name="BlackBG" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("CanvasTexture_n6m84")
+expand_mode = 2
+
+[node name="SectionsContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG1" type="TextureRect" parent="SectionsContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_5kab6")
+expand_mode = 2
+
+[node name="Logo" type="TextureRect" parent="SectionsContainer/BG1"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 150.0
+offset_right = 540.0
+offset_bottom = 690.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_iyg2c")
+expand_mode = 2
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -336.0
+offset_right = 250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -10
+
+[node name="PlayButton" type="TextureRect" parent="SectionsContainer/BG1/ButtonsContainer"]
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG1/ButtonsContainer/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="TextureRect" parent="SectionsContainer/BG1/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("7_gx241")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG1/ButtonsContainer/SettingsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BG2" type="TextureRect" parent="SectionsContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1920.0
+offset_right = 1920.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_m6b4a")
+expand_mode = 2
+
+[node name="FilesContainer" type="PanelContainer" parent="SectionsContainer/BG2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -440.0
+offset_right = 600.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oa4lq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SectionsContainer/BG2/FilesContainer"]
+layout_mode = 2
+
+[node name="File1Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File1Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File2Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File2Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="File3Container" type="MarginContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="SlotContent" type="VBoxContainer" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_oa4lq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/FilesContainer/HBoxContainer/File3Container/SlotContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "File 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteFileButton" type="TextureRect" parent="SectionsContainer/BG2"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 710.0
+offset_top = 850.0
+offset_right = 1210.0
+offset_bottom = 1016.6679
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/DeleteFileButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Delete File"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JoinLobbyContainer" type="PanelContainer" parent="SectionsContainer/BG2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -265.0
+offset_right = 400.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 220)
+theme_override_styles/panel = SubResource("StyleBoxFlat_61klc")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG2/JoinLobbyContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Join Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JoinCode" type="LineEdit" parent="SectionsContainer/BG2/JoinLobbyContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+placeholder_text = "Enter Lobby Code..."
+alignment = 1
+
+[node name="BG3" type="TextureRect" parent="SectionsContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3840.0
+offset_right = 3840.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("8_mox3a")
+expand_mode = 2
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SectionsContainer/BG3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -290.0
+offset_right = 300.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(300, 0)
+theme_override_constants/separation = -10
+
+[node name="EnterDreamButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("9_61klc")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/EnterDreamButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Enter Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InviteDreamersButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("10_46aql")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/InviteDreamersButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite Dreamers"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChallengesButton" type="TextureRect" parent="SectionsContainer/BG3/ButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("6_06lca")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG3/ButtonsContainer/ChallengesButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Challenges"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BG4" type="TextureRect" parent="SectionsContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5760.0
+offset_right = 5760.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("9_es3uv")
+expand_mode = 2
+
+[node name="PlayersContainer" type="MarginContainer" parent="SectionsContainer/BG4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -539.0
+offset_right = 960.0
+offset_bottom = 541.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="PlayersFramesContainer" type="HBoxContainer" parent="SectionsContainer/BG4/PlayersContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 100
+
+[node name="Player1Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("13_6f2ds")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "PlayerName"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("14_6f2ds")
+
+[node name="Player2Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("13_6f2ds")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "PlayerName"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("14_6f2ds")
+
+[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Change Dreamer"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -11.5
+offset_right = 154.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player3Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("13_6f2ds")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "PlayerName"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("14_6f2ds")
+
+[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Change Dreamer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -11.5
+offset_right = 154.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player4Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("13_6f2ds")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
+
+[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "PlayerName"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 15
+visible_ratio = 1.5
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("14_6f2ds")
+
+[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Change Dreamer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -11.5
+offset_right = 154.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Invite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DisbandDream" type="TextureRect" parent="SectionsContainer/BG4"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_06lca")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DisbandDreamLabel" type="Label" parent="SectionsContainer/BG4/DisbandDream"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Disband Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LeaveDreamLabel" type="Label" parent="SectionsContainer/BG4/DisbandDream"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Leave Dream"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../SectionsContainer/BG1")
+libraries = {
+&"": SubResource("AnimationLibrary_iyg2c")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
