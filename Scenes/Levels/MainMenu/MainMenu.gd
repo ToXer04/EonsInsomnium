@@ -32,8 +32,8 @@ var popup_active_ind := 0
 # ---- navigation per lobby UI (section 3) ----
 # lobby_nav_index: 0..2 -> Player2,3,4 ; 3 -> Disband
 var lobby_nav_index := 0
-const LOBBY_NAV_SLOTS := 3  # numero di slot selezionabili (2,3,4)
-var lobby_nav_active := false
+const LOBBY_NAV_SLOTS := 4  # numero di slot selezionabili (2,3,4) #TODO: 3
+var lobby_character_lock := false
 
 func _ready() -> void:
 	animation_player.play("FadeLogo")
@@ -135,9 +135,6 @@ func _input(event):
 					if SteamLobbyManager.lobby_id == 0:
 						SteamLobbyManager.host_lobby()
 					go_to_section(3)
-		elif current_section == 3:
-			# qui è gestito dal _handle_lobby_navigation_input, ma teniamo fallback
-			_handle_lobby_click()
 	# ---------------------------------------------------------
 	# INPUT: CANCEL
 	# ---------------------------------------------------------
@@ -167,7 +164,24 @@ func _input(event):
 var last_lobby_slot_index := 0
 
 func _handle_lobby_navigation_input(event):
-	# Movimento orizzontale tra i 3 slot (Player2..4)
+
+	# Click / Accept
+	if event.is_action_pressed("Click"):
+		_handle_lobby_click()
+		return
+
+	# Move Up -> se siamo su Disband, torniamo all'ultimo selezionato (default 0)
+	if event.is_action_pressed("Move_Up"):
+		if lobby_nav_index == LOBBY_NAV_SLOTS:
+			lobby_nav_index = last_lobby_slot_index
+			_update_lobby_nav_visual()
+		else:
+			
+		return
+
+	if lobby_character_lock:
+		return
+
 	if event.is_action_pressed("Move_Right"):
 		# se ero su Disband, torno a ultimo slot
 		if lobby_nav_index == LOBBY_NAV_SLOTS:
@@ -191,18 +205,6 @@ func _handle_lobby_navigation_input(event):
 		lobby_nav_index = LOBBY_NAV_SLOTS
 		_update_lobby_nav_visual()
 		return
-
-	# Move Up -> se siamo su Disband, torniamo all'ultimo selezionato (default 0)
-	if event.is_action_pressed("Move_Up"):
-		if lobby_nav_index == LOBBY_NAV_SLOTS:
-			lobby_nav_index = last_lobby_slot_index
-			_update_lobby_nav_visual()
-		return
-
-	# Click / Accept
-	if event.is_action_pressed("Click"):
-		_handle_lobby_click()
-		return
 	
 	if event.is_action_pressed("ui_cancel"):
 		go_to_section(2)
@@ -222,10 +224,12 @@ func _handle_lobby_click():
 	# Altrimenti siamo su uno slot tra Player2..4
 	var slot_idx = lobby_nav_index  # 0 => Player2, 1 => Player3, 2 => Player4
 	var members = SteamLobbyManager.get_lobby_members_names()
-	var target_member_index = slot_idx + 1  # members[0] è host
+	var target_member_index = slot_idx  # members[0] è host #TODO: var target_member_index = slot_idx + 1
 	if target_member_index < members.size():
-		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
-			var steam_id = Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, target_member_index)
+		var steam_id = Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, target_member_index)
+		if steam_id == Steam.getSteamID():
+			lobby_character_lock = not lobby_character_lock
+		elif Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
 			SteamLobbyManager.kick_player(steam_id)
 	else:
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
@@ -422,26 +426,29 @@ func update_lobby_players_ui():
 
 	# Slot 1: il giocatore locale
 	var frame1 = players_container.get_child(0)
-	var player_container1 = frame1.get_node("PanelContainer/MarginContainer/PlayerContainer")
+	var player1_name = frame1.get_node("BG/NameContainer/TextureRect/Label")
 	if members.size() > 0:
-		player_container1.visible = true
-		player_container1.get_node("PlayerName").text = members[0]
+		player1_name.text = members[0]
 	else:
-		player_container1.visible = false
-		player_container1.get_node("PlayerName").text = "Unknown"
+		player1_name.text = "Unknown"
 
 	# Slot 2-4
-	for i in range(1, 4):
+	for i in range(0, 4): #TODO: 1-4
 		var frame = players_container.get_child(i)
-		var player_container = frame.get_node("PanelContainer/MarginContainer/PlayerContainer")
-		var invite_label = frame.get_node("InviteLabel")
+		var player_container = frame.get_node("BG")
+		var invite_label = player_container.get_node("InviteLabel")
+		var player_name = player_container.get_node("NameContainer/TextureRect/Label")
 
 		if i < members.size():
-			player_container.visible = true
-			player_container.get_node("PlayerName").text = members[i]
+			player_container.get_node("ArrowImage").visible = true
+			player_container.get_node("PlayerImage").visible = true
+			player_container.get_node("NameContainer").visible = true
+			player_name.text = members[i]
 			invite_label.visible = false
 		else:
-			player_container.visible = false
+			player_container.get_node("ArrowImage").visible = false
+			player_container.get_node("PlayerImage").visible = false
+			player_container.get_node("NameContainer").visible = false
 			invite_label.visible = true
 
 	# aggiorna visual selezione bordo
@@ -471,16 +478,15 @@ func _set_panel_border(panel: PanelContainer, white: bool) -> void:
 # aggiorna visuale della navigazione lobby (bordi e bottone Disband)
 func _update_lobby_nav_visual():
 	# Player frames
-	for i in range(1, 4):
+	for i in range(0, 4):
 		var frame = players_container.get_child(i)
-		var panel = frame.get_node("PanelContainer")
-		if lobby_nav_index == i - 1 and current_section == 3:
-			_set_panel_border(panel, true) # selected -> white
+		if lobby_nav_index == i: #TODO: if lobby_nav_index == i - 1:
+			_set_panel_border(frame, true) # selected -> white
 		else:
-			_set_panel_border(panel, false) # not selected -> black
+			_set_panel_border(frame, false) # not selected -> black
 
 	# Disband button modulate
-	if lobby_nav_index == LOBBY_NAV_SLOTS and current_section == 3:
+	if lobby_nav_index == LOBBY_NAV_SLOTS:
 		disband_node.modulate = Color(1,1,1,1)
 	else:
 		disband_node.modulate = Color(0.6,0.6,0.6,1)

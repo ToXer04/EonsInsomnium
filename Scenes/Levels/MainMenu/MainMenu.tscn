@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dim1thy2wfnlh"]
+[gd_scene load_steps=23 format=3 uid="uid://dim1thy2wfnlh"]
 
 [ext_resource type="Texture2D" uid="uid://b7p4gi2aih35i" path="res://Scenes/Levels/MainMenu/Assets/BG_Main1.png" id="1_5kab6"]
 [ext_resource type="Script" uid="uid://hbsm516bbg32" path="res://Scenes/Levels/MainMenu/MainMenu.gd" id="1_n6m84"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://ckc4vnvtl6r2" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button3.png" id="9_61klc"]
 [ext_resource type="Texture2D" uid="uid://6m8a3q4dm63" path="res://Scenes/Levels/MainMenu/Assets/BG_Main4.png" id="9_es3uv"]
 [ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_46aql"]
+[ext_resource type="Texture2D" uid="uid://vxbh5pvwp1te" path="res://Scenes/Levels/MainMenu/Assets/UpArrow.png" id="13_3yml5"]
 [ext_resource type="Texture2D" uid="uid://hmqt84rfgsc6" path="res://Scenes/Levels/MainMenu/Assets/PlayerBackground.png" id="13_6f2ds"]
 [ext_resource type="Texture2D" uid="uid://rer5uubu274" path="res://Scenes/Levels/MainMenu/Assets/Players/Eon.png" id="14_6f2ds"]
 
@@ -42,22 +43,22 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yml5"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0, 0, 0, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46aql"]
+bg_color = Color(1, 1, 1, 0)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 1
+anti_aliasing = false
+anti_aliasing_size = 0.01
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6f2ds"]
 
 [sub_resource type="Animation" id="Animation_5kab6"]
 resource_name = "FadeLogo"
@@ -497,282 +498,411 @@ size_flags_vertical = 3
 texture = ExtResource("9_es3uv")
 expand_mode = 2
 
-[node name="PlayersContainer" type="MarginContainer" parent="SectionsContainer/BG4"]
+[node name="PlayersFramesContainer" type="HBoxContainer" parent="SectionsContainer/BG4"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -539.0
-offset_right = 960.0
-offset_bottom = 541.0
+offset_left = -750.0
+offset_top = -470.0
+offset_right = 750.0
+offset_bottom = 330.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(960, 540)
-theme_override_constants/margin_top = 200
-theme_override_constants/margin_bottom = 200
-
-[node name="PlayersFramesContainer" type="HBoxContainer" parent="SectionsContainer/BG4/PlayersContainer"]
-unique_name_in_owner = true
-layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 100
 
-[node name="Player1Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+[node name="Player1Container" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_46aql")
+
+[node name="BG" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container"]
+layout_mode = 2
 texture = ExtResource("13_6f2ds")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame"]
+[node name="ArrowImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
+texture = ExtResource("13_3yml5")
+expand_mode = 1
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 53.416
+offset_top = 125.0
+offset_right = -49.99991
+offset_bottom = -155.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
-
-[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 24
-text = "PlayerName"
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_characters = 15
-visible_ratio = 1.5
-
-[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player1Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_vertical = 3
+pivot_offset = Vector2(150, 0)
 texture = ExtResource("14_6f2ds")
+expand_mode = 5
+stretch_mode = 4
 
-[node name="Player2Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+[node name="NameContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.70798
+offset_top = -117.80531
+offset_right = 176.70798
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6f2ds")
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG/NameContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("13_6f2ds")
-expand_mode = 3
+texture = ExtResource("9_61klc")
+expand_mode = 5
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
-
-[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 24
-text = "PlayerName"
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_characters = 15
-visible_ratio = 1.5
-
-[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("14_6f2ds")
-
-[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "Change Dreamer"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player2Frame"]
+[node name="Label" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG/NameContainer/TextureRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -154.0
+offset_left = -20.0
 offset_top = -11.5
-offset_right = 154.0
+offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 32
+text = "Player 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 14
+visible_ratio = 1.75
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "Invite"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Player3Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+[node name="Player2Container" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_46aql")
+
+[node name="BG" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container"]
+layout_mode = 2
 texture = ExtResource("13_6f2ds")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame"]
+[node name="ArrowImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
+texture = ExtResource("13_3yml5")
+expand_mode = 1
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 53.416
+offset_top = 125.0
+offset_right = -49.99991
+offset_bottom = -155.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
-
-[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 24
-text = "PlayerName"
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_characters = 15
-visible_ratio = 1.5
-
-[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_vertical = 3
+pivot_offset = Vector2(150, 0)
 texture = ExtResource("14_6f2ds")
+expand_mode = 5
+stretch_mode = 4
 
-[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame/PanelContainer/MarginContainer/PlayerContainer"]
+[node name="NameContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.70798
+offset_top = -117.80531
+offset_right = 176.70798
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6f2ds")
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG/NameContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "Change Dreamer"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("9_61klc")
+expand_mode = 5
+stretch_mode = 5
 
-[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player3Frame"]
+[node name="Label" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG/NameContainer/TextureRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -154.0
+offset_left = -20.0
 offset_top = -11.5
-offset_right = 154.0
+offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 32
+text = "Player 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 14
+visible_ratio = 1.75
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player2Container/BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "Invite"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Player4Frame" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer"]
+[node name="Player3Container" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_46aql")
+
+[node name="BG" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container"]
+layout_mode = 2
 texture = ExtResource("13_6f2ds")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame"]
+[node name="ArrowImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
+texture = ExtResource("13_3yml5")
+expand_mode = 1
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 53.416
+offset_top = 125.0
+offset_right = -49.99991
+offset_bottom = -155.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3yml5")
-
-[node name="MarginContainer" type="MarginContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="PlayerContainer" type="VBoxContainer" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 30
-
-[node name="PlayerName" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 24
-text = "PlayerName"
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_characters = 15
-visible_ratio = 1.5
-
-[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
-layout_mode = 2
-size_flags_vertical = 3
+pivot_offset = Vector2(150, 0)
 texture = ExtResource("14_6f2ds")
+expand_mode = 5
+stretch_mode = 4
 
-[node name="ChangeDreamer" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame/PanelContainer/MarginContainer/PlayerContainer"]
+[node name="NameContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.70798
+offset_top = -117.80531
+offset_right = 176.70798
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6f2ds")
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG/NameContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "Change Dreamer"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("9_61klc")
+expand_mode = 5
+stretch_mode = 5
 
-[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersContainer/PlayersFramesContainer/Player4Frame"]
+[node name="Label" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG/NameContainer/TextureRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -154.0
+offset_left = -20.0
 offset_top = -11.5
-offset_right = 154.0
+offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 32
+text = "Player 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 14
+visible_ratio = 1.75
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player3Container/BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Invite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player4Container" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_46aql")
+
+[node name="BG" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container"]
+layout_mode = 2
+texture = ExtResource("13_6f2ds")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="ArrowImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
+texture = ExtResource("13_3yml5")
+expand_mode = 1
+
+[node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 53.416
+offset_top = 125.0
+offset_right = -49.99991
+offset_bottom = -155.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 0)
+texture = ExtResource("14_6f2ds")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="NameContainer" type="PanelContainer" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.70798
+offset_top = -117.80531
+offset_right = 176.70798
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_6f2ds")
+
+[node name="TextureRect" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG/NameContainer"]
+layout_mode = 2
+texture = ExtResource("9_61klc")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG/NameContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Player 4"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 14
+visible_ratio = 1.75
+
+[node name="InviteLabel" type="Label" parent="SectionsContainer/BG4/PlayersFramesContainer/Player4Container/BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "Invite"
 horizontal_alignment = 1
 vertical_alignment = 1
