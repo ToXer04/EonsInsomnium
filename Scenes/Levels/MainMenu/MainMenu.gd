@@ -177,7 +177,15 @@ func _handle_lobby_navigation_input(event):
 		elif Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, lobby_nav_index) == Steam.getSteamID():
 			var frame = players_container.get_child(lobby_nav_index)
 			var img = frame.get_node("BG/PlayerImage")
-			rpc("rpc_swap_texture", img.get_path())
+			var tex = img.texture
+			var tex_path = tex.resource_path.get_file() # solo il nome file
+			match tex_path:
+				"Eon.png":
+					Singleton.selectedChar = "Lyra"
+					rpc("rpc_swap_texture", img.get_path(), "Lyra.png")
+				"Lyra.png":
+					Singleton.selectedChar = "Eon"
+					rpc("rpc_swap_texture", img.get_path(), "Eon.png")
 		return
 
 
@@ -232,16 +240,10 @@ func _handle_lobby_click():
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
 
 @rpc("call_local", "any_peer")
-func rpc_swap_texture(img_path: NodePath):
+func rpc_swap_texture(img_path: NodePath, img_name: String):
 	var img = get_node(img_path)
-	var tex = img.texture
-	var tex_path = tex.resource_path.get_file() # solo il nome file
-	var base_path = "res://Scenes/Levels/MainMenu/Assets/Players/"
-	match tex_path:
-		"Eon.png":
-			img.texture = load(base_path + "Lyra.png")
-		"Lyra.png":
-			img.texture = load(base_path + "Eon.png")
+	var base_path = "res://Scenes/Levels/MainMenu/Assets/Players/%s" % img_name
+	img.texture = load(base_path)
 
 
 # ---------------------------------------------------------

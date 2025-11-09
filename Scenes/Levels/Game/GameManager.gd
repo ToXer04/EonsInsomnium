@@ -14,7 +14,10 @@ func _ready():
 
 @rpc("authority", "call_local")
 func _spawn_player(peer_id):
-	var player = preload("res://Scenes/MC/Player.tscn").instantiate()
+	var MCName = Singleton.selectedChar
+	var  scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName]
+	var player_scene = load(scene_path)
+	var player = player_scene.instantiate()
 	player.name = "Player_%s" % peer_id
 	player.set_multiplayer_authority(peer_id)
 	players.add_child(player)
