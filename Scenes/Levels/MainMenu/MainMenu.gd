@@ -181,9 +181,9 @@ func _handle_lobby_navigation_input(event):
 			var path = current_texture.resource_path
 			# path potrebbe essere tipo "res://assets/Eon.png"
 			if path.ends_with("Eon.png"):
-				img.texture = load("C:/Projects/EonsInsomnium/Scenes/Levels/MainMenu/Assets/Players/Lyra.png")
+				img.texture = load("res://Scenes/Levels/MainMenu/Assets/Players/Lyra.png")
 			elif path.ends_with("Lyra.png"):
-				img.texture = load("C:/Projects/EonsInsomnium/Scenes/Levels/MainMenu/Assets/Players/Eon.png")
+				img.texture = load("res://Scenes/Levels/MainMenu/Assets/Players/Eon.png")
 		return
 
 
