@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdsx85rblvywb"]
+
+[ext_resource type="Texture2D" uid="uid://dl75gvbqk3dwe" path="res://Sprites/Assets/SavePoints/Trunk/Trunk.png" id="1_0n54p"]
+[ext_resource type="Script" uid="uid://coht7wa3vk3pd" path="res://Scenes/SavePoint/SavePointInteraction.gd" id="1_qgumw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6xh1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0n54p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgumw"]
+size = Vector2(56.96547, 20)
+
+[node name="SavePoint" type="Node2D"]
+
+[node name="Trunk" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8, -536)
+sprite_frames = SubResource("SpriteFrames_r6xh1")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(-0.3936492, 0.39035773)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_qgumw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-10, -31.999996)
+scale = Vector2(28.835182, -33.47525)
+shape = SubResource("RectangleShape2D_qgumw")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -70.0
+offset_top = -87.0
+offset_right = 71.0
+offset_bottom = -64.0
+text = "Press E to Interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]

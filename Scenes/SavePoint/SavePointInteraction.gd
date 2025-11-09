@@ -1,0 +1,28 @@
+extends Area2D
+
+@onready var label: Label = $"../Label"
+@onready var marker_2d: Marker2D = $"../Marker2D"
+
+
+var player_in_range = false
+var player_ref: CharacterBody2D = null
+
+func _on_body_entered(body: Node2D) -> void:
+		player_ref = body
+		player_in_range = true
+		label.show()
+		print("Player nel raggio di interazione - premi E")
+
+func _on_body_exited(body: Node2D) -> void:
+		player_ref = null
+		player_in_range = false
+		label.hide()
+
+func _process(delta: float) -> void:
+	if player_in_range and Input.is_action_just_pressed("Interact"):
+		label.hide()
+		if player_ref and marker_2d:
+			player_ref.move_to_target(marker_2d.global_position, func():
+				print("Arrivato al punto target!")
+				# qui puoi chiamare animazioni, stati, ecc.
+			)
