@@ -177,13 +177,7 @@ func _handle_lobby_navigation_input(event):
 		elif Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, lobby_nav_index) == Steam.getSteamID():
 			var frame = players_container.get_child(lobby_nav_index)
 			var img = frame.get_node("BG/PlayerImage")
-			var current_texture =  img.texture
-			var path = current_texture.resource_path
-			# path potrebbe essere tipo "res://assets/Eon.png"
-			if path.ends_with("Eon.png"):
-				img.texture = load("res://Scenes/Levels/MainMenu/Assets/Players/Lyra.png")
-			elif path.ends_with("Lyra.png"):
-				img.texture = load("res://Scenes/Levels/MainMenu/Assets/Players/Eon.png")
+			rpc("rpc_swap_texture", img)
 		return
 
 
@@ -236,6 +230,18 @@ func _handle_lobby_click():
 			SteamLobbyManager.kick_player(steam_id)
 	else:
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
+
+@rpc("call_local", "any_peer")
+func rpc_swap_texture(img: TextureRect):
+	var tex = img.texture
+	var tex_path = tex.resource_path.get_file() # solo il nome file
+	var base_path = "res://Scenes/Levels/MainMenu/Assets/Players/"
+	match tex_path:
+		"Eon.png":
+			img.texture = load(base_path + "Lyra.png")
+		"Lyra.png":
+			img.texture = load(base_path + "Eon.png")
+
 
 # ---------------------------------------------------------
 # TRANSIZIONE SEZIONE
