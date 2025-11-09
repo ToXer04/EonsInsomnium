@@ -33,7 +33,6 @@ var popup_active_ind := 0
 # lobby_nav_index: 0..2 -> Player2,3,4 ; 3 -> Disband
 var lobby_nav_index := 0
 const LOBBY_NAV_SLOTS := 4  # numero di slot selezionabili (2,3,4) #TODO: 3
-var lobby_character_lock := false
 
 func _ready() -> void:
 	animation_player.play("FadeLogo")
@@ -175,12 +174,18 @@ func _handle_lobby_navigation_input(event):
 		if lobby_nav_index == LOBBY_NAV_SLOTS:
 			lobby_nav_index = last_lobby_slot_index
 			_update_lobby_nav_visual()
-		else:
-			
+		elif Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, lobby_nav_index) == Steam.getSteamID():
+			var frame = players_container.get_child(lobby_nav_index)
+			var img = frame.get_node("BG/PlayerImage")
+			var current_texture =  img.texture
+			var path = current_texture.resource_path
+			# path potrebbe essere tipo "res://assets/Eon.png"
+			if path.ends_with("Eon.png"):
+				img.texture = load("C:/Projects/EonsInsomnium/Scenes/Levels/MainMenu/Assets/Players/Lyra.png")
+			elif path.ends_with("Lyra.png"):
+				img.texture = load("C:/Projects/EonsInsomnium/Scenes/Levels/MainMenu/Assets/Players/Eon.png")
 		return
 
-	if lobby_character_lock:
-		return
 
 	if event.is_action_pressed("Move_Right"):
 		# se ero su Disband, torno a ultimo slot
@@ -227,9 +232,7 @@ func _handle_lobby_click():
 	var target_member_index = slot_idx  # members[0] è host #TODO: var target_member_index = slot_idx + 1
 	if target_member_index < members.size():
 		var steam_id = Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, target_member_index)
-		if steam_id == Steam.getSteamID():
-			lobby_character_lock = not lobby_character_lock
-		elif Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id) and Steam.getSteamID() != steam_id:
 			SteamLobbyManager.kick_player(steam_id)
 	else:
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
