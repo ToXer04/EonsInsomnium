@@ -3,34 +3,47 @@ extends Node2D
 @onready var players: Node2D = %Players
 
 # Called when the node enters the scene tree for the first time.
+var peer_characters = {}  # peer_id -> character_name
+
 func _ready():
 	multiplayer.multiplayer_peer = SteamLobbyManager.peer
-	print("Ready!")
 	if multiplayer.is_server():
 		print("Sono Host!")
-		spawn_players()  # solo l'host fa spawn!
+		var my_id = multiplayer.get_unique_id()
+		var my_char = Singleton.selectedChar
+		peer_characters[my_id] = my_char
+		_spawn_player(my_id, my_char)  # spawn locale dell’host
+	else:
+		rpc_id(1, "request_spawn", Singleton.selectedChar)  # invia scelta al server
 
-# GameManager.gd
+@rpc("any_peer")  # chiunque può chiamare
+func request_spawn(character_name):
+	var peer_id = multiplayer.get_rpc_sender_id()
+	peer_characters[peer_id] = character_name
+	_spawn_player(peer_id, character_name)
 
-@rpc("authority", "call_local")
-func _spawn_player(peer_id):
-	var MCName = Singleton.selectedChar
-	var  scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName]
+func _spawn_player(peer_id, character_name):
+	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [character_name, character_name]
 	var player_scene = load(scene_path)
 	var player = player_scene.instantiate()
 	player.name = "Player_%s" % peer_id
 	player.set_multiplayer_authority(peer_id)
 	players.add_child(player)
+	
+	# Notifica tutti i client che il player è stato spawnato
+	rpc("client_add_player", peer_id, character_name)
 
-func spawn_players():
-	# spawn host
-	_spawn_player(multiplayer.get_unique_id())
 
-	# spawn tutti i client sul host
-	for peer_id in multiplayer.get_peers():
-		rpc_id(peer_id, "_spawn_player", peer_id) # manda RPC al client
-		# contemporaneamente spawn anche sul host
-		_spawn_player(peer_id)
+@rpc("call_local")
+func client_add_player(peer_id, character_name):
+	if multiplayer.get_unique_id() == peer_id:
+		return # già spawnato localmente
+	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [character_name, character_name]
+	var player_scene = load(scene_path)
+	var player = player_scene.instantiate()
+	player.name = "Player_%s" % peer_id
+	players.add_child(player)
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
