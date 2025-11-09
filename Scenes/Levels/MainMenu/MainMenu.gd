@@ -177,7 +177,7 @@ func _handle_lobby_navigation_input(event):
 		elif Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, lobby_nav_index) == Steam.getSteamID():
 			var frame = players_container.get_child(lobby_nav_index)
 			var img = frame.get_node("BG/PlayerImage")
-			rpc("rpc_swap_texture", img)
+			rpc("rpc_swap_texture", img.get_path())
 		return
 
 
@@ -232,7 +232,8 @@ func _handle_lobby_click():
 		Steam.activateGameOverlayInviteDialog(SteamLobbyManager.lobby_id)
 
 @rpc("call_local", "any_peer")
-func rpc_swap_texture(img: TextureRect):
+func rpc_swap_texture(img_path: NodePath):
+	var img = get_node(img_path)
 	var tex = img.texture
 	var tex_path = tex.resource_path.get_file() # solo il nome file
 	var base_path = "res://Scenes/Levels/MainMenu/Assets/Players/"
