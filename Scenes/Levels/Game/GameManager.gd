@@ -1,28 +1,78 @@
-extends Node2D 
-@onready var players: Node2D = %Players 
-# Called when the node enters the scene tree for the first time. 
-func _ready(): 
-	multiplayer.multiplayer_peer = SteamLobbyManager.peer 
-	print("Ready!") 
-	if multiplayer.is_server(): 
-		print("Sono Host!") 
-		spawn_players() # solo l'host fa spawn! # GameManager.gd 
+extends Node2D
+
+@onready var players: Node2D = %Players
+
+# Dizionario globale per tenere traccia del personaggio scelto da ogni peer
+var player_chars := {} # esempio: {1: "MC1", 2: "MC2"}
+
+func _ready():
+	multiplayer.multiplayer_peer = SteamLobbyManager.peer
+	print("Ready!")
+
+	if multiplayer.is_server():
+		print("Sono Host!")
+	else:
+		print("Sono Client!")
+
+	# Invio la mia scelta del personaggio all’host
+	rpc_id(1, "send_selected_char", multiplayer.get_unique_id(), Singleton.selectedChar)
+
+	# Se sono host, mi registro subito e spawno
+	if multiplayer.is_server():
+		player_chars[multiplayer.get_unique_id()] = Singleton.selectedChar
+		spawn_players()
+
+
+# ---------------------------
+# --- SYNC PERSONAGGI -------
+# ---------------------------
+
+@rpc("any_peer")
+func send_selected_char(peer_id: int, char_name: String):
+	# Solo l’host gestisce i dati ricevuti
+	if not multiplayer.is_server():
+		return
+
+	player_chars[peer_id] = char_name
+	print("Host ha ricevuto selezione:", peer_id, "->", char_name)
+
+	# Rimanda a tutti il dizionario aggiornato
+	rpc("update_player_chars", player_chars)
+
 
 @rpc("any_peer", "call_local")
-func _spawn_player(peer_id):
-	var MCName = Singleton.selectedChar 
-	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName] 
-	var player_scene = load(scene_path) 
-	var player = player_scene.instantiate() 
-	player.name = "Player_%s" % peer_id 
-	player.set_multiplayer_authority(peer_id) 
-	players.add_child(player) 
+func update_player_chars(chars: Dictionary):
+	player_chars = chars
+	print("Aggiornato dizionario personaggi:", player_chars)
+
+
+# ---------------------------
+# --- SPAWN PLAYER ----------
+# ---------------------------
+
+@rpc("any_peer", "call_local")
+func _spawn_player(peer_id: int):
+	if not player_chars.has(peer_id):
+		print("Attenzione: nessun personaggio definito per peer", peer_id)
+		return
+
+	var MCName = player_chars[peer_id]
+	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName]
+	var player_scene = load(scene_path)
+	var player = player_scene.instantiate()
+	player.name = "Player_%s" % peer_id
+	player.set_multiplayer_authority(peer_id)
+	players.add_child(player)
+	print("Spawnato", MCName, "per peer", peer_id, "su", multiplayer.get_unique_id())
+
 
 func spawn_players():
-	# Spawna l'host
+	print("Spawning players...")
+
+	# Prima spawna l'host
 	_spawn_player(multiplayer.get_unique_id())
 
-	# Spawna i client sia localmente che su di loro
+	# Poi spawna tutti i client (sia localmente che sui loro peer)
 	for peer_id in multiplayer.get_peers():
 		rpc_id(peer_id, "_spawn_player", peer_id)
 		_spawn_player(peer_id)
