@@ -2,8 +2,9 @@ extends Node2D
 
 @onready var players: Node2D = %Players
 
-var player_chars := {} # esempio: {1: "MC1", 2: "MC2"}
-var expected_players := [] # lista dei peer che ci aspettiamo (compresi host e client)
+var player_chars := {} # { peer_id: "MC1" }
+var expected_players := []
+var ready_players := []
 
 func _ready():
 	multiplayer.multiplayer_peer = SteamLobbyManager.peer
@@ -14,14 +15,21 @@ func _ready():
 		player_chars[multiplayer.get_unique_id()] = Singleton.selectedChar
 		expected_players = [multiplayer.get_unique_id()] + Array(multiplayer.get_peers())
 
-		# se sono completamente solo, spawn subito
+		# Se sono solo, spawn immediato
 		if expected_players.size() == 1:
 			print("👤 Solo host presente, spawn immediato")
 			_spawn_player(multiplayer.get_unique_id())
 	else:
 		print("Sono Client!")
+		# Avviso l'host che ho caricato la scena
+		rpc_id(1, "client_ready", multiplayer.get_unique_id())
+		# E invio anche il mio personaggio
 		rpc_id(1, "send_selected_char", multiplayer.get_unique_id(), Singleton.selectedChar)
 
+
+# ---------------------------
+# --- SYNC PERSONAGGI -------
+# ---------------------------
 
 @rpc("any_peer")
 func send_selected_char(peer_id: int, char_name: String):
@@ -32,9 +40,7 @@ func send_selected_char(peer_id: int, char_name: String):
 	print("Host ha ricevuto selezione:", peer_id, "->", char_name)
 	rpc("update_player_chars", player_chars)
 
-	if player_chars.size() == expected_players.size():
-		print("Tutti i giocatori hanno scelto, spawn in corso...")
-		rpc("start_spawn")
+	check_start_conditions()
 
 
 @rpc("any_peer", "call_local")
@@ -42,6 +48,39 @@ func update_player_chars(chars: Dictionary):
 	player_chars = chars
 	print("Aggiornato dizionario personaggi:", player_chars)
 
+
+# ---------------------------
+# --- SYNC READY STATE ------
+# ---------------------------
+
+@rpc("any_peer")
+func client_ready(peer_id: int):
+	if not multiplayer.is_server():
+		return
+
+	print("Client", peer_id, "ha caricato la scena.")
+	if not ready_players.has(peer_id):
+		ready_players.append(peer_id)
+
+	check_start_conditions()
+
+
+func check_start_conditions():
+	if not multiplayer.is_server():
+		return
+
+	# Controlla se tutti sono pronti e hanno inviato il personaggio
+	var everyone_ready = ready_players.size() == (expected_players.size() - 1)
+	var everyone_chosen = player_chars.size() == expected_players.size()
+
+	if everyone_ready and everyone_chosen:
+		print("✅ Tutti pronti, spawn in corso!")
+		rpc("start_spawn")
+
+
+# ---------------------------
+# --- SPAWN PLAYER ----------
+# ---------------------------
 
 @rpc("any_peer", "call_local")
 func _spawn_player(peer_id: int):
@@ -56,7 +95,7 @@ func _spawn_player(peer_id: int):
 	player.name = "Player_%s" % peer_id
 	player.set_multiplayer_authority(peer_id)
 	players.add_child(player)
-	print("✅ Spawnato ", MCName, " per peer ", peer_id, " su ", multiplayer.get_unique_id())
+	print("👤 Spawnato ", MCName, " per peer ", peer_id, " su ", multiplayer.get_unique_id())
 
 
 @rpc("any_peer", "call_local")
