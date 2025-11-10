@@ -1,41 +1,37 @@
 extends Node2D
 
+# Questo è il nodo che conterrà i player spawnati (come nel tuo script)
 @onready var players: Node2D = %Players
+# Questo è il nodo Spawner che hai già nella scena
 @onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 
+
 func _ready():
-	multiplayer.multiplayer_peer = SteamLobbyManager.peer
-	print("Ready!")
+	print("Level Ready!")
+	if not multiplayer.is_server():
+		return
 
-	if multiplayer.is_server():
-		print("Sono Host!")
-	else:
-		print("Sono Client!")
+	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_disconnected.connect(del_player)
 
-	# Configura lo spawner per generare i giocatori automaticamente
-	spawner.spawn_path = players.get_path()
-	spawner.spawn_function = Callable(self, "_create_player")
-	spawner.spawn_limit = 0  # Nessun limite di giocatori
+	for id in multiplayer.get_peers():
+		add_player(id)
+	add_player(1)
 
-	# Se sei host, spawna te stesso (gli altri verranno gestiti automaticamente)
-	if multiplayer.is_server():
-		_spawn_local_player()
+func add_player(id: int):
+	print("Add player: " + str(id))
+	var character = load("res://Scenes/MC/Eon/Eon.tscn").instantiate()
+	character.name = str(id)
+	character.set_multiplayer_authority(id)
+	players.add_child(character)
 
-# ---------------------------
-# --- CREAZIONE PLAYER ------
-# ---------------------------
+func del_player(id: int):
+	if not players.has_node(str(id)):
+		return
+	players.get_node(str(id)).queue_free()
 
-func _create_player(peer_id: int):
-	var MCName = Singleton.selectedChar
-	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName]
-	var player_scene = load(scene_path)
-	var player = player_scene.instantiate()
-	player.name = "Player_%s" % peer_id
-	player.set_multiplayer_authority(peer_id)
-	return player
-
-func _spawn_local_player():
-	var peer_id = multiplayer.get_unique_id()
-	print("👤 Creo player locale per peer ", peer_id)
-	var player = _create_player(peer_id)
-	players.add_child(player)
+func _exit_tree():
+	if not multiplayer.is_server():
+		return
+	multiplayer.peer_connected.disconnect(add_player)
+	multiplayer.peer_disconnected.disconnect(del_player)
