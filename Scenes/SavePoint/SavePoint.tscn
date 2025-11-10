@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdsx85rblvywb"]
+[gd_scene load_steps=6 format=3 uid="uid://cdsx85rblvywb"]
 
 [ext_resource type="Texture2D" uid="uid://dl75gvbqk3dwe" path="res://Sprites/Assets/SavePoints/Trunk/Trunk.png" id="1_0n54p"]
 [ext_resource type="Script" uid="uid://coht7wa3vk3pd" path="res://Scenes/SavePoint/SavePointInteraction.gd" id="1_qgumw"]
@@ -16,6 +16,11 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qgumw"]
 size = Vector2(56.96547, 20)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0n54p"]
+vertices = PackedVector2Array(304, -117.078125, 304, 105.828125, -296, 96.14844, -296, -121.90625)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-306, -132, -306, 106, 314, 116, 314, -127)])
 
 [node name="SavePoint" type="Node2D"]
 
@@ -46,6 +51,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_0n54p")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]

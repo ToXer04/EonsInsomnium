@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://cxiupy0m26xmx"]
+[gd_scene load_steps=79 format=3 uid="uid://cxiupy0m26xmx"]
 
 [ext_resource type="PackedScene" uid="uid://ddonb1ria8edw" path="res://Scenes/MC/Player/Player.tscn" id="1_bhjj4"]
 [ext_resource type="Texture2D" uid="uid://dg8spthwuw1di" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Spritesheet.png" id="2_q1b8v"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Spritesheet.png" id="4_cin2c"]
 [ext_resource type="Texture2D" uid="uid://beubkefcde3dn" path="res://Sprites/MC/Eon/Jump/Eon_Jump_Spritesheet.png" id="5_gsjm2"]
 [ext_resource type="Texture2D" uid="uid://cwqfvw4fkf3vu" path="res://Sprites/MC/Eon/Walk/Eon_Walk_Spritesheet.png" id="6_613s6"]
+[ext_resource type="Texture2D" uid="uid://bwoli56rt0tgv" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkIdle_Spritesheet.png" id="6_gsjm2"]
+[ext_resource type="Texture2D" uid="uid://cxdl0gqqj5vvl" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkSit_Spritesheet.png" id="6_qes40"]
+[ext_resource type="Texture2D" uid="uid://c47pntl85n7d2" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkOff_Spritesheet.png" id="7_613s6"]
 [ext_resource type="Texture2D" uid="uid://bvk1dj1ccvcqo" path="res://Sprites/MC/Eon/WallClimb/Eon_WallClimb_Spritesheet.png" id="7_bfgn4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_txbll"]
@@ -175,6 +178,58 @@ region = Rect2(0, 1080, 1920, 1080)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gguga"]
 atlas = ExtResource("5_gsjm2")
 region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj6vu"]
+atlas = ExtResource("6_gsjm2")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euihu"]
+atlas = ExtResource("6_gsjm2")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55bui"]
+atlas = ExtResource("6_gsjm2")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0wja"]
+atlas = ExtResource("6_gsjm2")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qbpq"]
+atlas = ExtResource("7_613s6")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhjxb"]
+atlas = ExtResource("7_613s6")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xut3o"]
+atlas = ExtResource("7_613s6")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cin2c"]
+atlas = ExtResource("6_qes40")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsjm2"]
+atlas = ExtResource("6_qes40")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_613s6"]
+atlas = ExtResource("6_qes40")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfgn4"]
+atlas = ExtResource("6_qes40")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oy2f4"]
+atlas = ExtResource("6_qes40")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1d6fa"]
+atlas = ExtResource("6_qes40")
+region = Rect2(3840, 1080, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyfwi"]
 atlas = ExtResource("6_613s6")
@@ -394,6 +449,60 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_oj6vu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euihu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55bui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0wja")
+}],
+"loop": true,
+"name": &"SavePointIdle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qbpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhjxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xut3o")
+}],
+"loop": false,
+"name": &"SavePointOff",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cin2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsjm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_613s6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfgn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oy2f4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1d6fa")
+}],
+"loop": false,
+"name": &"SavePointSit",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jyfwi")
 }, {
 "duration": 1.0,
@@ -443,3 +552,4 @@ animations = [{
 
 [node name="AnimatedSprite2D" parent="Visuals" index="0"]
 sprite_frames = SubResource("SpriteFrames_q1b8v")
+animation = &"SavePointOff"
