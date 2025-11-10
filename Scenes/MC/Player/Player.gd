@@ -60,6 +60,8 @@ func _ready() -> void:
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
+	SaveScript._load()
+	jumpcount = SaveScript.contents_to_save.jumpCount
 		
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -145,7 +147,8 @@ func _input(event):
 	if event.is_action_pressed("Jump") and not dashing and not sit:
 		jumpcount += 1
 		print(jumpcount)
-		if is_on_floor():
+		
+		if is_on_floor() and not sit:
 			# salto normale
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
 			velocity.y = JUMP_INITIAL
@@ -198,6 +201,8 @@ func death():
 func move_toward_target(delta: float) -> void:
 	if navigation_agent_2d.is_navigation_finished():
 		state_machine.set_current_state(state_machine.get_node("SitDown"))
+		can_dash = false
+		dashing = false
 		moving_to_target = false
 		velocity = Vector2.ZERO
 		if target_reached_callback.is_valid():
@@ -210,11 +215,22 @@ func move_toward_target(delta: float) -> void:
 
 
 func move_to_target(pos: Vector2, callback: Callable = Callable()):
+	can_dash = false
+	dashing = false
+	
+	if is_on_floor():
+		state_machine.set_current_state(state_machine.get_node("Walk"))
+		sit = true
+	
+	
 	if not is_on_floor():
 		await get_tree().create_timer(0.05).timeout  # attesa breve per non bloccare frame
 		while not is_on_floor():
 			await get_tree().process_frame
-	dashing = false
+		sit = true
+
+
+
 	moving_to_target = true
 	target_position = pos
 	target_reached_callback = callback

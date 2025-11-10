@@ -18,9 +18,9 @@ animations = [{
 size = Vector2(57.197212, 10.331114)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0n54p"]
-vertices = PackedVector2Array(313, 4.0078125, -306.77344, 4.9765625, -305.21094, -66.03125, 313, -67.96094)
+vertices = PackedVector2Array(313.14063, 4.0078125, -307, 4.9765625, -307, -115.00781, 314.85156, -115.97656)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-316, -79, -317, 15, 323, 14, 323, -78)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-317, -125, -317, 15, 323, 14, 325, -126)])
 
 [node name="SavePoint" type="Node2D"]
 
