@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@export var jumpcount := 0
 
 
 
@@ -142,6 +143,8 @@ func _input(event):
 		return
 	# Jump
 	if event.is_action_pressed("Jump") and not dashing and not sit:
+		jumpcount += 1
+		print(jumpcount)
 		if is_on_floor():
 			# salto normale
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
@@ -200,7 +203,6 @@ func move_toward_target(delta: float) -> void:
 		if target_reached_callback.is_valid():
 			target_reached_callback.call()
 		return
-
 	var next_path_point = navigation_agent_2d.get_next_path_position()
 	var dir = (next_path_point - global_position).normalized()
 	velocity = dir * target_speed
@@ -208,6 +210,11 @@ func move_toward_target(delta: float) -> void:
 
 
 func move_to_target(pos: Vector2, callback: Callable = Callable()):
+	if not is_on_floor():
+		await get_tree().create_timer(0.05).timeout  # attesa breve per non bloccare frame
+		while not is_on_floor():
+			await get_tree().process_frame
+	dashing = false
 	moving_to_target = true
 	target_position = pos
 	target_reached_callback = callback
