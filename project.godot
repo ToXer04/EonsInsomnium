@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 Singleton="*res://Singleton/singleton.gd"
 SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 MusicManager="*res://Singleton/MusicManager.gd"
+SaveScript="*res://Scenes/SaveScript.gd"
 
 [debug]
 
