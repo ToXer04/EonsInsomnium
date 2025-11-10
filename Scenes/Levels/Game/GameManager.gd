@@ -8,8 +8,8 @@ func _ready():
 		print("Sono Host!") 
 		spawn_players() # solo l'host fa spawn! # GameManager.gd 
 
-@rpc("authority", "call_local") 
-func _spawn_player(peer_id): 
+@rpc("any_peer", "call_local")
+func _spawn_player(peer_id):
 	var MCName = Singleton.selectedChar 
 	var scene_path = "res://Scenes/MC/%s/%s.tscn" % [MCName, MCName] 
 	var player_scene = load(scene_path) 
@@ -18,5 +18,11 @@ func _spawn_player(peer_id):
 	player.set_multiplayer_authority(peer_id) 
 	players.add_child(player) 
 
-func spawn_players(): # spawn host 
-	_spawn_player(multiplayer.get_unique_id()) # spawn tutti i client sul host for peer_id in multiplayer.get_peers(): rpc_id(peer_id, "_spawn_player", peer_id) # manda RPC al client # contemporaneamente spawn anche sul host _spawn_player(peer_id) # Called every frame. 'delta' is the elapsed time since the previous frame. func _process(_delta: float) -> void: pass
+func spawn_players():
+	# Spawna l'host
+	_spawn_player(multiplayer.get_unique_id())
+
+	# Spawna i client sia localmente che su di loro
+	for peer_id in multiplayer.get_peers():
+		rpc_id(peer_id, "_spawn_player", peer_id)
+		_spawn_player(peer_id)
