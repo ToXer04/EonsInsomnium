@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var state_machine: StateMachine = %StateMachine
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
+@onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@export var jumpcount := 0
 
 
 
@@ -11,6 +13,13 @@ const DEFAULT_STATE = "Idle"
 # Variables
 var health: int = 3
 var damage: int  = 1
+
+# Interaction
+var moving_to_target: bool = false
+var target_position: Vector2
+var target_reached_callback: Callable = Callable()
+var target_speed: float = 300.0
+var sit: bool = false
 
 # Movement
 const SPEED = 400.0
@@ -55,7 +64,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
+		
+	if moving_to_target:
+		move_toward_target(delta)
+		return
 	# cooldown dash
+	if sit:
+		return
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer -= delta
 		if dash_cooldown_timer < 0.0:
@@ -127,7 +142,9 @@ func _input(event):
 	if not is_multiplayer_authority():
 		return
 	# Jump
-	if event.is_action_pressed("Jump") and not dashing:
+	if event.is_action_pressed("Jump") and not dashing and not sit:
+		jumpcount += 1
+		print(jumpcount)
 		if is_on_floor():
 			# salto normale
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
@@ -149,11 +166,11 @@ func _input(event):
 			velocity.y *= 0.4
 
 	# Attack
-	if event.is_action_pressed("Click") and not dashing:
+	if event.is_action_pressed("Click") and not dashing and not sit:
 		state_machine.set_current_state(state_machine.get_node("AttackFrontal"))
 
 	# Dash (non in wall climb)
-	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing:
+	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
 		dashing = true
 		dash_time = 0.0
 		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
@@ -174,5 +191,36 @@ func takeDamage(damageTaken: int):
 	health -= damageTaken
 
 func death():
+	
 	print("Dead!")
 	get_tree().reload_current_scene()
+
+func move_toward_target(delta: float) -> void:
+	if navigation_agent_2d.is_navigation_finished():
+		state_machine.set_current_state(state_machine.get_node("SitDown"))
+		moving_to_target = false
+		velocity = Vector2.ZERO
+		if target_reached_callback.is_valid():
+			target_reached_callback.call()
+		return
+	var next_path_point = navigation_agent_2d.get_next_path_position()
+	var dir = (next_path_point - global_position).normalized()
+	velocity = dir * target_speed
+	move_and_slide()
+
+
+func move_to_target(pos: Vector2, callback: Callable = Callable()):
+	if not is_on_floor():
+		await get_tree().create_timer(0.05).timeout  # attesa breve per non bloccare frame
+		while not is_on_floor():
+			await get_tree().process_frame
+	dashing = false
+	moving_to_target = true
+	target_position = pos
+	target_reached_callback = callback
+
+	# imposta il target per il navigation agent
+	navigation_agent_2d.target_position = pos
+	var dir = target_position.x - global_position.x
+	if dir != 0:
+		visuals.scale.x = sign(dir) 

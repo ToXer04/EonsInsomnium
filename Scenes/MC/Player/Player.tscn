@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=96 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Spritesheet.png" id="1_rpqav"]
@@ -8,7 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://cwqfvw4fkf3vu" path="res://Sprites/MC/Eon/Walk/Eon_Walk_Spritesheet.png" id="3_fp6xj"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/Player/State_MC_Idle.gd" id="3_qkdcl"]
 [ext_resource type="Texture2D" uid="uid://u8yyr7q5hn0b" path="res://Sprites/MC/Eon/Dash/Eon_Dash_Spritesheet.png" id="3_rq7m6"]
+[ext_resource type="Texture2D" uid="uid://bwoli56rt0tgv" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkIdle_Spritesheet.png" id="6_djbxk"]
+[ext_resource type="Texture2D" uid="uid://cxdl0gqqj5vvl" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkSit_Spritesheet.png" id="6_jeydh"]
 [ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/Player/State_MC_Walk.gd" id="6_jyfwi"]
+[ext_resource type="Texture2D" uid="uid://c47pntl85n7d2" path="res://Sprites/MC/Eon/SavePoints/Eon_TrunkOff_Spritesheet.png" id="7_2ip30"]
 [ext_resource type="Texture2D" uid="uid://bvk1dj1ccvcqo" path="res://Sprites/MC/Eon/WallClimb/Eon_WallClimb_Spritesheet.png" id="7_xgxtr"]
 [ext_resource type="Script" uid="uid://dw2f0wkv6pc3x" path="res://Scenes/MC/Player/State_MC_JumpStart.gd" id="8_kksrp"]
 [ext_resource type="Script" uid="uid://ywjavgqxcjko" path="res://Scenes/MC/Player/State_MC_JumpRise.gd" id="9_3tio4"]
@@ -18,6 +21,9 @@
 [ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/Player/State_MC_AttackFrontal.gd" id="14_rq7m6"]
 [ext_resource type="Script" uid="uid://cutpkfeqi3mx4" path="res://Scenes/MC/Player/State_MC_Dash.gd" id="16_po2a2"]
 [ext_resource type="Script" uid="uid://dan1billuvdhn" path="res://Scenes/MC/Player/State_MC_WallClimb.gd" id="17_txbll"]
+[ext_resource type="Script" uid="uid://c5cjfobytyr56" path="res://Scenes/MC/State_MC_SitDown.gd" id="19_rjt16"]
+[ext_resource type="Script" uid="uid://dojscnkch0b00" path="res://Scenes/MC/State_MC_SitIdle.gd" id="20_jeydh"]
+[ext_resource type="Script" uid="uid://duv6x48s4k7dx" path="res://Scenes/MC/State_MC_SitOff.gd" id="21_djbxk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
@@ -189,6 +195,58 @@ region = Rect2(0, 1080, 1920, 1080)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gguga"]
 atlas = ExtResource("3_b7vqg")
 region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xa6w"]
+atlas = ExtResource("6_djbxk")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5okpu"]
+atlas = ExtResource("6_djbxk")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8pga1"]
+atlas = ExtResource("6_djbxk")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bq3o"]
+atlas = ExtResource("6_djbxk")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoupd"]
+atlas = ExtResource("7_2ip30")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5rh2"]
+atlas = ExtResource("7_2ip30")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lok21"]
+atlas = ExtResource("7_2ip30")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djbxk"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ip30"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qle6h"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kciar"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7au30"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3boo7"]
+atlas = ExtResource("6_jeydh")
+region = Rect2(3840, 1080, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyfwi"]
 atlas = ExtResource("3_fp6xj")
@@ -408,6 +466,60 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_6xa6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5okpu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8pga1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8bq3o")
+}],
+"loop": true,
+"name": &"SavePointIdle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qoupd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5rh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lok21")
+}],
+"loop": false,
+"name": &"SavePointOff",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_djbxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ip30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qle6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kciar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7au30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3boo7")
+}],
+"loop": false,
+"name": &"SavePointSit",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jyfwi")
 }, {
 "duration": 1.0,
@@ -492,7 +604,7 @@ unique_name_in_owner = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"AttackFrontal"
+animation = &"SavePointSit"
 offset = Vector2(0, -540)
 
 [node name="StateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]
@@ -531,6 +643,15 @@ script = ExtResource("16_po2a2")
 [node name="WallClimb" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("17_txbll")
 
+[node name="SitDown" type="Node2D" parent="Visuals/StateMachine"]
+script = ExtResource("19_rjt16")
+
+[node name="SitIdle" type="Node2D" parent="Visuals/StateMachine"]
+script = ExtResource("20_jeydh")
+
+[node name="SitOff" type="Node2D" parent="Visuals/StateMachine"]
+script = ExtResource("21_djbxk")
+
 [node name="WallDetector" type="RayCast2D" parent="Visuals"]
 position = Vector2(0, -62.999996)
 rotation = -1.5707964
@@ -553,5 +674,7 @@ zoom = Vector2(1.3, 1.3)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_xgxtr")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]

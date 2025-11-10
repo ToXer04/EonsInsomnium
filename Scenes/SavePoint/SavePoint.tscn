@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdsx85rblvywb"]
+[gd_scene load_steps=6 format=3 uid="uid://cdsx85rblvywb"]
 
 [ext_resource type="Texture2D" uid="uid://dl75gvbqk3dwe" path="res://Sprites/Assets/SavePoints/Trunk/Trunk.png" id="1_0n54p"]
 [ext_resource type="Script" uid="uid://coht7wa3vk3pd" path="res://Scenes/SavePoint/SavePointInteraction.gd" id="1_qgumw"]
@@ -15,7 +15,12 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qgumw"]
-size = Vector2(56.96547, 20)
+size = Vector2(57.197212, 10.331114)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0n54p"]
+vertices = PackedVector2Array(313, 4.0078125, -306.77344, 4.9765625, -305.21094, -66.03125, 313, -67.96094)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-316, -79, -317, 15, 323, 14, 323, -78)])
 
 [node name="SavePoint" type="Node2D"]
 
@@ -31,7 +36,7 @@ collision_mask = 2
 script = ExtResource("1_qgumw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-10, -31.999996)
+position = Vector2(-6.6588254, -149.86253)
 scale = Vector2(28.835182, -33.47525)
 shape = SubResource("RectangleShape2D_qgumw")
 
@@ -46,6 +51,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_0n54p")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]
