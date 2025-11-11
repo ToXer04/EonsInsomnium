@@ -32,5 +32,6 @@ unique_name_in_owner = true
 position = Vector2(2563, 2320)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("uid://cxiupy0m26xmx", "uid://bo5knvosfauea")
 spawn_path = NodePath("../Players")
