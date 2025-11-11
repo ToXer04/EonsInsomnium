@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=103 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://dn7gy6tq6slgp" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Spritesheet.png" id="1_rpqav"]
@@ -29,7 +29,6 @@
 [ext_resource type="AudioStream" uid="uid://cim25ke072tdk" path="res://Content/SFX/MC/Death/MC_Death_SFX.WAV" id="27_qoupd"]
 [ext_resource type="AudioStream" uid="uid://gd7vxv67rdcd" path="res://Content/SFX/MC/Jump/JumpStart_SFX/MC_Jump_SFX.WAV" id="28_y5rh2"]
 [ext_resource type="AudioStream" uid="uid://dqjr0uv2bl77g" path="res://Content/SFX/MC/Walk/MC_GrassStep1_SFX.WAV" id="29_lok21"]
-[ext_resource type="AudioStream" uid="uid://73p3l53vja5c" path="res://Content/SFX/MC/Walk/MC_GrassStep2_SFX.WAV" id="30_8bq3o"]
 [ext_resource type="AudioStream" uid="uid://ba7mxbqwbxtfk" path="res://Content/SFX/MC/Jump/Dash_SFX/MC_Dash_SFX.WAV" id="30_o52b3"]
 [ext_resource type="AudioStream" uid="uid://cnq67ym7c4r56" path="res://Content/SFX/MC/Jump/Land_SFX/MC_Landing_SFX.WAV" id="31_hyja7"]
 
@@ -627,8 +626,21 @@ script = ExtResource("3_qkdcl")
 [node name="Walk" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("6_jyfwi")
 
+[node name="WalkSFX" type="AudioStreamPlayer" parent="Visuals/StateMachine/Walk"]
+stream = ExtResource("29_lok21")
+volume_db = 5.0
+pitch_scale = 1.2
+bus = &"SFX"
+
+[node name="StepTimer" type="Timer" parent="Visuals/StateMachine/Walk"]
+
 [node name="JumpStart" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("8_kksrp")
+
+[node name="JumpStartSFX" type="AudioStreamPlayer" parent="Visuals/StateMachine/JumpStart"]
+stream = ExtResource("28_y5rh2")
+volume_db = -29.083
+bus = &"SFX"
 
 [node name="JumpRise" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("9_3tio4")
@@ -642,11 +654,26 @@ script = ExtResource("11_po2a2")
 [node name="JumpLand" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("12_txbll")
 
+[node name="LandSFX" type="AudioStreamPlayer" parent="Visuals/StateMachine/JumpLand"]
+stream = ExtResource("31_hyja7")
+volume_db = -31.945
+bus = &"SFX"
+
 [node name="AttackFrontal" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("14_rq7m6")
 
+[node name="AttackSFX" type="AudioStreamPlayer" parent="Visuals/StateMachine/AttackFrontal"]
+stream = ExtResource("25_8pga1")
+volume_db = -3.0
+bus = &"SFX"
+
 [node name="Dash" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("16_po2a2")
+
+[node name="DashSFX" type="AudioStreamPlayer" parent="Visuals/StateMachine/Dash"]
+stream = ExtResource("30_o52b3")
+volume_db = -3.0
+bus = &"SFX"
 
 [node name="WallClimb" type="Node" parent="Visuals/StateMachine"]
 script = ExtResource("17_txbll")
@@ -685,11 +712,6 @@ replication_config = SubResource("SceneReplicationConfig_xgxtr")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="AttackSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("25_8pga1")
-volume_db = -3.0
-bus = &"SFX"
-
 [node name="DamageSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_8bq3o")
 volume_db = -2.0
@@ -697,31 +719,6 @@ bus = &"SFX"
 
 [node name="DeathSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("27_qoupd")
-bus = &"SFX"
-
-[node name="JumpStartSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("28_y5rh2")
-volume_db = -29.083
-bus = &"SFX"
-
-[node name="LandSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("31_hyja7")
-volume_db = -31.945
-bus = &"SFX"
-
-[node name="WalkSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("29_lok21")
-volume_db = 5.0
-bus = &"SFX"
-
-[node name="WalkSFX2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("30_8bq3o")
-volume_db = 5.0
-bus = &"SFX"
-
-[node name="DashSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("30_o52b3")
-volume_db = -3.0
 bus = &"SFX"
 
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]
