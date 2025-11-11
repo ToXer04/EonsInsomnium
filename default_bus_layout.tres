@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=0 format=3 uid="uid://b0t7p114m1c8b"]
+[gd_resource type="AudioBusLayout" format=3 uid="uid://b0t7p114m1c8b"]
 
 [resource]
 bus/1/name = &"Dialogue"
@@ -11,7 +11,7 @@ bus/2/name = &"SFX"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
-bus/2/volume_db = 0.0
+bus/2/volume_db = 0.0694828
 bus/2/send = &"Master"
 bus/3/name = &"Ambience"
 bus/3/solo = false
@@ -23,5 +23,5 @@ bus/4/name = &"Music"
 bus/4/solo = false
 bus/4/mute = false
 bus/4/bypass_fx = false
-bus/4/volume_db = 0.0
+bus/4/volume_db = -30.146484
 bus/4/send = &"Master"

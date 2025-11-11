@@ -6,6 +6,15 @@ extends CharacterBody2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @export var jumpcount := 0
 
+# Audio
+@onready var sfx_attack: AudioStreamPlayer = $AttackSFX
+@onready var sfx_damage: AudioStreamPlayer = $DamageSFX
+@onready var sfx_death: AudioStreamPlayer = $DeathSFX
+@onready var sfx_jump_start: AudioStreamPlayer = $JumpStartSFX
+@onready var sfx_land: AudioStreamPlayer = $LandSFX
+@onready var sfx_dash: AudioStreamPlayer = $DashSFX
+@onready var sfx_walk: AudioStreamPlayer = $WalkSFX
+
 
 
 const DEFAULT_STATE = "Idle"
@@ -46,9 +55,13 @@ var can_dash: bool = true
 
 # WallClimb
 const WALL_SLIDE_SPEED = 100.0
-const WALL_JUMP_FORCE = Vector2(4000, -1000) # forza wall jump (orizzontale, verticale)
+const WALL_JUMP_FORCE = Vector2(4000, -1000)
 var wall_climbing: bool = false
 var wall_dir: int = 0
+
+# Landing check
+var was_on_floor: bool = false
+
 
 func _ready() -> void:
 	Singleton.player = self
@@ -60,17 +73,26 @@ func _ready() -> void:
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
-		
+
+
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-		
+
+	# LAND SFX
+	var on_floor_now = is_on_floor()
+	if on_floor_now and not was_on_floor:
+		sfx_land.play()
+	was_on_floor = on_floor_now
+
 	if moving_to_target:
 		move_toward_target(delta)
 		return
-	# cooldown dash
+
 	if sit:
 		return
+
+	# cooldown dash
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer -= delta
 		if dash_cooldown_timer < 0.0:
@@ -95,13 +117,12 @@ func _physics_process(delta: float) -> void:
 
 		if not is_on_floor() and is_on_wall() and velocity.y > 0 and direction != 0:
 			var wall_normal = get_wall_normal()
-			wall_dir = -sign(wall_normal.x) # direzione del muro
+			wall_dir = -sign(wall_normal.x)
 			if direction == wall_dir:
 				if not wall_climbing:
 					state_machine.set_current_state(state_machine.get_node("WallClimb"))
 					wall_climbing = true
-					can_dash = true # rigenera dash
-				# rallenta caduta
+					can_dash = true
 				velocity.y = WALL_SLIDE_SPEED
 		else:
 			wall_climbing = false
@@ -125,8 +146,15 @@ func _physics_process(delta: float) -> void:
 		if direction:
 			velocity.x = lerp(velocity.x, direction * SPEED, ACCEL)
 			visuals.scale.x = direction
+
+			# Walk SFX
+			if is_on_floor() and abs(velocity.x) > 50:
+				if not sfx_walk.playing:
+					sfx_walk.play()
 		else:
 			velocity.x = lerp(velocity.x, 0.0, DECEL)
+			if sfx_walk.playing:
+				sfx_walk.stop()
 
 		if abs(velocity.x) < VELOCITY_DEADZONE:
 			velocity.x = 0
@@ -141,23 +169,24 @@ func _physics_process(delta: float) -> void:
 func _input(event):
 	if not is_multiplayer_authority():
 		return
+
 	# Jump
 	if event.is_action_pressed("Jump") and not dashing and not sit:
 		jumpcount += 1
 		print(jumpcount)
 		if is_on_floor():
-			# salto normale
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
+			sfx_jump_start.play()
 			velocity.y = JUMP_INITIAL
 			jump_holding = true
 			jump_time = 0.0
 		elif wall_climbing:
-			# wall jump
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
+			sfx_jump_start.play()
 			velocity = Vector2(-wall_dir * WALL_JUMP_FORCE.x, WALL_JUMP_FORCE.y)
-			visuals.scale.x = -wall_dir # guarda dalla parte opposta al muro
+			visuals.scale.x = -wall_dir
 			wall_climbing = false
-			can_dash = true # rigenera dash
+			can_dash = true
 			jump_holding = false
 
 	if event.is_action_released("Jump"):
@@ -168,17 +197,20 @@ func _input(event):
 	# Attack
 	if event.is_action_pressed("Click") and not dashing and not sit:
 		state_machine.set_current_state(state_machine.get_node("AttackFrontal"))
+		sfx_attack.play()
 
-	# Dash (non in wall climb)
+	# Dash
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
 		dashing = true
 		dash_time = 0.0
 		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
 		state_machine.set_current_state(state_machine.get_node("Dash"))
-		
+		sfx_dash.play()
+
 		if not is_on_floor():
 			can_dash = false
 		dash_cooldown_timer = DASH_COOLDOWN
+
 
 func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
 	if body is Enemy:
@@ -187,13 +219,18 @@ func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
 			death()
 		print(health)
 
+
 func takeDamage(damageTaken: int):
 	health -= damageTaken
+	sfx_damage.play()
+
 
 func death():
-	
+	sfx_death.play()
 	print("Dead!")
+	await get_tree().create_timer(0.5).timeout
 	get_tree().reload_current_scene()
+
 
 func move_toward_target(delta: float) -> void:
 	if navigation_agent_2d.is_navigation_finished():
@@ -211,16 +248,13 @@ func move_toward_target(delta: float) -> void:
 
 func move_to_target(pos: Vector2, callback: Callable = Callable()):
 	if not is_on_floor():
-		await get_tree().create_timer(0.05).timeout  # attesa breve per non bloccare frame
+		await get_tree().create_timer(0.05).timeout
 		while not is_on_floor():
 			await get_tree().process_frame
 	dashing = false
 	moving_to_target = true
 	target_position = pos
 	target_reached_callback = callback
-
-	# imposta il target per il navigation agent
 	navigation_agent_2d.target_position = pos
 	var dir = target_position.x - global_position.x
-	if dir != 0:
-		visuals.scale.x = sign(dir) 
+	if dir != 0: visuals.scale.x = sign(dir)
