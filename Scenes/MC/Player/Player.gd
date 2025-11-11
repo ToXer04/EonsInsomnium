@@ -6,17 +6,8 @@ extends CharacterBody2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @export var jumpcount := 0
 
-# Audio
-@onready var sfx_attack: AudioStreamPlayer = $AttackSFX
-@onready var sfx_damage: AudioStreamPlayer = $DamageSFX
-@onready var sfx_death: AudioStreamPlayer = $DeathSFX
-@onready var sfx_jump_start: AudioStreamPlayer = $JumpStartSFX
-@onready var sfx_land: AudioStreamPlayer = $LandSFX
-@onready var sfx_dash: AudioStreamPlayer = $DashSFX
-@onready var sfx_walk: AudioStreamPlayer = $WalkSFX
 
-
-
+# Variabili Globali (Logica di movimento/audio rimossa)
 const DEFAULT_STATE = "Idle"
 
 # Variables
@@ -64,6 +55,22 @@ var was_on_floor: bool = false
 
 
 func _ready() -> void:
+	var id_str = name
+	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
+	set_multiplayer_authority(id_str.to_int())
+	if is_multiplayer_authority() and not Singleton.playerSelected:
+		Singleton.playerSelected = true
+		match(Singleton.selectedChar):
+			"Eon": 
+				var player = load("res://Scenes/MC/Eon/Eon.tscn").instantiate()
+				player.name = "Eon" + id_str
+				add_sibling(player)
+				queue_free()
+			"Lyra":
+				var player = load("res://Scenes/MC/Lyra/Lyra.tscn").instantiate()
+				player.name = "Lyra" + id_str
+				add_sibling(player)
+				queue_free()
 	Singleton.player = self
 	if is_multiplayer_authority():
 		camera.enabled = true
@@ -79,10 +86,11 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 
-	# LAND SFX
+	# LAND SFX (Rimosso: gestito dalla State Machine o da uno stato Land specifico)
 	var on_floor_now = is_on_floor()
 	if on_floor_now and not was_on_floor:
-		sfx_land.play()
+		# sfx_land.play() <--- Rimosso
+		pass 
 	was_on_floor = on_floor_now
 
 	if moving_to_target:
@@ -143,21 +151,24 @@ func _physics_process(delta: float) -> void:
 					velocity.y *= 0.4
 
 		# Movimento orizzontale
-		if direction:
+		if direction != 0:
 			velocity.x = lerp(velocity.x, direction * SPEED, ACCEL)
 			visuals.scale.x = direction
-
-			# Walk SFX
-			if is_on_floor() and abs(velocity.x) > 50:
-				if not sfx_walk.playing:
-					sfx_walk.play()
 		else:
 			velocity.x = lerp(velocity.x, 0.0, DECEL)
-			if sfx_walk.playing:
-				sfx_walk.stop()
-
+		
+		# Deadzone Check
 		if abs(velocity.x) < VELOCITY_DEADZONE:
 			velocity.x = 0
+			
+		# -----------------------------------------------------
+		# GESTIONE CAMBIO STATO (La logica audio è nello stato Walk)
+		# -----------------------------------------------------
+		if is_on_floor() and abs(velocity.x) > VELOCITY_DEADZONE and state_machine.get_current_state().name != "Walk":
+			state_machine.set_current_state(state_machine.get_node("Walk"))
+		elif is_on_floor() and abs(velocity.x) < VELOCITY_DEADZONE and state_machine.get_current_state().name == "Walk":
+			state_machine.set_current_state(state_machine.get_node("Idle"))
+		# -----------------------------------------------------
 
 	# caduta
 	if velocity.y > 0 and not wall_climbing:
@@ -176,13 +187,14 @@ func _input(event):
 		print(jumpcount)
 		if is_on_floor():
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
-			sfx_jump_start.play()
+			# sfx_jump_start.play() <--- Rimosso
 			velocity.y = JUMP_INITIAL
 			jump_holding = true
 			jump_time = 0.0
+			# sfx_walk.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 		elif wall_climbing:
 			state_machine.set_current_state(state_machine.get_node("JumpStart"))
-			sfx_jump_start.play()
+			# sfx_jump_start.play() <--- Rimosso
 			velocity = Vector2(-wall_dir * WALL_JUMP_FORCE.x, WALL_JUMP_FORCE.y)
 			visuals.scale.x = -wall_dir
 			wall_climbing = false
@@ -197,7 +209,7 @@ func _input(event):
 	# Attack
 	if event.is_action_pressed("Click") and not dashing and not sit:
 		state_machine.set_current_state(state_machine.get_node("AttackFrontal"))
-		sfx_attack.play()
+		# sfx_attack.play() <--- Rimosso
 
 	# Dash
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
@@ -205,7 +217,8 @@ func _input(event):
 		dash_time = 0.0
 		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
 		state_machine.set_current_state(state_machine.get_node("Dash"))
-		sfx_dash.play()
+		# sfx_dash.play() <--- Rimosso
+		# step_timer.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 
 		if not is_on_floor():
 			can_dash = false
@@ -222,11 +235,10 @@ func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken
-	sfx_damage.play()
+
 
 
 func death():
-	sfx_death.play()
 	print("Dead!")
 	await get_tree().create_timer(0.5).timeout
 	get_tree().reload_current_scene()
