@@ -8,6 +8,9 @@ extends CanvasLayer
 @onready var menu_buttons := [%EnterDreamButton, %InviteDreamersButton, %ChallengesButton]
 @onready var players_container: Node = %PlayersFramesContainer
 @onready var disband_node: TextureRect = %DisbandDream
+@onready var navigation_sound: AudioStreamPlayer = $NavigationSound
+@onready var enter_sound: AudioStreamPlayer = $EnterSound
+@onready var theme_song_player: AudioStreamPlayer = $MainThemeSong
 
 # General
 const SECTION_WIDTH := 1920
@@ -33,10 +36,15 @@ var lobby_nav_index := 0
 const LOBBY_NAV_SLOTS := 3 
 var last_lobby_slot_index := 0
 
+
+
+
 func _ready() -> void:
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
 	_update_lobby_nav_visual()
+	if theme_song_player:
+		theme_song_player.play()
 
 func _process(_delta):
 	if SteamLobbyManager.lobby_id != 0:
@@ -59,42 +67,67 @@ func _input(event):
 		3:
 			_handle_3_input(event)
 
+
+func _play_ent_sound() -> void:
+	if enter_sound and not enter_sound.is_playing():
+		enter_sound.play()
+
+func _play_nav_sound() -> void:
+	if navigation_sound and not navigation_sound.is_playing():
+		navigation_sound.play()
+		
 func _handle_0_input(event):
 	if event.is_action_pressed("Move_Right"):
 		return
+		
 	elif event.is_action_pressed("Move_Left"):
 		return
+		
 	elif event.is_action_pressed("Move_Up"):
 		current_startup_button = clamp(current_startup_button - 1, 0, startup_buttons.size()-1)
+		_play_nav_sound() 
+		
 	elif event.is_action_pressed("Move_Down"):
 		current_startup_button = clamp(current_startup_button + 1, 0, startup_buttons.size()-1)
+		_play_nav_sound() 
+		
 	elif event.is_action_pressed("Click"):
 		if current_startup_button == 0:
 			go_to_section(1)
+			_play_ent_sound() 
+			
+			
 		else:
 			print("Settings")
 	elif event.is_action_pressed("ui_cancel"):
 		return
+		
 	update_selection_visual()
 
 func _handle_1_input(event):
 	if event.is_action_pressed("Move_Right"):
 		if not in_delete_layer:
 			select_slot(current_slot + 1)
+			_play_nav_sound() 
 	elif event.is_action_pressed("Move_Left"):
 		if not in_delete_layer:
 			select_slot(current_slot - 1)
+			_play_nav_sound() 
 	elif event.is_action_pressed("Move_Up"):
 		if in_delete_layer:
 			in_delete_layer = false
+			_play_nav_sound() 
 	elif event.is_action_pressed("Move_Down"):
 		if not in_delete_layer:
 			in_delete_layer = true
+			_play_nav_sound()
 	elif event.is_action_pressed("Click"):
 		if in_delete_layer:
 			print("Delete File selected for slot ", current_slot + 1)
+			_play_ent_sound() 
 		else:
 			go_to_section(2)
+			_play_ent_sound()
 	elif event.is_action_pressed("ui_cancel"):
 		if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
 			return
@@ -103,21 +136,28 @@ func _handle_1_input(event):
 
 	update_selection_visual()
 
+
 func _handle_2_input(event):
 	if event.is_action_pressed("Move_Right"):
+		_play_nav_sound()
 		return
 	elif event.is_action_pressed("Move_Left"):
+		_play_nav_sound()
 		return
 	elif event.is_action_pressed("Move_Up"):
 		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id) or SteamLobbyManager.lobby_id == 0:
 			current_menu_button = clamp(current_menu_button - 1, 0, menu_buttons.size()-1)
+			_play_nav_sound()
 		else:
 			current_menu_button = clamp(current_menu_button - 1, 1, menu_buttons.size()-2)
+			_play_nav_sound()
 	elif event.is_action_pressed("Move_Down"):
 		if Steam.getSteamID() == Steam.getLobbyOwner(SteamLobbyManager.lobby_id) or SteamLobbyManager.lobby_id == 0:
 			current_menu_button = clamp(current_menu_button + 1, 0, menu_buttons.size()-1)
+			_play_nav_sound()
 		else:
 			current_menu_button = clamp(current_menu_button + 1, 1, menu_buttons.size()-2)
+			_play_nav_sound()
 	elif event.is_action_pressed("Click"):
 		match current_menu_button:
 			0:
@@ -126,6 +166,8 @@ func _handle_2_input(event):
 				if SteamLobbyManager.lobby_id == 0:
 					SteamLobbyManager.host_lobby()
 				go_to_section(3)
+				_play_ent_sound()
+				
 	elif event.is_action_pressed("ui_cancel"):
 		go_to_section(current_section - 1)
 
@@ -135,16 +177,21 @@ func _handle_3_input(event):
 	if event.is_action_pressed("Move_Right"):
 		if lobby_nav_index == LOBBY_NAV_SLOTS:
 			lobby_nav_index = LOBBY_NAV_SLOTS - 1
+			_play_nav_sound()
 		else:
 			lobby_nav_index = (lobby_nav_index + 1) % LOBBY_NAV_SLOTS
+			_play_nav_sound()
 	elif event.is_action_pressed("Move_Left"):
 		if lobby_nav_index == LOBBY_NAV_SLOTS:
 			lobby_nav_index = 0
+			_play_nav_sound()
 		else:
 			lobby_nav_index = (lobby_nav_index - 1 + LOBBY_NAV_SLOTS) % LOBBY_NAV_SLOTS
+			_play_nav_sound()
 	elif event.is_action_pressed("Move_Up"):
 		if lobby_nav_index == LOBBY_NAV_SLOTS:
 			lobby_nav_index = last_lobby_slot_index
+			_play_nav_sound()
 			_update_lobby_nav_visual()
 		elif Steam.getLobbyMemberByIndex(SteamLobbyManager.lobby_id, lobby_nav_index) == Steam.getSteamID():
 			var frame = players_container.get_child(lobby_nav_index)
@@ -161,8 +208,10 @@ func _handle_3_input(event):
 	elif event.is_action_pressed("Move_Down"):
 		if lobby_nav_index < LOBBY_NAV_SLOTS:
 			last_lobby_slot_index = lobby_nav_index
+			_play_nav_sound()
 		lobby_nav_index = LOBBY_NAV_SLOTS
 	elif event.is_action_pressed("Click"):
+		_play_ent_sound()
 		_handle_lobby_click()
 	elif event.is_action_pressed("ui_cancel"):
 		go_to_section(2)
