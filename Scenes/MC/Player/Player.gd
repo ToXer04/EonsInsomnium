@@ -5,8 +5,6 @@ extends CharacterBody2D
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-@export var jumpcount := 0
-
 
 # Variabili Globali (Logica di movimento/audio rimossa)
 const DEFAULT_STATE = "Idle"
@@ -54,10 +52,6 @@ const WALL_JUMP_FORCE = Vector2(4000, -1000)
 var wall_climbing: bool = false
 var wall_dir: int = 0
 
-# Landing check
-var was_on_floor: bool = false
-
-
 func _ready() -> void:
 	var id_str = name
 	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
@@ -79,13 +73,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-
-	# LAND SFX (Rimosso: gestito dalla State Machine o da uno stato Land specifico)
-	var on_floor_now = is_on_floor()
-	if on_floor_now and not was_on_floor:
-		# sfx_land.play() <--- Rimosso
-		pass 
-	was_on_floor = on_floor_now
 
 	if moving_to_target:
 		move_toward_target(delta)
@@ -163,9 +150,6 @@ func _physics_process(delta: float) -> void:
 			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 		# -----------------------------------------------------
 
-	# caduta
-	if velocity.y > 0 and not wall_climbing:
-		lower_state_machine.set_current_state(lower_state_machine.get_node("JumpFallLower"))
 
 	move_and_slide()
 
@@ -176,8 +160,6 @@ func _input(event):
 
 	# Jump
 	if event.is_action_pressed("Jump") and not dashing and not sit:
-		jumpcount += 1
-		print(jumpcount)
 		if is_on_floor():
 			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
 			# sfx_jump_start.play() <--- Rimosso

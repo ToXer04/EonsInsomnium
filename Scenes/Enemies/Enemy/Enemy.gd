@@ -15,16 +15,13 @@ var gravity = ProjectSettings.get_setting('physics/2d/default_gravity')
 func _ready() -> void:
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
-
 func onHit(damageTaken: int):
 	takeDamage(damageTaken)
 	if health <= 0:
-		
 		velocity = Vector2(0, 0)
 		death()
 
@@ -35,5 +32,3 @@ func takeDamage(damageTaken: int):
 func death():
 	state_machine.set_current_state(state_machine.get_node("Death"))
 	spawner._on_mob_died()
-	
-	

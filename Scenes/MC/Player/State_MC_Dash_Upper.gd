@@ -1,11 +1,10 @@
 extends StateMachineState
 
-@onready var lower_sprite: AnimatedSprite2D = %LowerSprite
-@onready var lower_state_machine: StateMachine = %LowerStateMachine
+@onready var upper_sprite: AnimatedSprite2D = %UpperSprite
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	lower_sprite.play("DashLower")
+	upper_sprite.play("DashUpper")
 
 
 # Called every frame when this state is active.

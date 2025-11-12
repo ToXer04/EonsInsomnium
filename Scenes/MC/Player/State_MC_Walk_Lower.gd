@@ -4,7 +4,6 @@ extends StateMachineState
 @onready var lower_state_machine: StateMachine = %LowerStateMachine
 @onready var upper_state_machine: StateMachine = %UpperStateMachine
 @onready var player: CharacterBody2D = $"../../.."
-
 @onready var sfx_walk: AudioStreamPlayer = $WalkSFX 
 @onready var step_timer: Timer = $StepTimer 
 
@@ -16,9 +15,11 @@ const STEP_DELAY: float = 0.7
 # Called when the state machine enters this state.
 func _enter_state() -> void:
 	lower_sprite.play("WalkLower")
-	# Configura e Avvia il Timer per i passi
-	step_timer.wait_time = STEP_DELAY
 	
+	if not player.is_attacking:
+		upper_state_machine.set_current_state(upper_state_machine.get_node("WalkUpper"))
+		
+	step_timer.wait_time = STEP_DELAY
 	# Connetti il segnale solo se non è già connesso
 	if not step_timer.timeout.is_connected(_on_step_timer_timeout):
 		step_timer.timeout.connect(_on_step_timer_timeout)
@@ -26,7 +27,6 @@ func _enter_state() -> void:
 	step_timer.start() 
 	# Primo passo immediato
 	_on_step_timer_timeout() 
-
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:
@@ -39,7 +39,6 @@ func _process(_delta: float) -> void:
 	if not player.is_on_floor():
 		lower_state_machine.set_current_state(lower_state_machine.get_node("JumpFallLower"))
 		return
-
 
 # Called when the state machine exits this state.
 func _exit_state() -> void:

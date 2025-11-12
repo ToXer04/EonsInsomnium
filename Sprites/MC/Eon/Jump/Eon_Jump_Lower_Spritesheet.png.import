@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beubkefcde3dn"
-path="res://.godot/imported/Eon_Jump_Spritesheet.png-64bd75d4bf403cc1cd7323adbdcc2060.ctex"
+uid="uid://b77im3yejrdka"
+path="res://.godot/imported/Eon_Jump_Lower_Spritesheet.png-7b335e952f59c953edd14c42d8d805ea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/Jump/Eon_Jump_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_Jump_Spritesheet.png-64bd75d4bf403cc1cd7323adbdcc2060.ctex"]
+source_file="res://Sprites/MC/Eon/Jump/Eon_Jump_Lower_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_Jump_Lower_Spritesheet.png-7b335e952f59c953edd14c42d8d805ea.ctex"]
 
 [params]
 
