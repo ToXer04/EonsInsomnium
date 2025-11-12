@@ -39,11 +39,11 @@ func _process(_delta: float) -> void:
 # Called when the state machine exits this state.
 func _exit_state() -> void:
 	step_timer.stop()
-	sfx_walk.stop()
 	
 	if step_timer.timeout.is_connected(_on_step_timer_timeout):
 		step_timer.timeout.disconnect(_on_step_timer_timeout)
 
 func _on_step_timer_timeout():
+	return
 	sfx_walk.pitch_scale = randf_range(MIN_WALK_PITCH, MAX_WALK_PITCH)
 	sfx_walk.play()

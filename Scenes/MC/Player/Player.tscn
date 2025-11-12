@@ -786,7 +786,7 @@ unique_name_in_owner = true
 [node name="LowerSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"AttackNormalUpper"
+animation = &"WalkLower"
 offset = Vector2(0, -540)
 
 [node name="UpperSprite" type="AnimatedSprite2D" parent="Visuals"]
@@ -808,6 +808,7 @@ script = ExtResource("3_qkdcl")
 script = ExtResource("6_jyfwi")
 
 [node name="WalkSFX" type="AudioStreamPlayer" parent="Visuals/LowerStateMachine/WalkLower"]
+unique_name_in_owner = true
 stream = ExtResource("29_lok21")
 volume_db = 5.0
 pitch_scale = 1.2
@@ -945,3 +946,4 @@ stream = ExtResource("27_qoupd")
 bus = &"SFX"
 
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]
+[connection signal="frame_changed" from="Visuals/LowerSprite" to="." method="_on_lower_sprite_frame_changed"]
