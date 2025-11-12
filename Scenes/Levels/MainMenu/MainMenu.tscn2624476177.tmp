@@ -469,6 +469,18 @@ texture = ExtResource("13_6f2ds")
 expand_mode = 3
 stretch_mode = 5
 
+[node name="ArrowImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_right = 50.0
+offset_bottom = 100.0
+grow_horizontal = 2
+texture = ExtResource("13_3yml5")
+expand_mode = 1
+
 [node name="PlayerImage" type="TextureRect" parent="SectionsContainer/BG4/PlayersFramesContainer/Player1Container/BG"]
 layout_mode = 1
 anchors_preset = 15
