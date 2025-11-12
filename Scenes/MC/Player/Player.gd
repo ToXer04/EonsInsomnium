@@ -244,3 +244,17 @@ func move_to_target(pos: Vector2, callback: Callable = Callable()):
 	navigation_agent_2d.target_position = pos
 	var dir = target_position.x - global_position.x
 	if dir != 0: visuals.scale.x = sign(dir)
+
+@onready var sfx_walk: AudioStreamPlayer = %WalkSFX 
+
+
+func _on_lower_sprite_frame_changed() -> void:
+	match (%LowerSprite.animation):
+		"IdleLower": 
+			return
+		"WalkLower":
+			match (%LowerSprite.frame):
+				1: 
+					sfx_walk.play()
+				10: 
+					sfx_walk.play()
