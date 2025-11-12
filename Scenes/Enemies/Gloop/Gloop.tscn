@@ -188,5 +188,3 @@ script = ExtResource("4_u55hn")
 
 [node name="Walk" type="Node" parent="CharacterBody2D/StateMachine" index="2"]
 script = ExtResource("6_s1ef7")
-
-[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_animated_sprite_2d_animation_finished"]

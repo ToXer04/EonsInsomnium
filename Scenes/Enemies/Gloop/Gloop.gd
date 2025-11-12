@@ -15,13 +15,13 @@ var is_flying = true
 func _ready() -> void:
 	speed = 200
 	gravity = 0
+	coins = 5
 	DEFAULT_STATE = "Idle"
 	await get_tree().process_frame
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
-	
-	
+	print(coins)
 
 
 func _physics_process(_delta: float) -> void:
@@ -102,6 +102,3 @@ func _physics_process(_delta: float) -> void:
 		elif is_flying and raycastunder.is_colliding():
 			is_flying = false
 			return
-
-func _on_animated_sprite_2d_animation_finished() -> void:
-	queue_free()

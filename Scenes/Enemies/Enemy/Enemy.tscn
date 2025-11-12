@@ -23,3 +23,5 @@ metadata/_custom_type_script = "uid://dwqv65m8ieqgg"
 
 [node name="Death" type="Node" parent="CharacterBody2D/StateMachine"]
 script = ExtResource("3_3iwb3")
+
+[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D/StateMachine/Death" method="_on_animated_sprite_2d_animation_finished"]

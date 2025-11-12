@@ -20,17 +20,7 @@ func _on_timer_timeout() -> void:
 
 func _on_mob_died():
 	kills += 1
-
-
-
-func _on_body_entered(_body: Node2D) -> void:
-	entered = true
-	timer.start(1)
 	
-
-func _on_body_exited(_body: Node2D) -> void:
-	entered = false
-	_despawn_mobs()
 	
 func _despawn_mobs() -> void:
 	for mob in spawned_mobs:
@@ -38,4 +28,15 @@ func _despawn_mobs() -> void:
 			mob.queue_free()
 		
 	spawned_mobs.clear()
-	print(spawned_mobs)
+
+
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	entered = true
+	timer.start(1)
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	entered = false
+	_despawn_mobs()

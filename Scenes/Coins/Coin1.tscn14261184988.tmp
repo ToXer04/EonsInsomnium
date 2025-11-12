@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://7m7kchmabqty"]
+
+[ext_resource type="Script" uid="uid://dh53yixnvl7yg" path="res://Scenes/Coins/Coin1.gd" id="1_mscul"]
+[ext_resource type="Texture2D" uid="uid://bj6mtyoxckf1q" path="res://Sprites/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask1.png" id="2_3jwn8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_somhs"]
+radius = 31.06445
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrc3l"]
+atlas = ExtResource("2_3jwn8")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pjf33"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrc3l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Coin" type="RigidBody2D"]
+collision_layer = 0
+script = ExtResource("1_mscul")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_somhs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -515)
+sprite_frames = SubResource("SpriteFrames_pjf33")
+autoplay = "default"
+frame_progress = 0.17677672
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_somhs")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
