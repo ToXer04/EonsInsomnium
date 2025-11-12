@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn7gy6tq6slgp"
-path="res://.godot/imported/Eon_Idle_Spritesheet.png-fb9b5f242b285b0d2c8d6c7460eb0120.ctex"
+uid="uid://k6xuh5evlx3b"
+path="res://.godot/imported/Eon_Idle_Upper_Spritesheet.png-90a077b258094afe467421bd1d4331ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/Idle/Eon_Idle_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_Idle_Spritesheet.png-fb9b5f242b285b0d2c8d6c7460eb0120.ctex"]
+source_file="res://Sprites/MC/Eon/Idle/Eon_Idle_Upper_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_Idle_Upper_Spritesheet.png-90a077b258094afe467421bd1d4331ac.ctex"]
 
 [params]
 

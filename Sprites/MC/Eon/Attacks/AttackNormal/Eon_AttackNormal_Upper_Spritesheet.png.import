@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg8spthwuw1di"
-path="res://.godot/imported/Eon_AttackNormal_Spritesheet.png-92667eea14f0cc5199cc1fed72769ac1.ctex"
+uid="uid://cgcuy1x7ya1ru"
+path="res://.godot/imported/Eon_AttackNormal_Upper_Spritesheet.png-5a0b6bff3d44a26d4ca2507b80e9dc33.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_AttackNormal_Spritesheet.png-92667eea14f0cc5199cc1fed72769ac1.ctex"]
+source_file="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_AttackNormal_Upper_Spritesheet.png-5a0b6bff3d44a26d4ca2507b80e9dc33.ctex"]
 
 [params]
 

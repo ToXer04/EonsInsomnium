@@ -1,11 +1,11 @@
 extends StateMachineState
 
-@onready var sprite: AnimatedSprite2D = %AnimatedSprite2D
-@onready var state_machine: StateMachine = %StateMachine
+@onready var lower_sprite: AnimatedSprite2D = %LowerSprite
+@onready var lower_state_machine: StateMachine = %LowerStateMachine
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	sprite.play("SavePointIdle")
+	lower_sprite.play("SavePointIdleLower")
 
 
 # Called every frame when this state is active.
@@ -19,4 +19,4 @@ func _exit_state() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
-		state_machine.set_current_state(state_machine.get_node("SitOff"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("SitOffLower"))

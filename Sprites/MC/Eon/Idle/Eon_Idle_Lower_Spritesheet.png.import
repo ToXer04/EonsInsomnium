@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwqfvw4fkf3vu"
-path="res://.godot/imported/Eon_Walk_Spritesheet.png-49fbbaaf3693f34814b43669d1abd634.ctex"
+uid="uid://bkh6orvleb86u"
+path="res://.godot/imported/Eon_Idle_Lower_Spritesheet.png-faf8f8fd6d66381ea175cafb059e39e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/Walk/Eon_Walk_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_Walk_Spritesheet.png-49fbbaaf3693f34814b43669d1abd634.ctex"]
+source_file="res://Sprites/MC/Eon/Idle/Eon_Idle_Lower_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_Idle_Lower_Spritesheet.png-faf8f8fd6d66381ea175cafb059e39e5.ctex"]
 
 [params]
 

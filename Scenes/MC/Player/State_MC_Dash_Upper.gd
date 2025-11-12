@@ -1,17 +1,16 @@
 extends StateMachineState
 
-@onready var sprite: AnimatedSprite2D = %AnimatedSprite2D
-@onready var state_machine: StateMachine = %StateMachine
+@onready var lower_sprite: AnimatedSprite2D = %LowerSprite
+@onready var lower_state_machine: StateMachine = %LowerStateMachine
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	sprite.play("JumpRise")
+	lower_sprite.play("DashLower")
 
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:
-	if $"../../..".velocity.y >= 0:
-		state_machine.set_current_state(state_machine.get_node("JumpTransition"))
+	pass
 
 
 # Called when the state machine exits this state.

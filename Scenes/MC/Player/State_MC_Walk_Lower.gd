@@ -1,16 +1,10 @@
 extends StateMachineState
 
-@onready var sprite: AnimatedSprite2D = %AnimatedSprite2D
-@onready var state_machine: StateMachine = %StateMachine
+@onready var lower_sprite: AnimatedSprite2D = %LowerSprite
+@onready var lower_state_machine: StateMachine = %LowerStateMachine
+@onready var upper_state_machine: StateMachine = %UpperStateMachine
+@onready var player: CharacterBody2D = $"../../.."
 
-# ----------------------------------------------------
-# Riferimenti al nodo Player: Mantenuto solo per la VELOCITÀ
-# ----------------------------------------------------
-@onready var player = $"../../.."# Riferimento al Player, necessario solo per velocity.x e is_on_floor()
-
-# ----------------------------------------------------
-# 🔊 ORA SONO FIGLI DELLO STATO WALK
-# ----------------------------------------------------
 @onready var sfx_walk: AudioStreamPlayer = $WalkSFX 
 @onready var step_timer: Timer = $StepTimer 
 
@@ -21,8 +15,7 @@ const STEP_DELAY: float = 0.7
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	sprite.play("Walk")
-	
+	lower_sprite.play("WalkLower")
 	# Configura e Avvia il Timer per i passi
 	step_timer.wait_time = STEP_DELAY
 	
@@ -39,12 +32,12 @@ func _enter_state() -> void:
 func _process(_delta: float) -> void:
 	# Transizione a Idle se la velocità è zero
 	if player.velocity.x == 0:
-		state_machine.set_current_state(state_machine.get_node("Idle"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 		return
 	
 	# Transizione a JumpFall se non si è più a terra
 	if not player.is_on_floor():
-		state_machine.set_current_state(state_machine.get_node("JumpFall"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("JumpFallLower"))
 		return
 
 

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@onready var state_machine: StateMachine = %StateMachine
+@onready var lower_state_machine: StateMachine = %LowerStateMachine
+@onready var upper_state_machine: StateMachine = %UpperStateMachine
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
@@ -34,6 +35,9 @@ const MAX_JUMP_HOLD_TIME = 0.4
 var jump_holding: bool = false
 var jump_time: float = 0.0
 
+# Attack
+var is_attacking: bool = false
+
 # Dash
 const DASH_SPEED = 2000.0
 const DASH_DURATION = 0.2
@@ -58,28 +62,18 @@ func _ready() -> void:
 	var id_str = name
 	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
 	set_multiplayer_authority(id_str.to_int())
-	if is_multiplayer_authority() and not Singleton.playerSelected:
-		Singleton.playerSelected = true
-		match(Singleton.selectedChar):
-			"Eon": 
-				var player = load("res://Scenes/MC/Eon/Eon.tscn").instantiate()
-				player.name = "Eon" + id_str
-				add_sibling(player)
-				queue_free()
-			"Lyra":
-				var player = load("res://Scenes/MC/Lyra/Lyra.tscn").instantiate()
-				player.name = "Lyra" + id_str
-				add_sibling(player)
-				queue_free()
 	Singleton.player = self
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
 	else:
 		camera.enabled = false
-	var start_state = state_machine.get_node(DEFAULT_STATE)
-	if start_state:
-		state_machine.set_current_state(start_state)
+	var start_state_lower = lower_state_machine.get_node(DEFAULT_STATE + "Lower")
+	if start_state_lower:
+		lower_state_machine.set_current_state(start_state_lower)
+	var start_state_upper = upper_state_machine.get_node(DEFAULT_STATE + "Upper")
+	if start_state_upper:
+		upper_state_machine.set_current_state(start_state_upper)
 
 
 func _physics_process(delta: float) -> void:
@@ -118,7 +112,8 @@ func _physics_process(delta: float) -> void:
 
 		if dash_time >= DASH_DURATION:
 			dashing = false
-			state_machine.set_current_state(state_machine.get_node("Idle"))
+			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
+			upper_state_machine.set_current_state(upper_state_machine.get_node("IdleUpper"))
 	else:
 		# wall climb check
 		var direction := Input.get_axis("Move_Left", "Move_Right")
@@ -128,7 +123,8 @@ func _physics_process(delta: float) -> void:
 			wall_dir = -sign(wall_normal.x)
 			if direction == wall_dir:
 				if not wall_climbing:
-					state_machine.set_current_state(state_machine.get_node("WallClimb"))
+					lower_state_machine.set_current_state(lower_state_machine.get_node("WallClimbLower"))
+					upper_state_machine.set_current_state(upper_state_machine.get_node("WallClimbUpper"))
 					wall_climbing = true
 					can_dash = true
 				velocity.y = WALL_SLIDE_SPEED
@@ -161,18 +157,15 @@ func _physics_process(delta: float) -> void:
 		if abs(velocity.x) < VELOCITY_DEADZONE:
 			velocity.x = 0
 			
-		# -----------------------------------------------------
-		# GESTIONE CAMBIO STATO (La logica audio è nello stato Walk)
-		# -----------------------------------------------------
-		if is_on_floor() and abs(velocity.x) > VELOCITY_DEADZONE and state_machine.get_current_state().name != "Walk":
-			state_machine.set_current_state(state_machine.get_node("Walk"))
-		elif is_on_floor() and abs(velocity.x) < VELOCITY_DEADZONE and state_machine.get_current_state().name == "Walk":
-			state_machine.set_current_state(state_machine.get_node("Idle"))
+		if is_on_floor() and abs(velocity.x) > VELOCITY_DEADZONE and lower_state_machine.get_current_state().name != "WalkLower":
+			lower_state_machine.set_current_state(lower_state_machine.get_node("WalkLower"))
+		elif is_on_floor() and abs(velocity.x) < VELOCITY_DEADZONE and lower_state_machine.get_current_state().name == "WalkLower":
+			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 		# -----------------------------------------------------
 
 	# caduta
 	if velocity.y > 0 and not wall_climbing:
-		state_machine.set_current_state(state_machine.get_node("JumpFall"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("JumpFallLower"))
 
 	move_and_slide()
 
@@ -186,14 +179,14 @@ func _input(event):
 		jumpcount += 1
 		print(jumpcount)
 		if is_on_floor():
-			state_machine.set_current_state(state_machine.get_node("JumpStart"))
+			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
 			# sfx_jump_start.play() <--- Rimosso
 			velocity.y = JUMP_INITIAL
 			jump_holding = true
 			jump_time = 0.0
 			# sfx_walk.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 		elif wall_climbing:
-			state_machine.set_current_state(state_machine.get_node("JumpStart"))
+			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
 			# sfx_jump_start.play() <--- Rimosso
 			velocity = Vector2(-wall_dir * WALL_JUMP_FORCE.x, WALL_JUMP_FORCE.y)
 			visuals.scale.x = -wall_dir
@@ -207,16 +200,15 @@ func _input(event):
 			velocity.y *= 0.4
 
 	# Attack
-	if event.is_action_pressed("Click") and not dashing and not sit:
-		state_machine.set_current_state(state_machine.get_node("AttackFrontal"))
-		# sfx_attack.play() <--- Rimosso
+	if event.is_action_pressed("Click") and not dashing and not sit and not is_attacking:
+		upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
 
 	# Dash
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
 		dashing = true
 		dash_time = 0.0
 		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
-		state_machine.set_current_state(state_machine.get_node("Dash"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("DashLower"))
 		# sfx_dash.play() <--- Rimosso
 		# step_timer.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 
@@ -246,7 +238,7 @@ func death():
 
 func move_toward_target(delta: float) -> void:
 	if navigation_agent_2d.is_navigation_finished():
-		state_machine.set_current_state(state_machine.get_node("SitDown"))
+		lower_state_machine.set_current_state(lower_state_machine.get_node("SitDownLower"))
 		moving_to_target = false
 		velocity = Vector2.ZERO
 		if target_reached_callback.is_valid():

@@ -18,7 +18,8 @@ func _ready() -> void:
 @rpc("any_peer", "call_remote")
 func spawnPlayer(id: int, character: String):
 	print("Spawn per " +  str(id))
-	var path : String = "res://Scenes/MC/%s/%s.tscn" % [character, character]
+	#var path : String = "res://Scenes/MC/%s/%s.tscn" % [character, character]
+	var path : String = "res://Scenes/MC/Player/Player.tscn"
 	var player = load(path).instantiate()
 	player.name = character + str(id)
 	players.add_child(player)
