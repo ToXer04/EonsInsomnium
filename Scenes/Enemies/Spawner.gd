@@ -1,10 +1,18 @@
-extends Node2D
+extends Area2D
 @export var enemy = preload("res://Scenes/Enemies/Enemy/Enemy.tscn")
 @export var max_mobs: int
 var entered: bool = false
 var spawned_mobs: Array = []
 var kills : int = 0
+var current_zone: String = ""
+var current_zone_node: Area2D = null
 @onready var timer: Timer = $Timer
+
+
+
+func _ready() -> void:
+	await get_tree().create_timer(0.1).timeout
+	detect_zone()
 
 
 func _on_timer_timeout() -> void:
@@ -29,14 +37,28 @@ func _despawn_mobs() -> void:
 		
 	spawned_mobs.clear()
 
-
-
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_zone_body_entered(_body: Node2D) -> void:
 	entered = true
 	timer.start(1)
 
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_zone_body_exited(_body: Node2D) -> void:
 	entered = false
 	_despawn_mobs()
+
+
+func detect_zone():
+	# Controlla tutte le aree in overlapping
+	var areas = get_overlapping_areas()
+	for a in areas:
+			current_zone = a.zone_name
+			current_zone_node = a
+			_connect_zone_signals(current_zone_node)
+			return
+	# se non trova nessuna zona
+	current_zone = ""
+
+
+func _connect_zone_signals(zone: Area2D) -> void:
+	zone.connect("body_entered", Callable(self, "_on_zone_body_entered"))
+	zone.connect("body_exited", Callable(self, "_on_zone_body_exited"))
