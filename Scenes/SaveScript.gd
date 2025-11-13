@@ -20,4 +20,3 @@ func _load():
 		file.close()
 		
 		var save_data = data.duplicate()
-		contents_to_save.jumpCount = save_data.jumpCount
