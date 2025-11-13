@@ -21,7 +21,6 @@ func _ready() -> void:
 	var start_state = state_machine.get_node(DEFAULT_STATE)
 	if start_state:
 		state_machine.set_current_state(start_state)
-	print(coins)
 
 
 func _physics_process(_delta: float) -> void:
