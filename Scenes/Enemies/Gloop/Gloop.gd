@@ -15,7 +15,7 @@ var is_flying = true
 func _ready() -> void:
 	speed = 200
 	gravity = 0
-	coins = 5
+	coins = 125
 	DEFAULT_STATE = "Idle"
 	await get_tree().process_frame
 	var start_state = state_machine.get_node(DEFAULT_STATE)
