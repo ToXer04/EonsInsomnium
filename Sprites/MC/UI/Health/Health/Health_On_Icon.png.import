@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mux3sdqfe08s"
-path="res://.godot/imported/Flask50.png-b4266c26cb0ac44e1d1a935c476f7902.ctex"
+uid="uid://bhrel2w1cvq3o"
+path="res://.godot/imported/Health_On_Icon.png-203b9b89b788e0a3f2f725660059bb4c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask50.png"
-dest_files=["res://.godot/imported/Flask50.png-b4266c26cb0ac44e1d1a935c476f7902.ctex"]
+source_file="res://Sprites/MC/UI/Health/Health/Health_On_Icon.png"
+dest_files=["res://.godot/imported/Health_On_Icon.png-203b9b89b788e0a3f2f725660059bb4c.ctex"]
 
 [params]
 

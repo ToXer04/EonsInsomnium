@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var navigation_sound: AudioStreamPlayer = $NavigationSound
 @onready var enter_sound: AudioStreamPlayer = $EnterSound
 @onready var theme_song_player: AudioStreamPlayer = $MainThemeSong
+@onready var esc_sound: AudioStreamPlayer = $EscSound
 
 # General
 const SECTION_WIDTH := 1920
@@ -76,6 +77,10 @@ func _play_nav_sound() -> void:
 	if navigation_sound and not navigation_sound.is_playing():
 		navigation_sound.play()
 		
+func _play_esc_sound() -> void:
+	if esc_sound and not esc_sound.is_playing():
+		esc_sound.play()		
+		
 func _handle_0_input(event):
 	if event.is_action_pressed("Move_Right"):
 		return
@@ -100,6 +105,7 @@ func _handle_0_input(event):
 		else:
 			print("Settings")
 	elif event.is_action_pressed("ui_cancel"):
+		_play_esc_sound() 
 		return
 		
 	update_selection_visual()
@@ -130,9 +136,11 @@ func _handle_1_input(event):
 			_play_ent_sound()
 	elif event.is_action_pressed("ui_cancel"):
 		if Steam.getSteamID() != Steam.getLobbyOwner(SteamLobbyManager.lobby_id):
+			_play_esc_sound() 
 			return
 		else:
 			go_to_section(current_section - 1)
+			_play_esc_sound() 
 
 	update_selection_visual()
 
@@ -169,6 +177,7 @@ func _handle_2_input(event):
 				_play_ent_sound()
 				
 	elif event.is_action_pressed("ui_cancel"):
+		_play_esc_sound() 
 		go_to_section(current_section - 1)
 
 	update_selection_visual()
@@ -214,6 +223,7 @@ func _handle_3_input(event):
 		_play_ent_sound()
 		_handle_lobby_click()
 	elif event.is_action_pressed("ui_cancel"):
+		_play_esc_sound() 
 		go_to_section(2)
 	update_selection_visual()
 

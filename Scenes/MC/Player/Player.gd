@@ -5,13 +5,22 @@ extends CharacterBody2D
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@onready var coin_counter: Label = $Camera2D/CoinCounter
+@onready var health_ui_empty: TextureRect = $Camera2D/HealthUIEmpty
+@onready var health_ui_full: TextureRect = $Camera2D/HealthUIFull
+
 
 # Variabili Globali (Logica di movimento/audio rimossa)
 const DEFAULT_STATE = "Idle"
 
 # Variables
-var health: int = 3
+var health: int = 5
+var max_health: int = 5
 var damage: int  = 1
+var coins: int = 0
+
+
+
 
 # Interaction
 var moving_to_target: bool = false
@@ -53,10 +62,19 @@ var wall_climbing: bool = false
 var wall_dir: int = 0
 
 func _ready() -> void:
+	
 	var id_str = name
+	
+	coin_counter.text = str(coins)
+	
 	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
 	set_multiplayer_authority(id_str.to_int())
 	Singleton.player = self
+	
+	
+	change_healthUI()
+	
+	
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
@@ -209,6 +227,7 @@ func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken
+	change_healthUI()
 
 
 
@@ -258,3 +277,11 @@ func _on_lower_sprite_frame_changed() -> void:
 					sfx_walk.play()
 				10: 
 					sfx_walk.play()
+
+
+
+
+func change_healthUI():
+	health_ui_empty.size.x = max_health * 61
+	if health <= max_health:
+		health_ui_full.size.x = health * 61

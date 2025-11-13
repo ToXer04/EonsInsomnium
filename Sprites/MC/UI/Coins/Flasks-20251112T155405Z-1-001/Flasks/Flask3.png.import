@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd4oiwmpdy02t"
-path="res://.godot/imported/Flask3.png-0a211b3745b3d55210286d6b0c10b7f0.ctex"
+path="res://.godot/imported/Flask3.png-e98f6d15d8e97148de602b5b5faded2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask3.png"
-dest_files=["res://.godot/imported/Flask3.png-0a211b3745b3d55210286d6b0c10b7f0.ctex"]
+source_file="res://Sprites/MC/UI/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask3.png"
+dest_files=["res://.godot/imported/Flask3.png-e98f6d15d8e97148de602b5b5faded2a.ctex"]
 
 [params]
 

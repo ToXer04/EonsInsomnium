@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj6mtyoxckf1q"
-path="res://.godot/imported/Flask1.png-32f2b86b0a3a6d2c2ab61915ecd80533.ctex"
+uid="uid://hactyoipldba"
+path="res://.godot/imported/Flask10.png-efc102fc114cb38aff6ef42345c454cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask1.png"
-dest_files=["res://.godot/imported/Flask1.png-32f2b86b0a3a6d2c2ab61915ecd80533.ctex"]
+source_file="res://Sprites/MC/UI/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask10.png"
+dest_files=["res://.godot/imported/Flask10.png-efc102fc114cb38aff6ef42345c454cf.ctex"]
 
 [params]
 
