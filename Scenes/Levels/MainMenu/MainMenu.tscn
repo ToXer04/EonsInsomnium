@@ -1071,14 +1071,14 @@ size_flags_vertical = 6
 [node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2"]
 layout_mode = 2
 
-[node name="ResetToDefaultButton" type="TextureRect" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
+[node name="ResetToDefaultButtonVideo" type="TextureRect" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("6_06lca")
 
-[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButton"]
+[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButtonVideo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1090,14 +1090,14 @@ text = "Reset To Default"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ApplyButton" type="TextureRect" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
+[node name="ApplyButtonVideo" type="TextureRect" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
 unique_name_in_owner = true
 modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("7_gx241")
 
-[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButton"]
+[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Video/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButtonVideo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1130,49 +1130,63 @@ theme_override_constants/h_separation = 150
 theme_override_constants/v_separation = 50
 columns = 2
 
-[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Master" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Master Volume: "
 
-[node name="Label5" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="MasterValue" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "10"
 
-[node name="Label2" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Music" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Music Volume:"
 
-[node name="Label6" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="MusicValue" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "10"
 
-[node name="Label3" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Sound" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "Sound Volume:"
 
-[node name="Label7" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="SoundValue" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
 text = "10"
 
-[node name="Label4" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="Ambience" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
-text = "Dialogues Volume:"
+text = "Ambience Volume:"
 
-[node name="Label8" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+[node name="AmbienceValue" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 48
@@ -1186,12 +1200,14 @@ size_flags_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2"]
 layout_mode = 2
 
-[node name="ResetToDefaultButton" type="TextureRect" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+[node name="ResetToDefaultButtonAudio" type="TextureRect" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("6_06lca")
 
-[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButton"]
+[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButtonAudio"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1203,12 +1219,14 @@ text = "Reset To Default"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ApplyButton" type="TextureRect" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+[node name="ApplyButtonAudio" type="TextureRect" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("7_gx241")
 
-[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButton"]
+[node name="Label" type="Label" parent="SectionsContainer/BGSettings/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButtonAudio"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
