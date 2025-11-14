@@ -1217,7 +1217,6 @@ stream = ExtResource("19_sievc")
 bus = &"Music"
 
 [node name="Rooms" type="Node2D" parent="."]
-visible = false
 
 [node name="Room1" type="Area2D" parent="Rooms"]
 collision_layer = 19
@@ -1225,7 +1224,7 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room1"]
 position = Vector2(2898, 2448)
-polygon = PackedVector2Array(-3208.6038, 376.9621, -904.60394, 376.9621, -904.60394, 280.9621, -648.60394, 280.9621, -648.60394, 216.9621, -552.60394, 216.9621, -552.60394, 120.9621, -456.6039, 120.9621, -456.6039, 24.962095, -136.60391, 24.962095, -136.60391, 120.9621, -40.603916, 120.9621, -40.603916, 216.9621, 55.396084, 216.9621, 55.396084, 280.9621, 439.3961, 280.9621, 439.3961, 376.9621, 4445.396, 376.9621, 4445.396, 56.962093, 4279.396, 56.962093, 4279.396, -583.0379, 1079.3961, -583.0379, 1079.3961, 56.962093, 759.39606, 56.962093, 759.39606, -71.0379, 311.3961, -71.0379, 311.3961, -167.0379, 23.396088, -167.0379, 23.396088, -231.0379, 439.3961, -231.0379, 439.3961, -167.0379, 759.39606, -167.0379, 759.39606, -583.0379, -2888.6038, -583.0379, -2888.6038, -231.0379, -2632.6038, -231.0379, -2632.6038, -103.0379, -2888.6038, -103.0379, -2888.6038, 56.962093, -3208.6038, 56.962093)
+polygon = PackedVector2Array(-3209, 377, -905, 377, -905, 281, -649, 281, -649, 217, -553, 217, -553, 121, -457, 121, -457, 25, -137, 25, -137, 121, -41, 121, -41, 217, 55, 217, 55, 281, 439, 281, 439, 377, 4446, 377, 4446, 57, 4279, 57, 4279, -583, 1079, -583, 1079, 57, 759, 57, 759, -71, 311, -71, 311, -167, 23, -167, 23, -231, 439, -231, 439, -167, 759, -167, 759, -583, -2889, -583, -2889, -231, -2633, -231, -2633, -103, -2889, -103, -2889, 57, -3209, 57)
 
 [node name="Room2" type="Area2D" parent="Rooms"]
 collision_layer = 19
@@ -1233,3 +1232,94 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room2"]
 polygon = PackedVector2Array(-6903, 2825, -3799, 2825, -3799, 2505, -4119, 2505, -4119, 1993, -3511, 1993, -3511, 2825, -311, 2825, -311, 2505, -631, 2505, -631, 1673, -4791, 1673, -4791, 1993, -4535, 1993, -4535, 2505, -5111, 2505, -5111, 745, -631, 745, -631, -151, -375, -151, -375, -471, -631, -471, -631, -1015, -375, -1015, -375, -1335, -631, -1335, -631, -1655, -1847, -1655, -1847, -1815, -2263, -1815, -2263, -1655, -6583, -1655, -6583, 2505, -6903, 2505)
+
+[node name="Room3" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room3"]
+polygon = PackedVector2Array(-2263, -1815, -1847, -1815, -1847, -2807, -5399, -2807, -5399, -3575, -156, -3575, -156, -3895, -311, -3895, -311, -4599, -6391, -4599, -6391, -5399, -6711, -5399, -6711, -4119, -5751, -4119, -5751, -1975, -2263, -1975)
+
+[node name="Room4" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room4"]
+polygon = PackedVector2Array(-375, -471, -375, -151, -119, -151, -119, 1225, 4649, 1225, 4649, 905, 4489, 905, 4489, 457, 521, 457, 521, -471)
+
+[node name="Room5" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room5"]
+polygon = PackedVector2Array(1161, -375, 1161, -55, 1961, -55, 1961, 137, 2281, 137, 2281, -247, 2857, -247, 2857, 137, 3177, 137, 3177, -247, 3817, -247, 3817, 137, 4137, 137, 4137, -279, 4647, -279, 4647, -599, 1481, -599, 1481, -375)
+
+[node name="Room6" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room6"]
+polygon = PackedVector2Array(4649, 1225, 4649, 905, 4809, 905, 4809, -279, 4647, -279, 4647, -599, 4809, -599, 4809, -1015, 4647, -1015, 4647, -1335, 4809, -1335, 4809, -2039, 6089, -2039, 6089, -1303, 6409, -1303, 6409, -2039, 8009, -2039, 8009, -1303, 8175, -1303, 8175, -983, 6089, -983, 6089, 105, 6251, 105, 6251, 425, 6089, 425, 6089, 1225, 6250, 1225, 6250, 1545, 4809, 1545, 4809, 1225)
+
+[node name="Room7" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room7"]
+polygon = PackedVector2Array(8175, -983, 8175, -1303, 8329, -1303, 8329, -2750, 8649, -2750, 8649, -2039, 13929, -2039, 13929, -449, 13449, -449, 13449, -983)
+
+[node name="Room8" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room8"]
+polygon = PackedVector2Array(13929, -449, 13929, 425, 11593, 425, 11593, 905, 13929, 905, 13929, 2345, 11113, 2345, 11113, 2825, 9944, 2825, 9944, 2505, 10633, 2505, 10633, 1865, 13449, 1865, 13449, 1385, 10633, 1385, 10633, 425, 6251, 425, 6251, 105, 6409, 105, 6409, -567, 12329, -567, 12329, 105, 13449, 105, 13449, -449)
+
+[node name="Room9" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room9"]
+polygon = PackedVector2Array(6250, 1225, 6409, 1225, 6409, 841, 9353, 841, 9353, 2153, 7817, 2153, 7817, 2505, 8137, 2505, 8137, 2249, 9353, 2249, 9353, 2505, 9944, 2505, 9944, 2825, 9161, 2825, 9161, 2729, 8969, 2729, 8969, 2665, 8489, 2665, 8489, 2729, 8361, 2729, 8361, 2761, 8265, 2761, 8265, 2825, 7344, 2825, 7344, 2505, 7497, 2505, 7497, 1865, 9033, 1865, 9033, 1545, 6250, 1545)
+
+[node name="Room10" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room10"]
+polygon = PackedVector2Array(8329, -2750, 8649, -2750, 8649, -3351, 10441, -3351, 10441, -2711, 11081, -2711, 11081, -2391, 13929, -2391, 13929, -3031, 11433, -3031, 11433, -3671, 10121, -3671, 10121, -4311, 8329, -4311)
+
+[node name="Room11" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room11"]
+polygon = PackedVector2Array(4647, -3351, 4647, -3671, 4809, -3671, 4809, -4311, 8009, -4311, 8009, -3351)
+
+[node name="Room12" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room12"]
+polygon = PackedVector2Array(-2871, -5495, -2871, -5015, -156, -5015, -156, -5335, -311, -5335, -311, -5495)
+
+[node name="Room13" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room13"]
+polygon = PackedVector2Array(-375, -1015, 4647, -1015, 4647, -1335, 4489, -1335, 4489, -3351, 4647, -3351, 4647, -3671, 4489, -3671, 4489, -5175, 6153, -5175, 6153, -5495, 9, -5495, 9, -5335, -156, -5335, -156, -5015, 9, -5015, 9, -3895, -156, -3895, -156, -3575, 9, -3575, 9, -1335, -375, -1335)
+
+[node name="Room14" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room14"]
+polygon = PackedVector2Array(6153, -5175, 10425, -5175, 10425, -5495, 10249, -5495, 10249, -6135, 7369, -6135, 7369, -5495, 6153, -5495)
+
+[node name="Room15" type="Area2D" parent="Rooms"]
+collision_layer = 19
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room15"]
+polygon = PackedVector2Array(10425, -5175, 13129, -5175, 13129, -5815, 10569, -5815, 10569, -5495, 10425, -5495)
