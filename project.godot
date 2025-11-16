@@ -22,6 +22,7 @@ Singleton="*res://Singleton/singleton.gd"
 SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [debug]
 
