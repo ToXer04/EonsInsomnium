@@ -22,6 +22,7 @@ Singleton="*res://Singleton/singleton.gd"
 SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [debug]
 
@@ -36,7 +37,7 @@ window/size/viewport_height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg", "res://addons/multirun/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/finite_state_machine/plugin.cfg", "res://addons/multirun/plugin.cfg")
 
 [global_group]
 

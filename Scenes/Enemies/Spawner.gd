@@ -11,7 +11,7 @@ var current_zone_node: Area2D = null
 
 
 func _ready() -> void:
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.3).timeout
 	detect_zone()
 
 
@@ -51,7 +51,7 @@ func detect_zone():
 	# Controlla tutte le aree in overlapping
 	var areas = get_overlapping_areas()
 	for a in areas:
-			current_zone = a.zone_name
+			current_zone = a.name
 			current_zone_node = a
 			_connect_zone_signals(current_zone_node)
 			return
