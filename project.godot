@@ -22,6 +22,7 @@ Singleton="*res://Singleton/singleton.gd"
 SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [debug]
 
@@ -36,7 +37,7 @@ window/size/viewport_height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg", "res://addons/multirun/plugin.cfg")
+enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg", "res://addons/localization_with_google_sheet-ad8510c14ba66ca6fdd38fa0d966037dad90ec0f/addons/localization_with_google_sheet/plugin.cfg", "res://addons/localization_with_google_sheet/plugin.cfg", "res://addons/multirun/plugin.cfg")
 
 [global_group]
 
@@ -90,12 +91,23 @@ Interact={
 ]
 }
 
+[internationalization]
+
+locale/translations=["res://data/localization/Localization/Eon's_Insomnium_Localization_translation.en.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.it.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.es.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.fr.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.de.translation"]
+
 [layer_names]
 
 2d_physics/layer_1="Game"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Pickups"
 2d_physics/layer_4="Enemies"
+
+[localization_with_google_sheet]
+
+workspaces=[{
+"name": "Localization",
+"url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh-Ie5rEj_o_gc2opMA32QhNTH7VxSf5ah7-Nrknay7A2LLxwo5yHK0hwV-bqwFzvIUca5qoQ_pWta/pub?gid=0&single=true&output=csv"
+}]
 
 [physics]
 

@@ -6,7 +6,7 @@ extends CanvasLayer
 @onready var slots := [%File1Container, %File2Container, %File3Container]
 @onready var delete_button: TextureRect = %DeleteFileButton
 @onready var menu_buttons := [%EnterDreamButton, %InviteDreamersButton, %ChallengesButton]
-@onready var settings_sections := [%Settings, %Video, %Audio, %Language, %Languages]
+@onready var settings_sections := [%Settings, %Video, %Audio, %Language]
 @onready var settings_buttons := [%VideoButton, %AudioButton, %LanguageButton]
 @onready var video_settings_buttons := [%WindowMode, %Resolution, %Quality, %"V-Sync", %ResetToDefaultButtonVideo, %ApplyButtonVideo]
 @onready var audio_settings_buttons := [%Master, %Music, %Sound, %Ambience, %ResetToDefaultButtonAudio, %ApplyButtonAudio]
@@ -27,6 +27,7 @@ var settings_dictionary: Dictionary = {
 	"music_audio": 10,
 	"sound_audio": 10,
 	"ambience_audio": 10,
+	"current_language": 0,
 }
 
 # General
@@ -92,6 +93,10 @@ var current_sound_audio := 10
 var default_ambience_audio := 10
 var current_ambience_audio := 10
 
+# Language Settings Section
+var available_languages = ["en", "it", "es", "fr", "de"]
+var current_language_index = 0
+
 func _save():
 	var file = FileAccess.open_encrypted_with_pass(save_location, FileAccess.WRITE, "19191919")
 	settings_dictionary.window_mode = current_window_mode_index
@@ -102,26 +107,25 @@ func _save():
 	settings_dictionary.music_audio = current_music_audio
 	settings_dictionary.sound_audio = current_sound_audio
 	settings_dictionary.ambience_audio = current_ambience_audio
+	settings_dictionary.current_language = current_language_index
 	file.store_var(settings_dictionary.duplicate())
 	file.close()
-	
+
 func _load():
 	if FileAccess.file_exists(save_location):
 		var file = FileAccess.open_encrypted_with_pass(save_location, FileAccess.READ, "19191919")
 		var data = file.get_var()
 		file.close()
+		settings_dictionary = data
 		var save_data = data.duplicate()
 		loadVideoSettings(save_data)
 		loadAudioSettings(save_data)
+		loadLanguageSettings(save_data)
 
 func loadVideoSettings(save_data):
-		settings_dictionary.window_mode = save_data.window_mode
 		current_window_mode_index = save_data.window_mode
-		settings_dictionary.resolution = save_data.resolution
 		current_resolution_index = save_data.resolution
-		settings_dictionary.quality = save_data.quality
 		current_quality_index = save_data.quality
-		settings_dictionary.vsync = save_data.vsync
 		vsync_enabled = save_data.vsync
 		var names = ["Windowed", "Fullscreen"]
 		%WindowModeValue.text = names[current_window_mode_index]
@@ -131,13 +135,9 @@ func loadVideoSettings(save_data):
 		%"V-SyncValue".text = str(vsync_enabled).replace("true", "On").replace("false", "Off")
 
 func loadAudioSettings(save_data):
-	settings_dictionary.master_audio = save_data.master_audio
 	current_master_audio = save_data.master_audio
-	settings_dictionary.music_audio = save_data.music_audio
 	current_music_audio = save_data.music_audio
-	settings_dictionary.sound_audio = save_data.sound_audio
 	current_sound_audio = save_data.sound_audio
-	settings_dictionary.ambience_audio = save_data.ambience_audio
 	current_ambience_audio = save_data.ambience_audio
 	%MasterValue.text = str(current_master_audio)
 	%MusicValue.text = str(current_music_audio)
@@ -151,6 +151,11 @@ func loadAudioSettings(save_data):
 	AudioServer.set_bus_volume_db(sfx_idx, linear_to_db(current_sound_audio / 10.0))
 	AudioServer.set_bus_volume_db(ambience_idx, linear_to_db(current_ambience_audio / 10.0))
 	AudioServer.set_bus_volume_db(music_idx, linear_to_db(current_music_audio / 10.0))
+
+func loadLanguageSettings(save_data):
+	current_language_index = save_data.current_language
+	%LanguageValue.text = available_languages[current_language_index]
+	TranslationServer.set_locale(available_languages[current_language_index])
 
 func _ready() -> void:
 	_load()
@@ -192,6 +197,8 @@ func _input(event):
 							_handle_video_settings_input(event)
 						2:
 							_handle_audio_settings_input(event)
+						3:
+							_handle_language_settings_input(event)
 
 func _play_ent_sound() -> void:
 	if enter_sound and not enter_sound.is_playing():
@@ -614,6 +621,31 @@ func _handle_audio_settings_input(event):
 		go_to_settings_section(0)
 		return
 	update_selection_visual()
+
+func _handle_language_settings_input(event):
+	if event.is_action_pressed("Move_Right"):
+		return
+	elif event.is_action_pressed("Move_Left"):
+		return
+	elif event.is_action_pressed("Move_Up"):
+		_play_nav_sound()
+		current_language_index = (current_language_index - 1 + available_languages.size()) % available_languages.size()
+		var lang = available_languages[current_language_index]
+		%LanguageValue.text = lang
+		TranslationServer.set_locale(lang)
+	elif event.is_action_pressed("Move_Down"):
+		_play_nav_sound()
+		current_language_index = (current_language_index + 1) % available_languages.size()
+		var lang = available_languages[current_language_index]
+		%LanguageValue.text = lang
+		TranslationServer.set_locale(lang)
+	elif event.is_action_pressed("Click"):
+		return
+	elif event.is_action_pressed("ui_cancel"):
+		_play_esc_sound()
+		go_to_settings_section(0)
+		return
+	_save()
 
 @rpc("call_local", "any_peer")
 func rpc_swap_texture(img_path: NodePath, img_name: String):
