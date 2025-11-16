@@ -17,12 +17,8 @@ func _ready() -> void:
 
 @rpc("any_peer", "call_remote")
 func spawnPlayer(id: int, character: String):
-	var path : String = "res://Scenes/MC/Player/Player.tscn"
+	print("Spawn per " +  str(id))
+	var path : String = "res://Scenes/MC/%s/%s.tscn" % [character, character]
 	var player = load(path).instantiate()
-
-	# Imposti l'authority desiderata prima che _enter_tree venga chiamato
-	player.assigned_authority = id
 	player.name = character + str(id)
-
-	# Aggiungi il nodo alla scena
 	players.add_child(player)

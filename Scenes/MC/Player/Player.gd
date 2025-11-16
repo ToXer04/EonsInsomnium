@@ -65,27 +65,9 @@ const WALL_JUMP_FORCE = Vector2(4000, -1000)
 var wall_climbing: bool = false
 var wall_dir: int = 0
 
-var assigned_authority : int = -1
-
-func _on_ready():
-	set_multiplayer_authority(assigned_authority)
 
 func _ready() -> void:
-	self.ready.connect(_on_ready)
-	if not is_multiplayer_authority():
-		return
-	var id_str = name
-	
-	coin_counter.text = str(coins)
-	
-	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
-	#set_multiplayer_authority(id_str.to_int())
 	Singleton.player = self
-	
-	
-	change_healthUI()
-	
-	
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
