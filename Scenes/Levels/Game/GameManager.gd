@@ -15,6 +15,7 @@ func _ready() -> void:
 		print("Sono Client")
 		rpc_id(1, "spawnPlayer", multiplayer.get_unique_id(), Singleton.selectedChar)
 
+@rpc("any_peer", "call_remote")
 func spawnPlayer(id: int, character: String):
 	var path : String = "res://Scenes/MC/Player/Player.tscn"
 	var player = load(path).instantiate()

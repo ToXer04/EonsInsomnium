@@ -67,12 +67,11 @@ var wall_dir: int = 0
 
 var assigned_authority : int = -1
 
-func _enter_tree():
-	# Solo se è stato impostato un peer valido
-	if assigned_authority != -1:
-		multiplayer.authority = assigned_authority
+func _on_ready():
+	set_multiplayer_authority(assigned_authority)
 
 func _ready() -> void:
+	self.ready.connect(_on_ready)
 	if not is_multiplayer_authority():
 		return
 	var id_str = name
