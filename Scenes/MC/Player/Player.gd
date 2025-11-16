@@ -22,12 +22,16 @@ var coins: int = 0
 
 
 
+
+
 # Interaction
 var moving_to_target: bool = false
 var target_position: Vector2
 var target_reached_callback: Callable = Callable()
 var target_speed: float = 300.0
 var sit: bool = false
+
+var dialogue_active: bool = false
 
 # Movement
 const SPEED = 400.0
@@ -97,6 +101,10 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if sit:
+		return
+		
+		
+	if dialogue_active:
 		return
 
 	# cooldown dash
