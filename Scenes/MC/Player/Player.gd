@@ -65,14 +65,22 @@ const WALL_JUMP_FORCE = Vector2(4000, -1000)
 var wall_climbing: bool = false
 var wall_dir: int = 0
 
+var assigned_authority : int = -1
+
+func _enter_tree():
+	# Solo se è stato impostato un peer valido
+	if assigned_authority != -1:
+		multiplayer.authority = assigned_authority
+
 func _ready() -> void:
-	
+	if not is_multiplayer_authority():
+		return
 	var id_str = name
 	
 	coin_counter.text = str(coins)
 	
 	id_str = id_str.replace("Player", "").replace("Eon", "").replace("Lyra", "")
-	set_multiplayer_authority(id_str.to_int())
+	#set_multiplayer_authority(id_str.to_int())
 	Singleton.player = self
 	
 	
@@ -90,7 +98,6 @@ func _ready() -> void:
 	var start_state_upper = upper_state_machine.get_node(DEFAULT_STATE + "Upper")
 	if start_state_upper:
 		upper_state_machine.set_current_state(start_state_upper)
-
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():

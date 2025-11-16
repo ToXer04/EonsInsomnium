@@ -1,6 +1,6 @@
 extends Area2D
 
-const DIALOGUE_1 = preload("uid://jd6kkgqncthq")
+const DIALOGUE_1 = preload("res://Scenes/Dialogue/Dialogue1.dialogue")
 var player_in_range = false
 var player_ref: CharacterBody2D = null
 
