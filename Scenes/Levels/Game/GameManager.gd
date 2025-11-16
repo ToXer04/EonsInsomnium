@@ -20,5 +20,5 @@ func spawnPlayer(id: int, character: String):
 	print("Spawn per " +  str(id))
 	var path : String = "res://Scenes/MC/%s/%s.tscn" % [character, character]
 	var player = load(path).instantiate()
-	player.name = character + str(id)
+	player.name = str(id)
 	players.add_child(player)

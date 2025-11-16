@@ -67,6 +67,7 @@ var wall_dir: int = 0
 
 
 func _ready() -> void:
+	set_multiplayer_authority(name.to_int())
 	Singleton.player = self
 	if is_multiplayer_authority():
 		camera.enabled = true
