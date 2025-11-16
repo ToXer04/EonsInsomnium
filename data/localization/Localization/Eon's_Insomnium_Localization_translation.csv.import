@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://p4geyuuw8l7b"
+
+[deps]
+
+files=["res://data/localization/Localization/Eon's_Insomnium_Localization_translation.en.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.it.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.es.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.fr.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.de.translation"]
+
+source_file="res://data/localization/Localization/Eon's_Insomnium_Localization_translation.csv"
+dest_files=["res://data/localization/Localization/Eon's_Insomnium_Localization_translation.en.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.it.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.es.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.fr.translation", "res://data/localization/Localization/Eon's_Insomnium_Localization_translation.de.translation"]
+
+[params]
+
+compress=true
+delimiter=0
