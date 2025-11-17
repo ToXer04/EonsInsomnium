@@ -1,4 +1,4 @@
-[gd_scene load_steps=134 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=129 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
@@ -37,12 +37,9 @@
 [ext_resource type="Script" uid="uid://bg80a27o8b32b" path="res://Scenes/MC/Player/State_MC_JumpFall_Upper.gd" id="35_oxla6"]
 [ext_resource type="Script" uid="uid://bku7p1jix4cc8" path="res://Scenes/MC/Player/State_MC_JumpLand_Upper.gd" id="36_fve7w"]
 [ext_resource type="Script" uid="uid://bo65rxdayf7f5" path="res://Scenes/MC/Player/State_MC_Dash_Upper.gd" id="39_upfrb"]
-[ext_resource type="Texture2D" uid="uid://ibx8x1233dbe" path="res://Sprites/MC/UI/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask.png" id="40_20td0"]
 [ext_resource type="Script" uid="uid://c1y330w85th3j" path="res://Scenes/MC/Player/State_MC_WallClimb_Upper.gd" id="40_eu5nx"]
 [ext_resource type="Script" uid="uid://1enx3bou42t2" path="res://Scenes/MC/Player/State_MC_SitDown_Upper.gd" id="41_adwwj"]
-[ext_resource type="Texture2D" uid="uid://cxmey6sniwmpc" path="res://Sprites/MC/UI/Health/Health/Health_Frame.png" id="41_jjlgl"]
-[ext_resource type="Texture2D" uid="uid://bhrel2w1cvq3o" path="res://Sprites/MC/UI/Health/Health/Health_On_Icon.png" id="42_8nv00"]
-[ext_resource type="Texture2D" uid="uid://cwmtd77hrm1np" path="res://Sprites/MC/UI/Health/Health/Health_Off_Icon.png" id="42_euoc6"]
+[ext_resource type="PackedScene" uid="uid://h3kmrbd1l6kd" path="res://Scenes/MC/HUD/hud.tscn" id="42_20td0"]
 [ext_resource type="Script" uid="uid://dudyvh80gjb5l" path="res://Scenes/MC/Player/State_MC_SitIdle_Upper.gd" id="42_ihe0k"]
 [ext_resource type="Script" uid="uid://wknh26oc1o0m" path="res://Scenes/MC/Player/State_MC_SitOff_Upper.gd" id="43_8nv00"]
 
@@ -753,10 +750,6 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgxtr"]
 
-[sub_resource type="SystemFont" id="SystemFont_20td0"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_pkbn6"]
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xgxtr"]
 properties/0/path = NodePath(".:velocity")
 properties/0/spawn = true
@@ -938,51 +931,11 @@ collision_mask = 8
 [node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerFrontal"]
 shape = SubResource("RectangleShape2D_xgxtr")
 
+[node name="Hud" parent="." instance=ExtResource("42_20td0")]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -200)
 zoom = Vector2(1.3, 1.3)
-
-[node name="CoinCounter" type="Label" parent="Camera2D"]
-offset_left = -649.0
-offset_top = -252.0
-offset_right = -606.0
-offset_bottom = -198.0
-theme_override_fonts/font = SubResource("SystemFont_20td0")
-theme_override_font_sizes/font_size = 40
-label_settings = SubResource("LabelSettings_pkbn6")
-horizontal_alignment = 1
-vertical_alignment = 1
-uppercase = true
-
-[node name="FlaskPng" type="TextureRect" parent="Camera2D"]
-offset_left = -721.0
-offset_top = -251.0
-offset_right = -661.0
-offset_bottom = -196.0
-texture = ExtResource("40_20td0")
-
-[node name="TextureRect" type="TextureRect" parent="Camera2D"]
-offset_left = -732.0
-offset_top = -409.0
-offset_right = -150.0
-offset_bottom = -281.0
-texture = ExtResource("41_jjlgl")
-
-[node name="HealthUIEmpty" type="TextureRect" parent="Camera2D"]
-offset_left = -663.0
-offset_top = -350.0
-offset_right = -603.0
-offset_bottom = -266.0
-texture = ExtResource("42_euoc6")
-stretch_mode = 1
-
-[node name="HealthUIFull" type="TextureRect" parent="Camera2D"]
-offset_left = -663.0
-offset_top = -350.0
-offset_right = -602.0
-offset_bottom = -266.0
-texture = ExtResource("42_8nv00")
-stretch_mode = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_xgxtr")

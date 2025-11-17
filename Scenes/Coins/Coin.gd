@@ -22,5 +22,5 @@ func _ready() -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	body.coins += value
-	body.coin_counter.text = str(body.coins)
+	body.WriteCoins()
 	queue_free()

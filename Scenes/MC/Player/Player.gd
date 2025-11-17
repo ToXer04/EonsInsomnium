@@ -5,9 +5,11 @@ extends CharacterBody2D
 @onready var visuals: Node2D = %Visuals
 @onready var camera: Camera2D = $Camera2D
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-@onready var coin_counter: Label = $Camera2D/CoinCounter
-@onready var health_ui_empty: TextureRect = $Camera2D/HealthUIEmpty
-@onready var health_ui_full: TextureRect = $Camera2D/HealthUIFull
+
+@onready var health_ui_empty: Texture2D = preload("uid://cwmtd77hrm1np")
+@onready var health_ui_full: Texture2D = preload("uid://bhrel2w1cvq3o")
+
+@onready var hud: CanvasLayer = $Hud
 
 
 # Variabili Globali (Logica di movimento/audio rimossa)
@@ -80,6 +82,7 @@ func _ready() -> void:
 	var start_state_upper = upper_state_machine.get_node(DEFAULT_STATE + "Upper")
 	if start_state_upper:
 		upper_state_machine.set_current_state(start_state_upper)
+	Health_ui()
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -224,7 +227,7 @@ func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken
-	change_healthUI()
+	Change_Health_UI()
 
 
 
@@ -276,9 +279,49 @@ func _on_lower_sprite_frame_changed() -> void:
 					sfx_walk.play()
 
 
+func Health_ui():
+	var Emptycontainer = hud.get_node("Control/HealthUIEmptyContainer")
+	var Fullcontainer = hud.get_node("Control/HealthUIFullContainer")
+	
+	var existing_Empty_hearts = Emptycontainer.get_child_count()
+	var existing_Full_hearts = Fullcontainer.get_child_count()
+	
+	var Fullhearts_to_add = health - existing_Full_hearts
+	var Emptyhearts_to_add = health - existing_Empty_hearts
+	
+	if Fullhearts_to_add <= 0:
+		return
+		
+	
+	for i in range(Fullhearts_to_add):
+		var heart = TextureRect.new()
+		heart.texture = health_ui_full
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		Fullcontainer.add_child(heart)
+		
+	for i in range(Emptyhearts_to_add):
+		var heart = TextureRect.new()
+		heart.texture = health_ui_empty
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		Emptycontainer.add_child(heart)
 
 
-func change_healthUI():
-	health_ui_empty.size.x = max_health * 61
-	if health <= max_health:
-		health_ui_full.size.x = health * 61
+func Change_Health_UI():
+	var Emptycontainer = hud.get_node("Control/HealthUIEmptyContainer")
+	var Fullcontainer = hud.get_node("Control/HealthUIFullContainer")
+	
+	var existing_Empty_hearts = Emptycontainer.get_child_count()
+	var existing_Full_hearts = Fullcontainer.get_child_count()
+	
+	var target_full = health
+	var target_empty = max_health
+	
+	while existing_Full_hearts > target_full:
+		var last_heart = Fullcontainer.get_child(existing_Full_hearts - 1)
+		last_heart.queue_free()
+		existing_Full_hearts -= 1
+
+
+func WriteCoins():
+	var coin_counter = hud.get_node("Control/CoinCounter")
+	coin_counter.text = str(coins)
