@@ -205,16 +205,17 @@ func _input(event):
 
 	# Dash
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
-		dashing = true
-		dash_time = 0.0
-		dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
-		lower_state_machine.set_current_state(lower_state_machine.get_node("DashLower"))
+		if AbilityManager.is_unlocked("dash"):
+			dashing = true
+			dash_time = 0.0
+			dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
+			lower_state_machine.set_current_state(lower_state_machine.get_node("DashLower"))
 		# sfx_dash.play() <--- Rimosso
 		# step_timer.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 
-		if not is_on_floor():
-			can_dash = false
-		dash_cooldown_timer = DASH_COOLDOWN
+			if not is_on_floor():
+				can_dash = false
+			dash_cooldown_timer = DASH_COOLDOWN
 
 
 func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
