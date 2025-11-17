@@ -477,7 +477,7 @@ sources/0 = SubResource("TileSetAtlasSource_1pugl")
 sources/1 = SubResource("TileSetAtlasSource_nls55")
 sources/5 = SubResource("TileSetAtlasSource_uky0i")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g5c8l"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v7d0a"]
 texture = ExtResource("16_f7cb4")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
@@ -953,7 +953,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(48, 16, -80, 16, -80, -16, 48, -16)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gky7u"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sievc"]
 texture = ExtResource("17_nk4a1")
 texture_region_size = Vector2i(32, 32)
 2:1/0 = 0
@@ -1113,8 +1113,8 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
-sources/0 = SubResource("TileSetAtlasSource_g5c8l")
-sources/1 = SubResource("TileSetAtlasSource_gky7u")
+sources/0 = SubResource("TileSetAtlasSource_v7d0a")
+sources/1 = SubResource("TileSetAtlasSource_sievc")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ey8ag"]
 vertices = PackedVector2Array(2147.6484, 2456.75, 2166.2422, 2538.9297, 2070, 2531.1563, 2249.25, 2338, 2276.4297, 2448.7578, 3495.039, 2334.9375, 3534.8203, 2691, 3259.5781, 2691, 3255.539, 2596.0313, 3035.4063, 2331.9375, 3173.6719, 2603.9766, 2869.75, 2597.1563, 2855, 2541.0938, 1811.3438, 2596.711, 1818.3594, 2710, -3605.75, 2713.9922, -801.02344, 2465.039, -92, 2461.961, 2070, 2603.7188, 3470.9063, 1830.0078, 3468.0781, 2170.8281, 3241.8281, 2167.1172, 3226.7969, 2106.9531, -80.92969, 2106.039, -79.0625, 1833.9766, 2741.2578, 2110.0703, 155.71094, 2107.039, 161.29688, 2297, 2750.7031, 2241.1328, 2682, 2338, -3580.2266, 1633, -799.02344, 1633, -92, 2297, 3031.4063, 2237.1328, 2777, 2452.711, 2682, 2445.711, 2777, 2529.3828)
@@ -1249,7 +1249,7 @@ tile_set = SubResource("TileSet_8nybb")
 
 [node name="BGF1" type="TileMapLayer" parent="CanvasLayer_BGC1"]
 position = Vector2(-10369, 3951)
-tile_map_data = PackedByteArray("AABjAaL+AwAAAAAAAAAzAXv/AQAAAAAAAABHA47/AwAAAAAAAABUAv39BAAAAAAAAAAfAtP9BgAAAAAAAACDBKP/BgAAAAAAAAA7AgH/BQAAAAAAAAAZAr//AwAAAAAAAADAAsn/BgAAAAAAAABZAgL/AQAAAAAAAADWAfL+BAAAAAAAAADlBJT9BgAAAAAAAACOATL+AgAAAAAAAAD8Aoj/BAAAAAAAAAAvA4D/BgAAAAAAAACvBJT/AgAAAAAAAAB2BaP9AQAAAAAAAABABbf9AgAAAAAAAAB7BJD9AwAAAAAAAABLBNT+AQAAAAAAAADYA+z9AQAAAAAAAADYA+v9AQAAAAAAAABHBPb9AgAAAAAAAADiBZr/AQAAAAAAAADoBN7+AQAAAAAAAAC7Bdb+AQAAAAAAAAB+BdH+AgAAAAAAAADWBBz+AgAAAAAAAAA5BX3+BAAAAAAAAACOAjf/AQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AABjAaL+AwAAAAAAAAAzAXv/AQAAAAAAAABHA47/AwAAAAAAAABUAv39BAAAAAAAAAAfAtP9BgAAAAAAAACDBKP/BgAAAAAAAAA7AgH/BQAAAAAAAAAZAr//AwAAAAAAAADAAsn/BgAAAAAAAABZAgL/AQAAAAAAAADWAfL+BAAAAAAAAADlBJT9BgAAAAAAAACOATL+AgAAAAAAAAD8Aoj/BAAAAAAAAAAvA4D/BgAAAAAAAACvBJT/AgAAAAAAAAB2BaP9AQAAAAAAAABABbf9AgAAAAAAAAB7BJD9AwAAAAAAAABLBNT+AQAAAAAAAADYA+z9AQAAAAAAAADYA+v9AQAAAAAAAABHBPb9AgAAAAAAAADiBZr/AQAAAAAAAADoBN7+AQAAAAAAAAC7Bdb+AQAAAAAAAAB+BdH+AgAAAAAAAAA5BX3+BAAAAAAAAACOAjf/AQAAAAAAAAA=")
 tile_set = SubResource("TileSet_8nybb")
 
 [node name="CanvasLayer_BGC" type="CanvasLayer" parent="."]
