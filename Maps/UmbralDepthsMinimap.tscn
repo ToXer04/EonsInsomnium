@@ -1,0 +1,269 @@
+[gd_scene load_steps=19 format=3 uid="uid://cs5qcrj80chgg"]
+
+[ext_resource type="Script" uid="uid://d2npnapv8wgxx" path="res://Maps/MiniMap_UmbralDepths.gd" id="1_gfjtl"]
+[ext_resource type="Texture2D" uid="uid://dm8mmfqc76eg2" path="res://Sprites/Assets/Biomes/FullBlack.png" id="2_gfjtl"]
+[ext_resource type="Texture2D" uid="uid://d0pq0lg1glngy" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room1.png" id="4_pxlvp"]
+[ext_resource type="Texture2D" uid="uid://dbej6hm3q8mso" path="res://Maps/Markers/EonMarker.png" id="5_nk0kb"]
+[ext_resource type="Texture2D" uid="uid://bc3cnx0jaicw" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room2.png" id="5_tobye"]
+[ext_resource type="Texture2D" uid="uid://b6evdrxaxpv87" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room3.png" id="6_orxw8"]
+[ext_resource type="Texture2D" uid="uid://b4w4ot1nwrng0" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room4.png" id="7_unr12"]
+[ext_resource type="Texture2D" uid="uid://drfr4cq6xckr3" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room5.png" id="8_uy83c"]
+[ext_resource type="Texture2D" uid="uid://c7dqxvvi82nvi" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room6.png" id="9_ywutb"]
+[ext_resource type="Texture2D" uid="uid://tw2gclixufn8" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room7.png" id="10_mx71m"]
+[ext_resource type="Texture2D" uid="uid://66gqf23wath5" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room8.png" id="11_gyf6x"]
+[ext_resource type="Texture2D" uid="uid://d3cxvadieo4ky" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room9.png" id="12_mj6wt"]
+[ext_resource type="Texture2D" uid="uid://cqqfd1xi5nque" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room10.png" id="13_mkvk6"]
+[ext_resource type="Texture2D" uid="uid://be2cndgeglhih" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room11.png" id="14_dfy0v"]
+[ext_resource type="Texture2D" uid="uid://dfhb7ktix2o05" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room12.png" id="15_67g6d"]
+[ext_resource type="Texture2D" uid="uid://dkyulyt1onqiw" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room13.png" id="16_230vf"]
+[ext_resource type="Texture2D" uid="uid://etwkhsuanoba" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room14.png" id="17_ihjvs"]
+[ext_resource type="Texture2D" uid="uid://dc6s0oqmu27b6" path="res://Maps/UmbralDepths/UmbralDepths_Map_Room15.png" id="18_2asb4"]
+
+[node name="UmbralDepthsMinimap" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UIBG" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_gfjtl")
+expand_mode = 1
+script = ExtResource("1_gfjtl")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/UIBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Background" type="TextureRect" parent="Control/UIBG/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_gfjtl")
+expand_mode = 1
+script = ExtResource("1_gfjtl")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/UIBG/MarginContainer/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Rooms" type="Node2D" parent="Control/UIBG/MarginContainer/Background"]
+
+[node name="Room1" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_pxlvp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room2" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_tobye")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room3" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_orxw8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room4" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_unr12")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room5" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_uy83c")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room6" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_ywutb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room7" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_mx71m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room8" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_gyf6x")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room9" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_mj6wt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room10" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_mkvk6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room11" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_dfy0v")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room12" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_67g6d")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room13" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_230vf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room14" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_ihjvs")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Room15" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1720.0
+offset_bottom = 880.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_2asb4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerIcon" type="TextureRect" parent="Control/UIBG/MarginContainer/Background"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 1031.0
+offset_top = 784.0
+offset_right = 1063.0
+offset_bottom = 816.0
+pivot_offset = Vector2(16, 16)
+texture = ExtResource("5_nk0kb")
+expand_mode = 1
+stretch_mode = 5
