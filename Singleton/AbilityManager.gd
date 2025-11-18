@@ -21,7 +21,7 @@ var abilities: Dictionary = {
 	}
 }
 
-var popup = preload("res://Scenes/NPC/AbilityPopUp.tscn")
+var popup = preload("res://Scenes/NPC/PopUp/AbilityPopUp.tscn")
 
 
 func is_unlocked(key: String) -> bool:

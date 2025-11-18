@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdjpqqud6hihq"]
 
-[ext_resource type="Script" uid="uid://dedqs52y85q5i" path="res://Scenes/NPC/AbilityPopUp.gd" id="1_vn2nx"]
+[ext_resource type="Script" uid="uid://dedqs52y85q5i" path="res://Scenes/NPC/PopUp/AbilityPopUp.gd" id="1_vn2nx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3e1tc"]
 
