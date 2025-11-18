@@ -1,4 +1,4 @@
-[gd_scene load_steps=129 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=131 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
@@ -767,6 +767,15 @@ properties/4/path = NodePath("Visuals/UpperSprite:animation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
+[sub_resource type="Gradient" id="Gradient_20td0"]
+offsets = PackedFloat32Array(0.04587156, 0.7003058)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pkbn6"]
+gradient = SubResource("Gradient_20td0")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
@@ -790,11 +799,12 @@ unique_name_in_owner = true
 [node name="LowerSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"WalkLower"
+animation = &"IdleLower"
 offset = Vector2(0, -540)
 
 [node name="UpperSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
+modulate = Color(0.63375676, 0.6337568, 0.63375676, 1)
 sprite_frames = SubResource("SpriteFrames_rxg2u")
 animation = &"JumpTransitionUpper"
 offset = Vector2(0, -540)
@@ -950,6 +960,18 @@ bus = &"SFX"
 [node name="DeathSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("27_qoupd")
 bus = &"SFX"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1.0000001, -81)
+scale = Vector2(3.5, 3.5)
+color = Color(0.882598, 0.95486397, 0.6361448, 1)
+range_layer_min = -3
+range_layer_max = 3
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 1.0
+texture = SubResource("GradientTexture2D_pkbn6")
+texture_scale = 7.0
 
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]
 [connection signal="frame_changed" from="Visuals/LowerSprite" to="." method="_on_lower_sprite_frame_changed"]

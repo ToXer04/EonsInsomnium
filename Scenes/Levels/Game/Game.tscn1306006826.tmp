@@ -16,7 +16,6 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-89, 1824, -91, 2116, 1
 script = ExtResource("1_puqyj")
 
 [node name="UmbralDepths" parent="." instance=ExtResource("2_26h6w")]
-position = Vector2(172, -268)
 
 [node name="NavigationRegions" type="Node" parent="."]
 
