@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://h3kmrbd1l6kd"]
+
+[ext_resource type="Texture2D" uid="uid://ibx8x1233dbe" path="res://Sprites/MC/UI/Coins/Flasks-20251112T155405Z-1-001/Flasks/Flask.png" id="1_k4ihf"]
+[ext_resource type="Texture2D" uid="uid://cxmey6sniwmpc" path="res://Sprites/MC/UI/Health/Health/Health_Frame.png" id="2_4dyvq"]
+
+[sub_resource type="SystemFont" id="SystemFont_0ub5m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qxkb4"]
+
+[node name="Hud" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlaskPng" type="TextureRect" parent="Control"]
+layout_mode = 1
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 110.0
+offset_bottom = 255.0
+texture = ExtResource("1_k4ihf")
+stretch_mode = 5
+
+[node name="CoinCounter" type="Label" parent="Control"]
+layout_mode = 1
+offset_left = 125.0
+offset_top = 200.0
+offset_right = 168.0
+offset_bottom = 254.0
+theme_override_fonts/font = SubResource("SystemFont_0ub5m")
+theme_override_font_sizes/font_size = 40
+text = "0"
+label_settings = SubResource("LabelSettings_qxkb4")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+offset_right = 582.0
+offset_bottom = 128.0
+texture = ExtResource("2_4dyvq")
+stretch_mode = 5
+
+[node name="HealthUIEmptyContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 161.0
+offset_bottom = 134.0
+
+[node name="HealthUIFullContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 50.0
+offset_right = 161.0
+offset_bottom = 134.0

@@ -34,9 +34,10 @@ func _process(delta: float) -> void:
 	if player_in_range and Input.is_action_just_pressed("Interact"):
 		label.hide()
 		player_ref.dialogue_active = true
-		print(player_ref.dialogue_active)
 		DialogueManager.show_dialogue_balloon(DIALOGUE_1, "start")
 		
 func _dialogue_ended(resource):
 	player_ref.dialogue_active = false
-	print(player_ref.dialogue_active)
+	if !AbilityManager.is_unlocked("dash"):
+		AbilityManager.unlock_ability("dash")
+	

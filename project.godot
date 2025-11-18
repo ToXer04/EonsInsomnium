@@ -23,6 +23,7 @@ SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
 MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+AbilityManager="*res://Singleton/AbilityManager.gd"
 
 [debug]
 
@@ -37,7 +38,7 @@ window/size/viewport_height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/finite_state_machine/plugin.cfg", "res://addons/localization_with_google_sheet-ad8510c14ba66ca6fdd38fa0d966037dad90ec0f/addons/localization_with_google_sheet/plugin.cfg", "res://addons/localization_with_google_sheet/plugin.cfg", "res://addons/multirun/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/finite_state_machine/plugin.cfg", "res://addons/localization_with_google_sheet/plugin.cfg", "res://addons/multirun/plugin.cfg")
 
 [global_group]
 
