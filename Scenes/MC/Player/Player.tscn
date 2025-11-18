@@ -768,13 +768,13 @@ properties/4/spawn = true
 properties/4/replication_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_20td0"]
-offsets = PackedFloat32Array(0.04587156, 0.7003058)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_pkbn6"]
 gradient = SubResource("Gradient_20td0")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8034188, 0.13675214)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -963,15 +963,14 @@ bus = &"SFX"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(1.0000001, -81)
-scale = Vector2(3.5, 3.5)
-color = Color(0.882598, 0.95486397, 0.6361448, 1)
+scale = Vector2(3, 3)
+color = Color(0.9806041, 0.91023105, 0.44793624, 1)
 range_layer_min = -3
 range_layer_max = 3
-shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
 texture = SubResource("GradientTexture2D_pkbn6")
-texture_scale = 7.0
+texture_scale = 6.0
 
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurt_box_trigger_body_entered"]
 [connection signal="frame_changed" from="Visuals/LowerSprite" to="." method="_on_lower_sprite_frame_changed"]
