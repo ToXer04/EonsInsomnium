@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvqld2eer0h87"]
 
 [ext_resource type="Texture2D" uid="uid://rer5uubu274" path="res://Scenes/Levels/MainMenu/Assets/Players/Eon.png" id="1_kop1f"]
-[ext_resource type="Script" uid="uid://dh52hsb7irvpx" path="res://Scenes/NPC/NPC.gd" id="2_saa8s"]
+[ext_resource type="Script" uid="uid://dh52hsb7irvpx" path="res://Scenes/NPC/NPC/NPC.gd" id="2_saa8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kop1f"]
 

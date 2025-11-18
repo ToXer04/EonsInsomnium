@@ -1,9 +1,11 @@
 ~ start
 FakeEon: Ciao fra.
 FakeEon: Ma quanto sei frocio.
-- A
-	Eon: Minchia troppo.
-- B
-	Eon: ADORHOOO.
+- A 
+	Eon: Minchia troppo. [#choice=A]
+
+- B 
+	Eon: ADORHOOO. [#choice=B]
+
 FakeEon: Ecco qua, non avevo dubbi.....
 => END

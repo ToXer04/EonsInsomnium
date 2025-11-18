@@ -24,6 +24,7 @@ MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 AbilityManager="*res://Singleton/AbilityManager.gd"
+ItemManager="*res://Singleton/ItemManager.gd"
 
 [debug]
 
