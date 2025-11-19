@@ -17,17 +17,23 @@ const UI_RIGHT = 1700.0
 const UI_TOP = 40.0
 const UI_BOTTOM = 775.0
 
+var latest_unlocked_room = "Room1"
+
 func _ready():
-	pass
+	for room in %Rooms.get_children():
+		var room_name = room.name
+		room.visible = RoomsManager.rooms["UmbralDepths"][room_name]["Unlocked"]
 
 func _process(_delta: float) -> void:
 	# Mostra minimappa solo con Tab
-	$"../../..".visible = Input.is_key_pressed(KEY_TAB)
+	$"../../../..".visible = Input.is_key_pressed(KEY_TAB)
 	var player = Singleton.player
 	if player and Input.is_key_pressed(KEY_TAB):
 		# 3. Aggiorna la posizione del marker sulla UI
 		%PlayerIcon.position = get_ui_position(player.global_position)
-
+		if latest_unlocked_room != Singleton.latest_unlocked_room:
+			latest_unlocked_room = Singleton.latest_unlocked_room
+			%Rooms.get_node(latest_unlocked_room).visible = true
 
 # --- Converte posizione mondo direttamente in pixel UI per il marker ---
 func get_ui_position(world_pos: Vector2) -> Vector2:

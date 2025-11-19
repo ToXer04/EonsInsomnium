@@ -217,20 +217,9 @@ func _input(event):
 				can_dash = false
 			dash_cooldown_timer = DASH_COOLDOWN
 
-
-func _on_hurt_box_trigger_body_entered(body: Node2D) -> void:
-	if body is Enemy:
-		takeDamage(body.damage)
-		if health <= 0:
-			death()
-		print(health)
-
-
 func takeDamage(damageTaken: int):
 	health -= damageTaken
 	Change_Health_UI()
-
-
 
 func death():
 	print("Dead!")
@@ -308,21 +297,26 @@ func Health_ui():
 
 
 func Change_Health_UI():
-	var Emptycontainer = hud.get_node("Control/HealthUIEmptyContainer")
 	var Fullcontainer = hud.get_node("Control/HealthUIFullContainer")
-	
-	var existing_Empty_hearts = Emptycontainer.get_child_count()
 	var existing_Full_hearts = Fullcontainer.get_child_count()
-	
 	var target_full = health
-	var target_empty = max_health
-	
 	while existing_Full_hearts > target_full:
 		var last_heart = Fullcontainer.get_child(existing_Full_hearts - 1)
 		last_heart.queue_free()
 		existing_Full_hearts -= 1
 
-
 func WriteCoins():
 	var coin_counter = hud.get_node("Control/CoinCounter")
 	coin_counter.text = str(coins)
+
+func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
+	if area.name.contains("Room"):
+		RoomsManager.rooms["UmbralDepths"][area.name]["Unlocked"] = true
+		Singleton.latest_unlocked_room = area.name
+
+func _on_hurtbox_trigger_body_entered(body: Node2D) -> void:
+	if body is Enemy:
+		takeDamage(body.damage)
+		if health <= 0:
+			death()
+		print(health)

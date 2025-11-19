@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cs5qcrj80chgg"]
+[gd_scene load_steps=19 format=3 uid="uid://do77d0rjnmcxi"]
 
 [ext_resource type="Script" uid="uid://d2npnapv8wgxx" path="res://Maps/MiniMap_UmbralDepths.gd" id="1_gfjtl"]
 [ext_resource type="Texture2D" uid="uid://dm8mmfqc76eg2" path="res://Sprites/Assets/Biomes/FullBlack.png" id="2_gfjtl"]
@@ -38,7 +38,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gfjtl")
 expand_mode = 1
-script = ExtResource("1_gfjtl")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/UIBG"]
 layout_mode = 1
@@ -75,6 +74,7 @@ theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 100
 
 [node name="Rooms" type="Node2D" parent="Control/UIBG/MarginContainer/Background"]
+unique_name_in_owner = true
 
 [node name="Room1" type="TextureRect" parent="Control/UIBG/MarginContainer/Background/Rooms"]
 anchors_preset = 15

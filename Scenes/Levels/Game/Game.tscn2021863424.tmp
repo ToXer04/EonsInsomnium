@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1dj2nirm0m0x"]
+
+[ext_resource type="Script" uid="uid://d1r51sl75kwp1" path="res://Scenes/Levels/Game/GameManager.gd" id="1_puqyj"]
+[ext_resource type="PackedScene" uid="uid://btvv2efofeej" path="res://Scenes/Levels/Game/UmbralDepths/UmbralDepths.tscn" id="2_26h6w"]
+[ext_resource type="PackedScene" uid="uid://dxqp5cf05hlf3" path="res://Scenes/Enemies/Spawner.tscn" id="4_nc57n"]
+[ext_resource type="PackedScene" uid="uid://bvqld2eer0h87" path="res://Scenes/NPC/NPC/NPC.tscn" id="6_5qxo6"]
+[ext_resource type="PackedScene" uid="uid://b0efhxa43vbs0" path="res://Scenes/Enemies/Slither/Slither.tscn" id="34_suycs"]
+[ext_resource type="PackedScene" uid="uid://6cbs51dn5yfs" path="res://Scenes/Enemies/Gloop/Gloop.tscn" id="37_ov705"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3mrqo"]
+vertices = PackedVector2Array(2147.6484, 2456.75, 2166.2422, 2538.9297, 2070, 2531.1563, 2249.25, 2338, 2276.4297, 2448.7578, 3495.039, 2334.9375, 3534.8203, 2691, 3259.5781, 2691, 3255.539, 2596.0313, 3035.4063, 2331.9375, 3173.6719, 2603.9766, 2869.75, 2597.1563, 2855, 2541.0938, 1811.3438, 2596.711, 1818.3594, 2710, -3605.75, 2713.9922, -801.02344, 2465.039, -92, 2461.961, 2070, 2603.7188, 3470.9063, 1830.0078, 3468.0781, 2170.8281, 3241.8281, 2167.1172, 3226.7969, 2106.9531, -80.92969, 2106.039, -79.0625, 1833.9766, 2741.2578, 2110.0703, 155.71094, 2107.039, 161.29688, 2297, 2750.7031, 2241.1328, 2682, 2338, -3580.2266, 1633, -799.02344, 1633, -92, 2297, 3031.4063, 2237.1328, 2777, 2452.711, 2682, 2445.711, 2777, 2529.3828)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 0), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 5, 8, 10, 11, 12), PackedInt32Array(13, 14, 15, 16, 17), PackedInt32Array(2, 18, 13), PackedInt32Array(19, 20, 21, 22), PackedInt32Array(23, 24, 19, 22, 25, 26), PackedInt32Array(27, 26, 25, 28, 29, 3), PackedInt32Array(30, 31, 16, 15), PackedInt32Array(2, 13, 17, 32, 27, 3, 0), PackedInt32Array(28, 33, 9, 12, 34, 29), PackedInt32Array(34, 35, 29), PackedInt32Array(12, 36, 34)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-89, 1824, -91, 2116, 146, 2117, 151, 2287, -102, 2287, -102, 2452, -791, 2455, -789, 1623, -3590, 1623, -3616, 2724, 1829, 2720, 1822, 2607, 2080, 2614, 2080, 2542, 2179, 2550, 2160, 2466, 2289, 2458, 2262, 2348, 2672, 2348, 2672, 2455, 2767, 2462, 2767, 2538, 2847, 2550, 2862, 2607, 3174, 2614, 3246, 2607, 3250, 2701, 3546, 2701, 3504, 2325, 3045, 2322, 3041, 2227, 2760, 2231, 2752, 2120, 3219, 2117, 3234, 2177, 3478, 2181, 3481, 1820)])
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_puqyj")
+
+[node name="UmbralDepths" parent="." instance=ExtResource("2_26h6w")]
+position = Vector2(172, -268)
+
+[node name="NavigationRegions" type="Node" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="NavigationRegions"]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_3mrqo")
+
+[node name="Slither" parent="." instance=ExtResource("34_suycs")]
+position = Vector2(-3704, -2013)
+
+[node name="Players" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(2625, 2314)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("uid://ddonb1ria8edw", "uid://cxiupy0m26xmx", "uid://bo5knvosfauea")
+spawn_path = NodePath("../Players")
+
+[node name="Spawner" parent="." instance=ExtResource("4_nc57n")]
+position = Vector2(1449, 2554)
+enemy = ExtResource("37_ov705")
+max_mobs = 1
+
+[node name="Npc" parent="." instance=ExtResource("6_5qxo6")]
+position = Vector2(-410, 2757)
+scale = Vector2(0.36, 0.36)
