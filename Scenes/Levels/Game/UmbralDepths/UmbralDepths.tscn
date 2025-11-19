@@ -1546,7 +1546,6 @@ script = ExtResource("1_v7d0a")
 
 [node name="Rooms" type="Node2D" parent="."]
 unique_name_in_owner = true
-visible = false
 
 [node name="Room1" type="Area2D" parent="Rooms"]
 collision_layer = 16
