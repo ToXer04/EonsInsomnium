@@ -309,11 +309,6 @@ func WriteCoins():
 	var coin_counter = hud.get_node("Control/CoinCounter")
 	coin_counter.text = str(coins)
 
-func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
-	if area.name.contains("Room"):
-		RoomsManager.rooms["UmbralDepths"][area.name]["Unlocked"] = true
-		Singleton.latest_unlocked_room = area.name
-
 func _on_hurtbox_trigger_body_entered(body: Node2D) -> void:
 	if body is Enemy:
 		takeDamage(body.damage)
