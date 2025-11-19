@@ -20,7 +20,6 @@ func _on_body_exited(body: Node2D) -> void:
 func _process(delta: float) -> void:
 	if player_in_range and Input.is_action_just_pressed("Interact"):
 		label.hide()
-		SaveScript.contents_to_save.jumpCount =  player_ref.jumpcount
 		SaveScript._save()
 		if player_ref and marker_2d:
 			player_ref.move_to_target(marker_2d.global_position)
