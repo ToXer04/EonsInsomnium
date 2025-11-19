@@ -52,9 +52,10 @@ func detect_zone():
 	var areas = get_overlapping_areas()
 	for a in areas:
 			current_zone = a.name
-			current_zone_node = a
-			_connect_zone_signals(current_zone_node)
-			return
+			if current_zone.contains("Room"):
+				current_zone_node = a
+				_connect_zone_signals(current_zone_node)
+				return
 	# se non trova nessuna zona
 	current_zone = ""
 

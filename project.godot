@@ -25,6 +25,7 @@ SaveScript="*res://Scenes/SaveScript.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 AbilityManager="*res://Singleton/AbilityManager.gd"
 ItemManager="*res://Singleton/ItemManager.gd"
+RoomsManager="*res://Singleton/RoomsManager.gd"
 
 [debug]
 
