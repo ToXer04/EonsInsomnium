@@ -192,8 +192,8 @@ shape = SubResource("RectangleShape2D_mqmxf")
 [node name="LedgeTrigger" type="Area2D" parent="CharacterBody2D" index="3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LedgeTrigger" index="0"]
-position = Vector2(44, 26)
-scale = Vector2(4.3199997, 1)
+position = Vector2(46, 26)
+scale = Vector2(12.360004, 1.0092598)
 shape = SubResource("RectangleShape2D_bt1th")
 
 [node name="StateMachine" parent="CharacterBody2D" index="4" node_paths=PackedStringArray("current_state")]
