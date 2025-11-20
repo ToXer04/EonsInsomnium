@@ -26,5 +26,6 @@ func resume_game():
 
 func quit_to_menu():
 	get_tree().paused = false
+	SaveManager.save_game()
 	get_tree().change_scene_to_file("res://Scenes/Levels/MainMenu/MainMenu.tscn")
 	queue_free()

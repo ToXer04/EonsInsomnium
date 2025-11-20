@@ -75,8 +75,7 @@ var quality_presets := [
 	{ "msaa_2d": Viewport.MSAA_DISABLED,  "scaling_3d_scale": 0.8, "screen_space_aa": Viewport.SCREEN_SPACE_AA_DISABLED, "shadow_atlas_size": 1024 },
 	{ "msaa_2d": Viewport.MSAA_2X,   "scaling_3d_scale": 1.0, "screen_space_aa": Viewport.SCREEN_SPACE_AA_SMAA,    "shadow_atlas_size": 2048 },
 	{ "msaa_2d": Viewport.MSAA_4X,   "scaling_3d_scale": 1.0, "screen_space_aa": Viewport.SCREEN_SPACE_AA_SMAA,    "shadow_atlas_size": 4096 },
-	{ "msaa_2d": Viewport.MSAA_8X,   "scaling_3d_scale": 1.0, "screen_space_aa": Viewport.SCREEN_SPACE_AA_SMAA,    "shadow_atlas_size": 8192 }
-]
+	{ "msaa_2d": Viewport.MSAA_8X,   "scaling_3d_scale": 1.0, "screen_space_aa": Viewport.SCREEN_SPACE_AA_SMAA,    "shadow_atlas_size": 8192 }]
 var default_quality_index := 2
 var current_quality_index := 2
 var default_vsync_enabled = false
@@ -261,6 +260,7 @@ func _handle_1_input(event):
 			print("Delete File selected for slot ", current_slot + 1)
 			_play_ent_sound() 
 		else:
+			SaveManager.load_game(current_slot + 1)
 			go_to_horizontal_section(2)
 			_play_ent_sound()
 	elif event.is_action_pressed("ui_cancel"):

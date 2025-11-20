@@ -27,6 +27,7 @@ AbilityManager="*res://Singleton/AbilityManager.gd"
 ItemManager="*res://Singleton/ItemManager.gd"
 RoomsManager="*res://Singleton/RoomsManager.gd"
 PauseManager="*res://Scenes/PauseMenu/PauseManager.gd"
+SaveManager="*res://Singleton/SaveManager.gd"
 
 [debug]
 
