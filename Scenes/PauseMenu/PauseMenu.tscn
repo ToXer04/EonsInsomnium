@@ -1,0 +1,502 @@
+[gd_scene load_steps=14 format=3 uid="uid://xsplotahq7ma"]
+
+[ext_resource type="Script" uid="uid://n8ick2rie8ao" path="res://Scenes/PauseMenu/PauseMenu.gd" id="1_456hk"]
+[ext_resource type="Texture2D" uid="uid://nmo8wuii613e" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button5.png" id="2_yko1y"]
+[ext_resource type="Texture2D" uid="uid://b26ech181ax32" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button1.png" id="4_h71r2"]
+[ext_resource type="Texture2D" uid="uid://d2x2h4k6e2ya0" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button2.png" id="5_22h1n"]
+[ext_resource type="Texture2D" uid="uid://ckc4vnvtl6r2" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button3.png" id="9_ddcha"]
+[ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_emyjy"]
+[ext_resource type="AudioStream" uid="uid://nhdgn0k15ib7" path="res://Content/SFX/MainMenu/Switch/Switch_SFX.WAV" id="15_u7a7t"]
+[ext_resource type="AudioStream" uid="uid://bbq2dybuvlal8" path="res://Content/SFX/MainMenu/Enter/Enter_SFX.WAV" id="16_ficqb"]
+[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/Songs/Eternal_Reverie.WAV" id="17_qmvvh"]
+[ext_resource type="AudioStream" uid="uid://bhlgknxw5613t" path="res://Content/SFX/MainMenu/Esc/Esc_SFX.WAV" id="18_luppv"]
+[ext_resource type="AudioStream" uid="uid://crdgvkler3ycl" path="res://Content/SFX/MainMenu/Delete/Delete_SFX.WAV" id="19_i5qde"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_n6m84"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_joepv"]
+load_path = "res://.godot/imported/Button1.png-5b9413ac4726dcaad5889baae2094cdc.ctex"
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 2
+script = ExtResource("1_456hk")
+
+[node name="BlackBG" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 0.5)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("CanvasTexture_n6m84")
+expand_mode = 2
+
+[node name="SectionsContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainContainer" type="Control" parent="SectionsContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/MainContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ContinueButton" type="TextureRect" parent="SectionsContainer/MainContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_yko1y")
+
+[node name="ContinueLabel" type="Label" parent="SectionsContainer/MainContainer/VBoxContainer/ContinueButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsButton" type="TextureRect" parent="SectionsContainer/MainContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("10_emyjy")
+
+[node name="SettingsLabel" type="Label" parent="SectionsContainer/MainContainer/VBoxContainer/SettingsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="TextureRect" parent="SectionsContainer/MainContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("9_ddcha")
+
+[node name="QuitLabel" type="Label" parent="SectionsContainer/MainContainer/VBoxContainer/QuitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsContainer" type="Control" parent="SectionsContainer"]
+visible = false
+anchors_preset = 0
+
+[node name="Settings" type="MarginContainer" parent="SectionsContainer/SettingsContainer"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Settings"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="VideoButton" type="TextureRect" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_joepv")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer/VideoButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Video"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioButton" type="TextureRect" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_joepv")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer/AudioButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Audio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LanguageButton" type="TextureRect" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_joepv")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Settings/VBoxContainer/LanguageButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Language"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Video" type="MarginContainer" parent="SectionsContainer/SettingsContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Video"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="GridContainer" type="GridContainer" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="WindowMode" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Window Mode:"
+
+[node name="WindowModeValue" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Windowed"
+
+[node name="Resolution" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Resolution:"
+
+[node name="ResolutionValue" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "1920x1080"
+
+[node name="Quality" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Quality:"
+
+[node name="QualityValue" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "High"
+
+[node name="V-Sync" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "V-Sync: "
+
+[node name="V-SyncValue" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Off"
+
+[node name="CenterContainer2" type="CenterContainer" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer2"]
+layout_mode = 2
+
+[node name="ResetToDefaultButtonVideo" type="TextureRect" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_h71r2")
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButtonVideo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Reset To Default"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ApplyButtonVideo" type="TextureRect" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_22h1n")
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Video/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButtonVideo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Apply"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Audio" type="MarginContainer" parent="SectionsContainer/SettingsContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Audio"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="GridContainer" type="GridContainer" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="Master" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Master Volume: "
+
+[node name="MasterValue" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[node name="Music" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Music Volume:"
+
+[node name="MusicValue" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[node name="Sound" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Sound Volume:"
+
+[node name="SoundValue" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[node name="Ambience" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Ambience Volume:"
+
+[node name="AmbienceValue" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[node name="CenterContainer2" type="CenterContainer" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer2"]
+layout_mode = 2
+
+[node name="ResetToDefaultButtonAudio" type="TextureRect" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_h71r2")
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ResetToDefaultButtonAudio"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Reset To Default"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ApplyButtonAudio" type="TextureRect" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer2/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.735357, 0.735357, 0.735357, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_22h1n")
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Audio/VBoxContainer/CenterContainer2/VBoxContainer/ApplyButtonAudio"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Apply"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Language" type="MarginContainer" parent="SectionsContainer/SettingsContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SectionsContainer/SettingsContainer/Language"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="SectionsContainer/SettingsContainer/Language/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="GridContainer" type="GridContainer" parent="SectionsContainer/SettingsContainer/Language/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 150
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="Label" type="Label" parent="SectionsContainer/SettingsContainer/Language/VBoxContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Language:"
+
+[node name="LanguageValue" type="Label" parent="SectionsContainer/SettingsContainer/Language/VBoxContainer/CenterContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "English"
+
+[node name="NavigationSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_u7a7t")
+bus = &"SFX"
+
+[node name="EnterSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_ficqb")
+bus = &"SFX"
+
+[node name="MainThemeSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_qmvvh")
+bus = &"Music"
+
+[node name="EscSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_luppv")
+bus = &"SFX"
+
+[node name="DeleteSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_i5qde")
+
+[node name="ApplySound" type="AudioStreamPlayer" parent="."]

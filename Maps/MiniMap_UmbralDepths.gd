@@ -67,8 +67,6 @@ func reveal_area(center: Vector2):
 			fog_image.set_pixel(x, y, Color(1,0,0))
 	fog_texture.update(fog_image)
 
-
-
 func get_ui_position(world_pos: Vector2) -> Vector2:
 	var norm_x = (world_pos.x - WORLD_LEFT) / (WORLD_RIGHT - WORLD_LEFT)
 	var norm_y = (world_pos.y - WORLD_TOP) / (WORLD_BOTTOM - WORLD_TOP)
