@@ -27,5 +27,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	# Chiudi su qualsiasi tasto o click
 	if event.is_pressed():
+		await get_tree().create_timer(1.0).timeout
 		visible = false
 		is_open = false

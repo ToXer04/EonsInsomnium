@@ -31,7 +31,7 @@ var moving_to_target: bool = false
 var target_position: Vector2
 var target_reached_callback: Callable = Callable()
 var target_speed: float = 300.0
-var sit: bool = false
+var stop: bool = false
 
 var dialogue_active: bool = false
 
@@ -91,13 +91,17 @@ func _physics_process(delta: float) -> void:
 	if moving_to_target:
 		move_toward_target(delta)
 		return
+	if not is_on_floor() and not wall_climbing:
+			velocity += get_gravity() * delta
 
-	if sit:
+	if stop:
+		velocity.x = 0
+		if is_on_floor():
+			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
+		move_and_slide()
 		return
 		
 		
-	if dialogue_active:
-		return
 
 	# cooldown dash
 	if dash_cooldown_timer > 0.0:
@@ -137,8 +141,7 @@ func _physics_process(delta: float) -> void:
 			wall_climbing = false
 
 		# Gravità
-		if not is_on_floor() and not wall_climbing:
-			velocity += get_gravity() * delta
+		
 
 		# Hold jump
 		if jump_holding and jump_time < MAX_JUMP_HOLD_TIME:
@@ -177,7 +180,7 @@ func _input(event):
 		return
 
 	# Jump
-	if event.is_action_pressed("Jump") and not dashing and not sit:
+	if event.is_action_pressed("Jump") and not dashing and not stop:
 		if is_on_floor():
 			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
 			# sfx_jump_start.play() <--- Rimosso
@@ -200,11 +203,11 @@ func _input(event):
 			velocity.y *= 0.4
 
 	# Attack
-	if event.is_action_pressed("Click") and not dashing and not sit and not is_attacking:
+	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
 
 	# Dash
-	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not sit:
+	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if AbilityManager.is_unlocked("dash"):
 			dashing = true
 			dash_time = 0.0

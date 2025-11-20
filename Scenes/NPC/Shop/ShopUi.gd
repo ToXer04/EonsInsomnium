@@ -21,7 +21,6 @@ func _ready():
 	assicurati_item_selezionabile()
 	aggiorna_dettagli()
 	aggiorna_evidenziazione()
-	
 
 
 # -------------------------------------------------
@@ -44,6 +43,18 @@ func mostra_tutto_acquistato():
 
 	name_label.visible = true
 	name_label.text = "Tutti gli oggetti sono stati acquistati"
+
+
+# -------------------------------------------------
+# MOSTRA UN MESSAGGIO (es: “non hai abbastanza soldi”)
+# -------------------------------------------------
+func mostra_messaggio(messaggio: String):
+	scroll_container.visible = true
+	desc_label.visible = false
+	cost_label.visible = false
+
+	name_label.visible = true
+	name_label.text = messaggio
 
 
 # -------------------------------------------------
@@ -75,7 +86,6 @@ func trova_prossimo_indice(direzione: int) -> int:
 	return selected_index
 
 
-# Assicura che selected_index non punti a un item comprato
 func assicurati_item_selezionabile():
 	if items[selected_index]["purchased"]:
 		selected_index = trova_prossimo_indice(1)
@@ -112,6 +122,8 @@ func aggiorna_dettagli():
 
 	name_label.text = item["name"]
 	desc_label.text = item["desc"]
+	desc_label.visible = true
+	cost_label.visible = true
 
 	if item["purchased"]:
 		cost_label.text = "Acquistato"
@@ -148,11 +160,11 @@ func compra_item():
 	var item = items[selected_index]
 
 	if item["purchased"]:
-		print("Item già acquistato!")
 		return
 
+	# SOLDI NON SUFFICIENTI → MESSAGGIO NELLA SEZIONE DESTRA
 	if player_money < item["cost"]:
-		print("Non hai abbastanza soldi per comprare ", item["name"])
+		mostra_messaggio("Non hai abbastanza soldi!")
 		return
 
 	# Scala i soldi e segna l'item come comprato
@@ -160,7 +172,7 @@ func compra_item():
 	item["purchased"] = true
 	print("Hai comprato: ", item["name"], " | Soldi rimasti: ", player_money)
 
-	# Se ora tutto è comprato → mostra schermata finale
+	# Se tutto è comprato → schermata finale
 	if tutti_acquistati():
 		mostra_tutto_acquistato()
 		return
