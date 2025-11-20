@@ -59,7 +59,6 @@ func start_hosting_game():
 # ------------------------
 @rpc("call_local", "any_peer")
 func _start_game():
-	print("🔁 Cambio scena a Game.tscn")
 	get_tree().change_scene_to_file("res://Scenes/Levels/Game/Game.tscn")
 
 

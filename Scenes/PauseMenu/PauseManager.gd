@@ -23,3 +23,8 @@ func pause_game():
 func resume_game():
 	pause_menu_instance.hide()
 	get_tree().paused = false
+
+func quit_to_menu():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scenes/Levels/MainMenu/MainMenu.tscn")
+	queue_free()

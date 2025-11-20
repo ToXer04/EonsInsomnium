@@ -158,7 +158,6 @@ func loadLanguageSettings(save_data):
 	TranslationServer.set_locale(available_languages[current_language_index])
 
 func _ready() -> void:
-	_load()
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
 	_update_lobby_nav_visual()

@@ -188,7 +188,6 @@ func continue_game():
 	timer.timeout.connect(PauseManager.resume_game)  # SENZA parentesi!
 	timer.start()
 
-
 func open_settings():
 	_play_ent_sound()
 	settings_open = true
@@ -214,11 +213,30 @@ func open_settings():
 
 func quit_to_menu():
 	_play_esc_sound()
-	print("Quit to Menu")
+	PauseManager.quit_to_menu()
 
 func close_settings():
 	_play_esc_sound()
-	print("Close Settings")
+	settings_open = false
+	var from_section = settings_sections[current_settings_section]
+	var to_section = %MainContainer
+	tween_active = true
+	var tween = create_tween()
+	tween.tween_property(from_section, "modulate:a", 0.0, 0.3)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(func():
+		from_section.visible = false
+		to_section.visible = true
+		to_section.modulate.a = 0.0
+		var tween_in = create_tween()
+		tween_in.tween_property(to_section, "modulate:a", 1.0, 0.3)\
+			.set_trans(Tween.TRANS_SINE)\
+			.set_ease(Tween.EASE_IN_OUT)
+		tween_in.tween_callback(func():
+			tween_active = false
+		)
+	)
 
 func _handle_settings_input(event):
 	if event.is_action_pressed("Move_Right"):
