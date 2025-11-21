@@ -946,6 +946,14 @@ shape = SubResource("RectangleShape2D_xgxtr")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -200)
 zoom = Vector2(1.3, 1.3)
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.15
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_xgxtr")
@@ -972,5 +980,7 @@ shadow_filter_smooth = 1.0
 texture = SubResource("GradientTexture2D_pkbn6")
 texture_scale = 6.0
 
+[connection signal="area_entered" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_area_entered"]
+[connection signal="area_exited" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_area_exited"]
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_body_entered"]
 [connection signal="frame_changed" from="Visuals/LowerSprite" to="." method="_on_lower_sprite_frame_changed"]

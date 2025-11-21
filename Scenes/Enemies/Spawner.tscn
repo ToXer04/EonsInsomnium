@@ -13,6 +13,7 @@ script = ExtResource("1_p05q8")
 wait_time = 3.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(1, 0.1254902, 1, 1)

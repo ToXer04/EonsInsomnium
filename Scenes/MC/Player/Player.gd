@@ -11,22 +11,43 @@ extends CharacterBody2D
 
 @onready var hud: CanvasLayer = $Hud
 
+# --- CAMERA LIMIT SYSTEM ---
+var base_limits := {}          # limiti base della Room
+var limit_left_stack: Array = []
+var limit_right_stack: Array = []
+var limit_top_stack: Array = []
+var limit_bottom_stack: Array = []
 
-# Variabili Globali (Logica di movimento/audio rimossa)
-const DEFAULT_STATE = "Idle"
+var camera_lerp_timer := 0.0  # timer da 0 a 1
+var camera_lerp_duration := 1  # durata in secondi della transizione
+var start_limit_left: float
+var start_limit_right: float
+var start_limit_top: float
+var start_limit_bottom: float
+
+
+var current_limit_left: float
+var current_limit_right: float
+var current_limit_top: float
+var current_limit_bottom: float
+
+var target_limit_left: float
+var target_limit_right: float
+var target_limit_top: float
+var target_limit_bottom: float
+
+const CAMERA_LERP_SPEED: float = 2.0  # più alto = più veloce
+const offset := 120   # aumentalo se serve
+
+
+# ----------------------------
 
 # Variables
 var health: int = 5
 var max_health: int = 5
 var damage: int  = 1
-var coins: int = 0
+var flasks: int = 0
 
-
-
-
-
-
-# Interaction
 var moving_to_target: bool = false
 var target_position: Vector2
 var target_reached_callback: Callable = Callable()
@@ -72,17 +93,135 @@ func _ready() -> void:
 	set_multiplayer_authority(name.to_int())
 	Singleton.player = self
 	if is_multiplayer_authority():
+		flasks = SaveManager.flasks
+		WriteFlasks()
 		camera.enabled = true
-		camera.make_current()
+		camera.make_current() 
 	else:
 		camera.enabled = false
-	var start_state_lower = lower_state_machine.get_node(DEFAULT_STATE + "Lower")
+
+	var start_state_lower = lower_state_machine.get_node("IdleLower")
 	if start_state_lower:
 		lower_state_machine.set_current_state(start_state_lower)
-	var start_state_upper = upper_state_machine.get_node(DEFAULT_STATE + "Upper")
+	var start_state_upper = upper_state_machine.get_node("IdleUpper")
 	if start_state_upper:
 		upper_state_machine.set_current_state(start_state_upper)
 	Health_ui()
+
+
+# ======================================================
+# ================ CAMERA LIMIT SYSTEM =================
+# ======================================================
+
+func apply_camera_limits():
+	# salva limiti di partenza
+	start_limit_left = camera.limit_left
+	start_limit_right = camera.limit_right
+	start_limit_top = camera.limit_top
+	start_limit_bottom = camera.limit_bottom
+
+	target_limit_left   = limit_left_stack.back()   if limit_left_stack.size() > 0 else base_limits.left
+	target_limit_right  = limit_right_stack.back()  if limit_right_stack.size() > 0 else base_limits.right
+	target_limit_top    = limit_top_stack.back()    if limit_top_stack.size() > 0 else base_limits.top
+	target_limit_bottom = limit_bottom_stack.back() if limit_bottom_stack.size() > 0 else base_limits.bottom
+	camera_lerp_timer = 0.0  # resetta timer
+
+
+# Quando entri in una Room
+func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
+
+	# --------- ROOM ---------
+	if area.name.begins_with("Room"):
+		print(area)
+		var poly: CollisionPolygon2D = area.get_node("CollisionPolygon2D")
+		var points = poly.polygon
+		
+
+		# Converti in globale
+		var global_points : Array = []
+		for p in points:
+			global_points.append(poly.to_global(p))
+
+		# Bounding box
+		var min_x = global_points[0].x
+		var max_x = global_points[0].x
+		var min_y = global_points[0].y
+		var max_y = global_points[0].y
+
+		for p in global_points:
+			min_x = min(min_x, p.x)
+			max_x = max(max_x, p.x)
+			min_y = min(min_y, p.y)
+			max_y = max(max_y, p.y)
+
+		# Salvo limiti base
+		base_limits = {
+			"left": min_x,
+			"right": max_x,
+			"top": min_y - offset,
+			"bottom": max_y + offset
+		}
+
+		apply_camera_limits()
+		return
+
+
+	# --------- CAMERA LIMITER ---------
+	if area.name.begins_with("CameraLimiter"):
+		var col = area.get_node("CollisionShape2D")
+		var shape = col.shape as RectangleShape2D
+
+		var ext = shape.extents * col.global_scale
+		var center = col.to_global(Vector2.ZERO)
+
+		var left   = center.x - ext.x - offset
+		var right  = center.x + ext.x + offset
+		var top    = center.y - ext.y - offset
+		var bottom = center.y + ext.y + offset
+
+		if "Left" in area.name:
+			limit_left_stack.append(left)
+
+		if "Right" in area.name:
+			limit_right_stack.append(right)
+
+		if "Top" in area.name:
+			limit_top_stack.append(top)
+
+		if "Bottom" in area.name:
+			limit_bottom_stack.append(bottom)
+
+		apply_camera_limits()
+		return
+
+
+
+
+# Quando esci da CameraLimiter
+func _on_hurtbox_trigger_area_exited(area: Area2D) -> void:
+	print(area)
+	if area.name.begins_with("CameraLimiter"):
+		if "Left" in area.name and limit_left_stack.size() > 0:
+			limit_left_stack.pop_back()
+
+		if "Right" in area.name and limit_right_stack.size() > 0:
+			limit_right_stack.pop_back()
+
+		if "Top" in area.name and limit_top_stack.size() > 0:
+			limit_top_stack.pop_back()
+
+		if "Bottom" in area.name and limit_bottom_stack.size() > 0:
+			limit_bottom_stack.pop_back()
+
+		apply_camera_limits()
+		return
+
+
+
+
+# ======================================================
+# ============= RESTO DEL TUO SCRIPT ===================
+# ======================================================
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -92,7 +231,7 @@ func _physics_process(delta: float) -> void:
 		move_toward_target(delta)
 		return
 	if not is_on_floor() and not wall_climbing:
-			velocity += get_gravity() * delta
+		velocity += get_gravity() * delta
 
 	if stop:
 		velocity.x = 0
@@ -101,19 +240,15 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 		
-		
-
 	# cooldown dash
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer -= delta
 		if dash_cooldown_timer < 0.0:
 			dash_cooldown_timer = 0.0
 
-	# reset dash quando tocchi terra
 	if is_on_floor():
 		can_dash = true
 
-	# gestione dash
 	if dashing:
 		velocity.y = 0
 		velocity.x = dash_direction * DASH_SPEED
@@ -124,7 +259,6 @@ func _physics_process(delta: float) -> void:
 			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 			upper_state_machine.set_current_state(upper_state_machine.get_node("IdleUpper"))
 	else:
-		# wall climb check
 		var direction := Input.get_axis("Move_Left", "Move_Right")
 
 		if not is_on_floor() and is_on_wall() and velocity.y > 0 and direction != 0:
@@ -140,10 +274,6 @@ func _physics_process(delta: float) -> void:
 		else:
 			wall_climbing = false
 
-		# Gravità
-		
-
-		# Hold jump
 		if jump_holding and jump_time < MAX_JUMP_HOLD_TIME:
 			var t = jump_time / MAX_JUMP_HOLD_TIME
 			var extra_force = (JUMP_HOLD_FORCE * (1.0 - t)) * delta
@@ -154,43 +284,49 @@ func _physics_process(delta: float) -> void:
 				if velocity.y < 0:
 					velocity.y *= 0.4
 
-		# Movimento orizzontale
 		if direction != 0:
 			velocity.x = lerp(velocity.x, direction * SPEED, ACCEL)
 			visuals.scale.x = direction
 		else:
 			velocity.x = lerp(velocity.x, 0.0, DECEL)
-		
-		# Deadzone Check
+
 		if abs(velocity.x) < VELOCITY_DEADZONE:
 			velocity.x = 0
-			
+
 		if is_on_floor() and abs(velocity.x) > VELOCITY_DEADZONE and lower_state_machine.get_current_state().name != "WalkLower":
 			lower_state_machine.set_current_state(lower_state_machine.get_node("WalkLower"))
 		elif is_on_floor() and abs(velocity.x) < VELOCITY_DEADZONE and lower_state_machine.get_current_state().name == "WalkLower":
 			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
-		# -----------------------------------------------------
-
 
 	move_and_slide()
+	
+	# --- camera smooth lerp ---
+	if camera_lerp_timer < 1.0:
+		camera_lerp_timer += delta / camera_lerp_duration
+	if camera_lerp_timer > 1.0:
+		camera_lerp_timer = 1.0
+
+	var t = cubic_ease_in_out(camera_lerp_timer)
+
+	camera.limit_left   = lerp(start_limit_left, target_limit_left, t)
+	camera.limit_right  = lerp(start_limit_right, target_limit_right, t)
+	camera.limit_top    = lerp(start_limit_top, target_limit_top, t)
+	camera.limit_bottom = lerp(start_limit_bottom, target_limit_bottom, t)
+
 
 
 func _input(event):
 	if not is_multiplayer_authority():
 		return
 
-	# Jump
 	if event.is_action_pressed("Jump") and not dashing and not stop:
 		if is_on_floor():
 			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
-			# sfx_jump_start.play() <--- Rimosso
 			velocity.y = JUMP_INITIAL
 			jump_holding = true
 			jump_time = 0.0
-			# sfx_walk.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 		elif wall_climbing:
 			lower_state_machine.set_current_state(lower_state_machine.get_node("JumpStartLower"))
-			# sfx_jump_start.play() <--- Rimosso
 			velocity = Vector2(-wall_dir * WALL_JUMP_FORCE.x, WALL_JUMP_FORCE.y)
 			visuals.scale.x = -wall_dir
 			wall_climbing = false
@@ -202,23 +338,20 @@ func _input(event):
 		if velocity.y < 0:
 			velocity.y *= 0.4
 
-	# Attack
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
 
-	# Dash
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if AbilityManager.is_unlocked("dash"):
 			dashing = true
 			dash_time = 0.0
 			dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
 			lower_state_machine.set_current_state(lower_state_machine.get_node("DashLower"))
-		# sfx_dash.play() <--- Rimosso
-		# step_timer.stop() rimosso (gestito dalla State Machine uscendo dallo stato Walk)
 
 			if not is_on_floor():
 				can_dash = false
 			dash_cooldown_timer = DASH_COOLDOWN
+
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken
@@ -228,7 +361,6 @@ func death():
 	print("Dead!")
 	await get_tree().create_timer(0.5).timeout
 	get_tree().reload_current_scene()
-
 
 func move_toward_target(delta: float) -> void:
 	if navigation_agent_2d.is_navigation_finished():
@@ -242,7 +374,6 @@ func move_toward_target(delta: float) -> void:
 	var dir = (next_path_point - global_position).normalized()
 	velocity = dir * target_speed
 	move_and_slide()
-
 
 func move_to_target(pos: Vector2, callback: Callable = Callable()):
 	if not is_on_floor():
@@ -259,18 +390,14 @@ func move_to_target(pos: Vector2, callback: Callable = Callable()):
 
 @onready var sfx_walk: AudioStreamPlayer = %WalkSFX 
 
-
 func _on_lower_sprite_frame_changed() -> void:
 	match (%LowerSprite.animation):
 		"IdleLower": 
 			return
 		"WalkLower":
 			match (%LowerSprite.frame):
-				1: 
-					sfx_walk.play()
-				10: 
-					sfx_walk.play()
-
+				1: sfx_walk.play()
+				10: sfx_walk.play()
 
 func Health_ui():
 	var Emptycontainer = hud.get_node("Control/HealthUIEmptyContainer")
@@ -285,7 +412,6 @@ func Health_ui():
 	if Fullhearts_to_add <= 0:
 		return
 		
-	
 	for i in range(Fullhearts_to_add):
 		var heart = TextureRect.new()
 		heart.texture = health_ui_full
@@ -298,7 +424,6 @@ func Health_ui():
 		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		Emptycontainer.add_child(heart)
 
-
 func Change_Health_UI():
 	var Fullcontainer = hud.get_node("Control/HealthUIFullContainer")
 	var existing_Full_hearts = Fullcontainer.get_child_count()
@@ -308,9 +433,9 @@ func Change_Health_UI():
 		last_heart.queue_free()
 		existing_Full_hearts -= 1
 
-func WriteCoins():
-	var coin_counter = hud.get_node("Control/CoinCounter")
-	coin_counter.text = str(coins)
+func WriteFlasks():
+	var flasks_counter = hud.get_node("Control/CoinCounter")
+	flasks_counter.text = str(flasks)
 
 func _on_hurtbox_trigger_body_entered(body: Node2D) -> void:
 	if body is Enemy:
@@ -318,3 +443,12 @@ func _on_hurtbox_trigger_body_entered(body: Node2D) -> void:
 		if health <= 0:
 			death()
 		print(health)
+
+
+
+func cubic_ease_in_out(t: float) -> float:
+	if t < 0.5:
+		return 4 * t * t * t
+	else:
+		var f = (2 * t) - 2
+		return 0.5 * f * f * f + 1
