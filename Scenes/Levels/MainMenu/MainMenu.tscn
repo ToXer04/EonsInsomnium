@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://rer5uubu274" path="res://Scenes/Levels/MainMenu/Assets/Players/Eon.png" id="14_6f2ds"]
 [ext_resource type="AudioStream" uid="uid://nhdgn0k15ib7" path="res://Content/SFX/MainMenu/Switch/Switch_SFX.WAV" id="15_3yml5"]
 [ext_resource type="AudioStream" uid="uid://bbq2dybuvlal8" path="res://Content/SFX/MainMenu/Enter/Enter_SFX.WAV" id="16_51sa4"]
-[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/Songs/Eternal_Reverie.WAV" id="17_ia5ig"]
+[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/MainMenu/Eternal_Reverie.WAV" id="17_ia5ig"]
 [ext_resource type="AudioStream" uid="uid://bhlgknxw5613t" path="res://Content/SFX/MainMenu/Esc/Esc_SFX.WAV" id="18_sscf6"]
 [ext_resource type="AudioStream" uid="uid://crdgvkler3ycl" path="res://Content/SFX/MainMenu/Delete/Delete_SFX.WAV" id="19_87ruh"]
 

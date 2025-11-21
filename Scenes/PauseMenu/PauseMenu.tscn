@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cpegnpfom5ucr" path="res://Scenes/Levels/MainMenu/Assets/Buttons/Button4.png" id="10_emyjy"]
 [ext_resource type="AudioStream" uid="uid://nhdgn0k15ib7" path="res://Content/SFX/MainMenu/Switch/Switch_SFX.WAV" id="15_u7a7t"]
 [ext_resource type="AudioStream" uid="uid://bbq2dybuvlal8" path="res://Content/SFX/MainMenu/Enter/Enter_SFX.WAV" id="16_ficqb"]
-[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/Songs/Eternal_Reverie.WAV" id="17_qmvvh"]
+[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/MainMenu/Eternal_Reverie.WAV" id="17_qmvvh"]
 [ext_resource type="AudioStream" uid="uid://bhlgknxw5613t" path="res://Content/SFX/MainMenu/Esc/Esc_SFX.WAV" id="18_luppv"]
 [ext_resource type="AudioStream" uid="uid://crdgvkler3ycl" path="res://Content/SFX/MainMenu/Delete/Delete_SFX.WAV" id="19_i5qde"]
 

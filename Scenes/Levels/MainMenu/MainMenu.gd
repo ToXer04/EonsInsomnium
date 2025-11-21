@@ -12,10 +12,6 @@ extends CanvasLayer
 @onready var audio_settings_buttons := [%Master, %Music, %Sound, %Ambience, %ResetToDefaultButtonAudio, %ApplyButtonAudio]
 @onready var players_container: Node = %PlayersFramesContainer
 @onready var disband_node: TextureRect = %DisbandDream
-@onready var navigation_sound: AudioStreamPlayer = $NavigationSound
-@onready var enter_sound: AudioStreamPlayer = $EnterSound
-@onready var theme_song_player: AudioStreamPlayer = $MainThemeSong
-@onready var esc_sound: AudioStreamPlayer = $EscSound
 
 const save_location = "user://Settings.json"
 var settings_dictionary: Dictionary = {
@@ -157,11 +153,10 @@ func loadLanguageSettings(save_data):
 	TranslationServer.set_locale(available_languages[current_language_index])
 
 func _ready() -> void:
+	Singleton.current_scene = "MainMenu"
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
 	_update_lobby_nav_visual()
-	if theme_song_player:
-		theme_song_player.play()
 
 func _process(_delta):
 	if SteamLobbyManager.lobby_id != 0:
@@ -170,6 +165,7 @@ func _process(_delta):
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "FadeLogo":
 		tween_active = false
+		SoundManager.start_menu_music()
 
 func _input(event):
 	if tween_active or slot_tween_active:
@@ -199,16 +195,19 @@ func _input(event):
 							_handle_language_settings_input(event)
 
 func _play_ent_sound() -> void:
-	if enter_sound and not enter_sound.is_playing():
-		enter_sound.play()
+	SoundManager.play_sfx(SoundManager.SFX_ENT)
 
 func _play_nav_sound() -> void:
-	if navigation_sound and not navigation_sound.is_playing():
-		navigation_sound.play()
+	SoundManager.play_sfx(SoundManager.SFX_SWITCH)
 		
 func _play_esc_sound() -> void:
-	if esc_sound and not esc_sound.is_playing():
-		esc_sound.play()		
+	SoundManager.play_sfx(SoundManager.SFX_ESC)
+	
+func _play_apply_sound() -> void:
+	SoundManager.play_sfx(SoundManager.SFX_APPLY)
+	
+func _play_delete_sound() -> void: 
+	SoundManager.play_sfx(SoundManager.SFX_DELETE)
 		
 func _handle_0_input(event):
 	if event.is_action_pressed("Move_Right"):

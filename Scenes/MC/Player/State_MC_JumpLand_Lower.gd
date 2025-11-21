@@ -5,20 +5,24 @@ extends StateMachineState
 @onready var upper_state_machine: StateMachine = %UpperStateMachine
 @onready var player: CharacterBody2D = $"../../.."
 
-# Called when the state machine enters this state.
 func _enter_state() -> void:
 	lower_sprite.play("JumpLandLower")
+	SoundManager.play_sfx(SoundManager.SFX_JUMPLAND)
+
+	# Stop walk timer to prevent step sound in air
+	var walk_state = player.get_node("WalkLowerState") 
+	if walk_state:
+		walk_state.step_timer.stop()
+
 	if not player.is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("JumpLandUpper"))
 
-# Called every frame when this state is active.
 func _process(_delta: float) -> void:
 	if not lower_sprite.is_playing():
 		if player.velocity.x == 0:
-				lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
+			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 		else:
 			lower_state_machine.set_current_state(lower_state_machine.get_node("WalkLower"))
 
-# Called when the state machine exits this state.
 func _exit_state() -> void:
 	pass

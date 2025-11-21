@@ -34,7 +34,7 @@ func _read_p2p_messages():
 				"KICK":
 					_on_kick_received()
 				_:
-					# eventuali messaggi custom
+					
 					pass
 
 # ------------------------

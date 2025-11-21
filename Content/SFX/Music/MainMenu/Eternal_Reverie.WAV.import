@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://3j4wg46hnmty"
-path="res://.godot/imported/Eternal_Reverie.WAV-4e5d3f61165e90e33054ae273f160d53.sample"
+path="res://.godot/imported/Eternal_Reverie.WAV-f4a0611e443509b63632a79fe7ff5814.sample"
 
 [deps]
 
-source_file="res://Content/SFX/Music/Songs/Eternal_Reverie.WAV"
-dest_files=["res://.godot/imported/Eternal_Reverie.WAV-4e5d3f61165e90e33054ae273f160d53.sample"]
+source_file="res://Content/SFX/Music/MainMenu/Eternal_Reverie.WAV"
+dest_files=["res://.godot/imported/Eternal_Reverie.WAV-f4a0611e443509b63632a79fe7ff5814.sample"]
 
 [params]
 

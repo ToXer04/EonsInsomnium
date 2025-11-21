@@ -92,6 +92,7 @@ var wall_dir: int = 0
 func _ready() -> void:
 	set_multiplayer_authority(name.to_int())
 	Singleton.player = self
+	SoundManager.play_gameplay_music()
 	if is_multiplayer_authority():
 		flasks = SaveManager.flasks
 		WriteFlasks()
@@ -391,6 +392,7 @@ func move_to_target(pos: Vector2, callback: Callable = Callable()):
 @onready var sfx_walk: AudioStreamPlayer = %WalkSFX 
 
 func _on_lower_sprite_frame_changed() -> void:
+	return
 	match (%LowerSprite.animation):
 		"IdleLower": 
 			return

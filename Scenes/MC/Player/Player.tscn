@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=124 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
@@ -22,14 +22,7 @@
 [ext_resource type="Script" uid="uid://c5cjfobytyr56" path="res://Scenes/MC/Player/State_MC_SitDown_Lower.gd" id="19_rjt16"]
 [ext_resource type="Script" uid="uid://dojscnkch0b00" path="res://Scenes/MC/Player/State_MC_SitIdle_Lower.gd" id="20_jeydh"]
 [ext_resource type="Script" uid="uid://duv6x48s4k7dx" path="res://Scenes/MC/Player/State_MC_SitOff_Lower.gd" id="21_djbxk"]
-[ext_resource type="AudioStream" uid="uid://cj2147xguuyab" path="res://Content/SFX/MC/Attack/MC_Attack_SFX.WAV" id="25_8pga1"]
-[ext_resource type="AudioStream" uid="uid://cx3447p3vly3f" path="res://Content/SFX/MC/Damage/MC_Damage_SFX.WAV" id="26_8bq3o"]
-[ext_resource type="AudioStream" uid="uid://cim25ke072tdk" path="res://Content/SFX/MC/Death/MC_Death_SFX.WAV" id="27_qoupd"]
-[ext_resource type="AudioStream" uid="uid://gd7vxv67rdcd" path="res://Content/SFX/MC/Jump/JumpStart_SFX/MC_Jump_SFX.WAV" id="28_y5rh2"]
-[ext_resource type="AudioStream" uid="uid://dqjr0uv2bl77g" path="res://Content/SFX/MC/Walk/MC_GrassStep1_SFX.WAV" id="29_lok21"]
-[ext_resource type="AudioStream" uid="uid://ba7mxbqwbxtfk" path="res://Content/SFX/MC/Jump/Dash_SFX/MC_Dash_SFX.WAV" id="30_o52b3"]
 [ext_resource type="Script" uid="uid://bxerpyvvect5i" path="res://Scenes/MC/Player/State_MC_Idle_Upper.gd" id="30_pkbn6"]
-[ext_resource type="AudioStream" uid="uid://cnq67ym7c4r56" path="res://Content/SFX/MC/Jump/Land_SFX/MC_Landing_SFX.WAV" id="31_hyja7"]
 [ext_resource type="Script" uid="uid://bpndlhm4ximu4" path="res://Scenes/MC/Player/State_MC_Walk_Upper.gd" id="31_jjlgl"]
 [ext_resource type="Script" uid="uid://cgvdoeayd3oru" path="res://Scenes/MC/Player/State_MC_JumpStart_Upper.gd" id="32_ihe0k"]
 [ext_resource type="Script" uid="uid://cqefk67ai0x61" path="res://Scenes/MC/Player/State_MC_JumpRise_Upper.gd" id="33_8nv00"]
@@ -821,22 +814,12 @@ script = ExtResource("3_qkdcl")
 [node name="WalkLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("6_jyfwi")
 
-[node name="WalkSFX" type="AudioStreamPlayer" parent="Visuals/LowerStateMachine/WalkLower"]
-unique_name_in_owner = true
-stream = ExtResource("29_lok21")
-volume_db = 5.0
-pitch_scale = 1.2
-bus = &"SFX"
-
 [node name="StepTimer" type="Timer" parent="Visuals/LowerStateMachine/WalkLower"]
+wait_time = 0.5
+one_shot = true
 
 [node name="JumpStartLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("8_kksrp")
-
-[node name="JumpStartSFX" type="AudioStreamPlayer" parent="Visuals/LowerStateMachine/JumpStartLower"]
-stream = ExtResource("28_y5rh2")
-volume_db = -29.083
-bus = &"SFX"
 
 [node name="JumpRiseLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("9_3tio4")
@@ -850,18 +833,8 @@ script = ExtResource("11_po2a2")
 [node name="JumpLandLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("12_txbll")
 
-[node name="LandSFX" type="AudioStreamPlayer" parent="Visuals/LowerStateMachine/JumpLandLower"]
-stream = ExtResource("31_hyja7")
-volume_db = -31.945
-bus = &"SFX"
-
 [node name="DashLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("16_po2a2")
-
-[node name="DashSFX" type="AudioStreamPlayer" parent="Visuals/LowerStateMachine/DashLower"]
-stream = ExtResource("30_o52b3")
-volume_db = -3.0
-bus = &"SFX"
 
 [node name="WallClimbLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("17_txbll")
@@ -904,11 +877,6 @@ script = ExtResource("36_fve7w")
 
 [node name="AttackFrontalUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("14_rq7m6")
-
-[node name="AttackSFX" type="AudioStreamPlayer" parent="Visuals/UpperStateMachine/AttackFrontalUpper"]
-stream = ExtResource("25_8pga1")
-volume_db = -3.0
-bus = &"SFX"
 
 [node name="DashUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("39_upfrb")
@@ -960,15 +928,6 @@ replication_config = SubResource("SceneReplicationConfig_xgxtr")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="DamageSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("26_8bq3o")
-volume_db = -2.0
-bus = &"SFX"
-
-[node name="DeathSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("27_qoupd")
-bus = &"SFX"
-
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(1.0000001, -81)
 scale = Vector2(3, 3)
@@ -984,3 +943,4 @@ texture_scale = 6.0
 [connection signal="area_exited" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_area_exited"]
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_body_entered"]
 [connection signal="frame_changed" from="Visuals/LowerSprite" to="." method="_on_lower_sprite_frame_changed"]
+[connection signal="timeout" from="Visuals/LowerStateMachine/WalkLower/StepTimer" to="Visuals/LowerStateMachine/WalkLower" method="_on_step_timer_timeout"]

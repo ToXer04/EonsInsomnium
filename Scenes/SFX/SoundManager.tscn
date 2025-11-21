@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0vfq8cr8maxk"]
+
+[ext_resource type="Script" uid="uid://8hifo0igmwtg" path="res://Singleton/SoundManager.gd" id="1_nrno4"]
+[ext_resource type="AudioStream" uid="uid://c1x3m48jjktp" path="res://Content/SFX/Music/Songs/Echoes_Beyond.WAV" id="2_8qns4"]
+[ext_resource type="AudioStream" uid="uid://3j4wg46hnmty" path="res://Content/SFX/Music/MainMenu/Eternal_Reverie.WAV" id="3_2xhip"]
+
+[node name="SoundManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_nrno4")
+
+[node name="MusicUmbralDepths" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8qns4")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="MusicMenu" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_2xhip")

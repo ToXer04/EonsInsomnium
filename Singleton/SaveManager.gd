@@ -94,8 +94,9 @@ func loadAudioSettings(save_data):
 	AudioServer.set_bus_volume_db(music_idx, linear_to_db(settings_dictionary.ambience_audio / 10.0))
 
 func loadLanguageSettings(save_data):
-	settings_dictionary.current_language = save_data.current_language
-	TranslationServer.set_locale(settings_available_languages[settings_dictionary.current_language])
+	pass
+	#settings_dictionary.current_language = save_data.current_language
+	#TranslationServer.set_locale(settings_available_languages[settings_dictionary.current_language])
 
 func _build_save_data() -> Dictionary:
 	var data := {}

@@ -6,6 +6,7 @@ extends Node2D
 @onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 
 func _ready() -> void:
+	Singleton.current_scene = "Game"
 	for i in 100:
 		await get_tree().process_frame
 	if multiplayer.is_server():

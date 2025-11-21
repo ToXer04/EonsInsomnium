@@ -20,7 +20,6 @@ config/icon="res://icon.svg"
 
 Singleton="*res://Singleton/singleton.gd"
 SteamLobbyManager="*res://Singleton/SteamLobbyManager.gd"
-MusicManager="*res://Singleton/MusicManager.gd"
 SaveScript="*res://Scenes/SaveScript.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 AbilityManager="*res://Singleton/AbilityManager.gd"
@@ -28,6 +27,7 @@ ItemManager="*res://Singleton/ItemManager.gd"
 RoomsManager="*res://Singleton/RoomsManager.gd"
 PauseManager="*res://Scenes/PauseMenu/PauseManager.gd"
 SaveManager="*res://Singleton/SaveManager.gd"
+SoundManager="*res://Scenes/SFX/SoundManager.tscn"
 
 [debug]
 
