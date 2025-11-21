@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=4 uid="uid://btvv2efofeej"]
+[gd_scene load_steps=149 format=4 uid="uid://btvv2efofeej"]
 
 [ext_resource type="Texture2D" uid="uid://bi1vyxowyt5kk" path="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Grass.png" id="1_qa5vs"]
 [ext_resource type="Script" uid="uid://buy6mcia15psu" path="res://Scenes/Levels/Game/UmbralDepths/UmbralDepths.gd" id="1_v7d0a"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://chvapa55e1sk2" path="res://Sprites/Assets/Environment/Ground/Biome0_Ground.png" id="17_nk4a1"]
 [ext_resource type="AudioStream" uid="uid://c1x3m48jjktp" path="res://Content/SFX/Music/Songs/Echoes_Beyond.WAV" id="19_sievc"]
 [ext_resource type="PackedScene" uid="uid://do77d0rjnmcxi" path="res://Maps/UmbralDepthsMinimap.tscn" id="20_sievc"]
+[ext_resource type="PackedScene" uid="uid://cdsx85rblvywb" path="res://Scenes/SavePoint/SavePoint.tscn" id="22_xvkg2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_v7d0a"]
 vertices = PackedVector2Array(3647, 1875, 3647, 2271, 3347, 2271, 3347, 2207, 19, 1875, 2911, 2207, 2911, 2291, 3199, 2291, 3199, 2387, 2963, 2655, 2867, 2655, 2867, 2559, 3647, 2387, 3647, 2515, 3347, 2719, 2963, 2719, 3987, 2515, 3987, 1875, 7167, 1875, 7167, 2515, 7334, 2515, 7334, 2815, 3347, 2815, 2771, 2559, 2771, 2463, 2431, 2463, 2431, 2559, 2335, 2559, 275, 2207, 2335, 2655, 2239, 2655, 2239, 2719, 1983, 2719, 275, 2355, 1983, 2815, -301, 2815, -301, 2515, 19, 2515, 19, 2355, 19, 2207)
@@ -1649,7 +1650,6 @@ unique_name_in_owner = true
 
 [node name="Rooms" type="Node2D" parent="."]
 unique_name_in_owner = true
-visible = false
 
 [node name="Room1" type="Area2D" parent="Rooms"]
 collision_layer = 16
@@ -2411,3 +2411,6 @@ shadow_filter = 2
 shadow_filter_smooth = 1.0
 texture = SubResource("GradientTexture2D_sievc")
 texture_scale = 4.0
+
+[node name="SavePoint" parent="." instance=ExtResource("22_xvkg2")]
+position = Vector2(6181, 2810)

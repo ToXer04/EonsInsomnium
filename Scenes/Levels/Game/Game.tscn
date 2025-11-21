@@ -29,7 +29,7 @@ position = Vector2(-3704, -2013)
 
 [node name="Players" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(2497, -2254)
+position = Vector2(96, 2733)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true

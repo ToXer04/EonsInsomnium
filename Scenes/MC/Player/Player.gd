@@ -115,6 +115,7 @@ func _ready() -> void:
 # ======================================================
 
 func apply_camera_limits():
+	await get_tree().process_frame
 	# salva limiti di partenza
 	start_limit_left = camera.limit_left
 	start_limit_right = camera.limit_right
@@ -157,8 +158,8 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 
 		# Salvo limiti base
 		base_limits = {
-			"left": min_x,
-			"right": max_x,
+			"left": min_x - offset,
+			"right": max_x + offset,
 			"top": min_y - offset,
 			"bottom": max_y + offset
 		}

@@ -8,7 +8,7 @@ extends StateMachineState
 # Called when the state machine enters this state.
 func _enter_state() -> void:
 	lower_sprite.play("SavePointSitLower")
-	player.sit = true
+	player.stop = true
 	if not player.is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("SitDownUpper"))
 

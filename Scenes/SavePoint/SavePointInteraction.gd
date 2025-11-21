@@ -18,6 +18,9 @@ func _on_body_exited(body: Node2D) -> void:
 		label.hide()
 
 func _process(delta: float) -> void:
+	if player_ref and player_ref.stop:
+		player_ref.stop = false
+		label.show()
 	if player_in_range and Input.is_action_just_pressed("Interact"):
 		label.hide()
 		SaveScript._save()
