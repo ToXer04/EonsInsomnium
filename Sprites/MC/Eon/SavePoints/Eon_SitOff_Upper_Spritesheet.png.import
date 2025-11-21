@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c47pntl85n7d2"
-path="res://.godot/imported/Eon_TrunkOff_Spritesheet.png-e94ab337be2588c09903188c77af26c3.ctex"
+uid="uid://ce3vaufmfo8p6"
+path="res://.godot/imported/Eon_SitOff_Upper_Spritesheet.png-6e3338d69f47a4e0d049e356714f580d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/SavePoints/Eon_TrunkOff_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_TrunkOff_Spritesheet.png-e94ab337be2588c09903188c77af26c3.ctex"]
+source_file="res://Sprites/MC/Eon/SavePoints/Eon_SitOff_Upper_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_SitOff_Upper_Spritesheet.png-6e3338d69f47a4e0d049e356714f580d.ctex"]
 
 [params]
 

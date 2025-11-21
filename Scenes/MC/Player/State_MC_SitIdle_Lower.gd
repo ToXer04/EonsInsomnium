@@ -7,7 +7,7 @@ extends StateMachineState
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	lower_sprite.play("SavePointIdleLower")
+	lower_sprite.play("SitIdleLower")
 	if not player.is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("SitIdleUpper"))
 
@@ -20,5 +20,5 @@ func _exit_state() -> void:
 	pass
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed:
+	if event.is_action_pressed("Interact"):
 		lower_state_machine.set_current_state(lower_state_machine.get_node("SitOffLower"))

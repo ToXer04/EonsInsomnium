@@ -4,7 +4,7 @@ extends StateMachineState
 
 # Called when the state machine enters this state.
 func _enter_state() -> void:
-	upper_sprite.play("SavePointSitUpper")
+	upper_sprite.play("SitOnUpper")
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:

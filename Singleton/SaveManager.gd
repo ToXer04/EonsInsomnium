@@ -31,7 +31,7 @@ const SAVE_SLOTS = {
 }
 var current_slot := 0
 var flasks := 0
-var last_spawn_point
+var last_spawn_point : int = 0
 var abilities := {}
 var items := {}
 
@@ -94,17 +94,15 @@ func loadAudioSettings(save_data):
 	AudioServer.set_bus_volume_db(music_idx, linear_to_db(settings_dictionary.ambience_audio / 10.0))
 
 func loadLanguageSettings(save_data):
-	pass
-	#settings_dictionary.current_language = save_data.current_language
-	#TranslationServer.set_locale(settings_available_languages[settings_dictionary.current_language])
+	settings_dictionary.current_language = save_data.current_language
+	TranslationServer.set_locale(settings_available_languages[settings_dictionary.current_language])
 
 func _build_save_data() -> Dictionary:
 	var data := {}
 	data.version = "0.0.1"
-	data.flasks = flasks  # Assicurati che esista nel tuo script
-	data.last_spawn_point = last_spawn_point  # Deve essere un Vector2 o simile
+	data.flasks = flasks
+	data.last_spawn_point = last_spawn_point 
 
-	# Abilità sbloccate
 	var unlocked_abilities := []
 	for key in abilities.keys():
 		if abilities[key].unlocked:

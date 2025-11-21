@@ -58,6 +58,9 @@ var stop: bool = false
 
 var dialogue_active: bool = false
 
+#Management
+var spawning := false
+
 # Movement
 const SPEED = 400.0
 const ACCEL = .35
@@ -96,19 +99,23 @@ func _ready() -> void:
 	Singleton.player = self
 	SoundManager.play_gameplay_music()
 	if is_multiplayer_authority():
+		print("Last save point: " + str(SaveManager.last_spawn_point))
 		flasks = SaveManager.flasks
 		WriteFlasks()
+		if SaveManager.last_spawn_point != 0:
+			var gm = $"../.."
+			var pos = gm.get_spawn_position(SaveManager.last_spawn_point)
+			global_position = pos
+			sit()
+		else:
+			var start_state_lower = lower_state_machine.get_node("IdleLower")
+			lower_state_machine.set_current_state(start_state_lower)
+			var start_state_upper = upper_state_machine.get_node("IdleUpper")
+			upper_state_machine.set_current_state(start_state_upper)
 		camera.enabled = true
 		camera.make_current() 
 	else:
 		camera.enabled = false
-
-	var start_state_lower = lower_state_machine.get_node("IdleLower")
-	if start_state_lower:
-		lower_state_machine.set_current_state(start_state_lower)
-	var start_state_upper = upper_state_machine.get_node("IdleUpper")
-	if start_state_upper:
-		upper_state_machine.set_current_state(start_state_upper)
 	Health_ui()
 
 
@@ -232,7 +239,7 @@ func _physics_process(delta: float) -> void:
 
 	if stop:
 		velocity.x = 0
-		if is_on_floor():
+		if is_on_floor() and not lower_state_machine.get_current_state().name.begins_with("Sit"):
 			lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 		move_and_slide()
 		return
@@ -359,14 +366,17 @@ func death():
 	await get_tree().create_timer(0.5).timeout
 	get_tree().reload_current_scene()
 
-func move_toward_target(delta: float) -> void:
+func sit():
+	lower_state_machine.set_current_state(lower_state_machine.get_node("SitOnLower"))
+	moving_to_target = false
+	velocity = Vector2.ZERO
+	if target_reached_callback.is_valid():
+		target_reached_callback.call()
+	return
+
+func move_toward_target(_delta: float) -> void:
 	if navigation_agent_2d.is_navigation_finished():
-		lower_state_machine.set_current_state(lower_state_machine.get_node("SitDownLower"))
-		moving_to_target = false
-		velocity = Vector2.ZERO
-		if target_reached_callback.is_valid():
-			target_reached_callback.call()
-		return
+		sit()
 	var next_path_point = navigation_agent_2d.get_next_path_position()
 	var dir = (next_path_point - global_position).normalized()
 	velocity = dir * target_speed

@@ -1,4 +1,4 @@
-[gd_scene load_steps=124 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=156 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
@@ -9,17 +9,23 @@
 [ext_resource type="Texture2D" uid="uid://b77im3yejrdka" path="res://Sprites/MC/Eon/Jump/Eon_Jump_Lower_Spritesheet.png" id="6_8nv00"]
 [ext_resource type="Script" uid="uid://68xac6hebf4i" path="res://Scenes/MC/Player/State_MC_Walk_Lower.gd" id="6_jyfwi"]
 [ext_resource type="Texture2D" uid="uid://bsdm26n5fnfi5" path="res://Sprites/MC/Eon/Jump/Eon_Jump_Upper_Spritesheet.png" id="7_euoc6"]
+[ext_resource type="Texture2D" uid="uid://chlfuw5iga0lu" path="res://Sprites/MC/Eon/SavePoints/Eon_SitIdle_Lower_Spritesheet.png" id="7_pwklw"]
+[ext_resource type="Texture2D" uid="uid://b4xajgycbgfp8" path="res://Sprites/MC/Eon/SavePoints/Eon_SitIdle_Upper_Spritesheet.png" id="8_20td0"]
 [ext_resource type="Script" uid="uid://dw2f0wkv6pc3x" path="res://Scenes/MC/Player/State_MC_JumpStart_Lower.gd" id="8_kksrp"]
 [ext_resource type="Script" uid="uid://ywjavgqxcjko" path="res://Scenes/MC/Player/State_MC_JumpRise_Lower.gd" id="9_3tio4"]
 [ext_resource type="Texture2D" uid="uid://cbryan66x8u00" path="res://Sprites/MC/Eon/Walk/Eon_Walk_Lower_Spritesheet.png" id="9_8bq3o"]
+[ext_resource type="Texture2D" uid="uid://hyumnjtvqx25" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOff_Lower_Spritesheet.png" id="9_pkbn6"]
+[ext_resource type="Texture2D" uid="uid://ce3vaufmfo8p6" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOff_Upper_Spritesheet.png" id="10_jjlgl"]
 [ext_resource type="Texture2D" uid="uid://b43y878tqnrpf" path="res://Sprites/MC/Eon/Walk/Eon_Walk_Upper_Spritesheet.png" id="10_qoupd"]
 [ext_resource type="Script" uid="uid://cfc7hjn6oj47d" path="res://Scenes/MC/Player/State_MC_JumpTransition_Lower.gd" id="10_rq7m6"]
+[ext_resource type="Texture2D" uid="uid://dvygupmf00gt" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOn_Lower_Spritesheet.png" id="11_ihe0k"]
 [ext_resource type="Script" uid="uid://dhry0sfr5bnj0" path="res://Scenes/MC/Player/State_MC_JumpFall_Lower.gd" id="11_po2a2"]
+[ext_resource type="Texture2D" uid="uid://wu4snkeg8koo" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOn_Upper_Spritesheet.png" id="12_8nv00"]
 [ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/Player/State_MC_JumpLand_Lower.gd" id="12_txbll"]
 [ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/Player/State_MC_AttackFrontalUpper.gd" id="14_rq7m6"]
 [ext_resource type="Script" uid="uid://cutpkfeqi3mx4" path="res://Scenes/MC/Player/State_MC_Dash_Lower.gd" id="16_po2a2"]
 [ext_resource type="Script" uid="uid://dan1billuvdhn" path="res://Scenes/MC/Player/State_MC_WallClimb_Lower.gd" id="17_txbll"]
-[ext_resource type="Script" uid="uid://c5cjfobytyr56" path="res://Scenes/MC/Player/State_MC_SitDown_Lower.gd" id="19_rjt16"]
+[ext_resource type="Script" uid="uid://c5cjfobytyr56" path="res://Scenes/MC/Player/State_MC_SitOn_Lower.gd" id="19_rjt16"]
 [ext_resource type="Script" uid="uid://dojscnkch0b00" path="res://Scenes/MC/Player/State_MC_SitIdle_Lower.gd" id="20_jeydh"]
 [ext_resource type="Script" uid="uid://duv6x48s4k7dx" path="res://Scenes/MC/Player/State_MC_SitOff_Lower.gd" id="21_djbxk"]
 [ext_resource type="Script" uid="uid://bxerpyvvect5i" path="res://Scenes/MC/Player/State_MC_Idle_Upper.gd" id="30_pkbn6"]
@@ -31,7 +37,7 @@
 [ext_resource type="Script" uid="uid://bku7p1jix4cc8" path="res://Scenes/MC/Player/State_MC_JumpLand_Upper.gd" id="36_fve7w"]
 [ext_resource type="Script" uid="uid://bo65rxdayf7f5" path="res://Scenes/MC/Player/State_MC_Dash_Upper.gd" id="39_upfrb"]
 [ext_resource type="Script" uid="uid://c1y330w85th3j" path="res://Scenes/MC/Player/State_MC_WallClimb_Upper.gd" id="40_eu5nx"]
-[ext_resource type="Script" uid="uid://1enx3bou42t2" path="res://Scenes/MC/Player/State_MC_SitDown_Upper.gd" id="41_adwwj"]
+[ext_resource type="Script" uid="uid://1enx3bou42t2" path="res://Scenes/MC/Player/State_MC_SitOn_Upper.gd" id="41_adwwj"]
 [ext_resource type="PackedScene" uid="uid://h3kmrbd1l6kd" path="res://Scenes/MC/HUD/hud.tscn" id="42_20td0"]
 [ext_resource type="Script" uid="uid://dudyvh80gjb5l" path="res://Scenes/MC/Player/State_MC_SitIdle_Upper.gd" id="42_ihe0k"]
 [ext_resource type="Script" uid="uid://wknh26oc1o0m" path="res://Scenes/MC/Player/State_MC_SitOff_Upper.gd" id="43_8nv00"]
@@ -198,6 +204,110 @@ region = Rect2(0, 1080, 1920, 1080)
 [sub_resource type="AtlasTexture" id="AtlasTexture_o5t8r"]
 atlas = ExtResource("7_euoc6")
 region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kp7sd"]
+atlas = ExtResource("7_pwklw")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h61bs"]
+atlas = ExtResource("7_pwklw")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1mux"]
+atlas = ExtResource("7_pwklw")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_galno"]
+atlas = ExtResource("7_pwklw")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxj0d"]
+atlas = ExtResource("8_20td0")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwucu"]
+atlas = ExtResource("8_20td0")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnqpi"]
+atlas = ExtResource("8_20td0")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anua8"]
+atlas = ExtResource("8_20td0")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwg6d"]
+atlas = ExtResource("9_pkbn6")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovm84"]
+atlas = ExtResource("9_pkbn6")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4yh6"]
+atlas = ExtResource("9_pkbn6")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d20ww"]
+atlas = ExtResource("10_jjlgl")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlo25"]
+atlas = ExtResource("10_jjlgl")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky6yh"]
+atlas = ExtResource("10_jjlgl")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccoro"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tct2s"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnfa4"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwam5"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsncd"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qwa5"]
+atlas = ExtResource("11_ihe0k")
+region = Rect2(3840, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_elknl"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y7xs"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xsnv"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msp3p"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q43uc"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wahxi"]
+atlas = ExtResource("12_8nv00")
+region = Rect2(3840, 1080, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o52b3"]
 atlas = ExtResource("9_8bq3o")
@@ -564,34 +674,112 @@ animations = [{
 "name": &"JumpTransitionUpper",
 "speed": 15.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kp7sd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h61bs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1mux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_galno")
+}],
 "loop": true,
-"name": &"SavePointIdleLower",
+"name": &"SitIdleLower",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxj0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwucu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnqpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anua8")
+}],
 "loop": true,
-"name": &"SavePointIdleUpper",
+"name": &"SitIdleUpper",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwg6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovm84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4yh6")
+}],
 "loop": false,
-"name": &"SavePointOffLower",
+"name": &"SitOffLower",
 "speed": 10.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d20ww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlo25")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky6yh")
+}],
 "loop": false,
-"name": &"SavePointOffUpper",
+"name": &"SitOffUpper",
 "speed": 10.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccoro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tct2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnfa4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwam5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsncd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qwa5")
+}],
 "loop": false,
-"name": &"SavePointSitLower",
+"name": &"SitOnLower",
 "speed": 10.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_elknl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y7xs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xsnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msp3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q43uc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wahxi")
+}],
 "loop": false,
-"name": &"SavePointSitUpper",
+"name": &"SitOnUpper",
 "speed": 10.0
 }, {
 "frames": [{
@@ -799,7 +987,7 @@ offset = Vector2(0, -540)
 unique_name_in_owner = true
 modulate = Color(0.63375676, 0.6337568, 0.63375676, 1)
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"JumpTransitionUpper"
+animation = &"IdleUpper"
 offset = Vector2(0, -540)
 
 [node name="LowerStateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]
@@ -839,7 +1027,7 @@ script = ExtResource("16_po2a2")
 [node name="WallClimbLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("17_txbll")
 
-[node name="SitDownLower" type="Node" parent="Visuals/LowerStateMachine"]
+[node name="SitOnLower" type="Node" parent="Visuals/LowerStateMachine"]
 script = ExtResource("19_rjt16")
 
 [node name="SitIdleLower" type="Node" parent="Visuals/LowerStateMachine"]
@@ -884,7 +1072,7 @@ script = ExtResource("39_upfrb")
 [node name="WallClimbUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("40_eu5nx")
 
-[node name="SitDownUpper" type="Node" parent="Visuals/UpperStateMachine"]
+[node name="SitOnUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("41_adwwj")
 
 [node name="SitIdleUpper" type="Node" parent="Visuals/UpperStateMachine"]
@@ -927,6 +1115,7 @@ drag_bottom_margin = 0.15
 replication_config = SubResource("SceneReplicationConfig_xgxtr")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(1.0000001, -81)

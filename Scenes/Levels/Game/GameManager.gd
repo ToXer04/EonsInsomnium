@@ -5,6 +5,8 @@ extends Node2D
 # Questo è il nodo Spawner che hai già nella scena
 @onready var spawner: MultiplayerSpawner = %MultiplayerSpawner
 
+@onready var spawn_points := get_tree().get_nodes_in_group("SpawnPoints")
+
 func _ready() -> void:
 	Singleton.current_scene = "Game"
 	for i in 100:
@@ -23,3 +25,10 @@ func spawnPlayer(id: int, character: String):
 	var player = load(path).instantiate()
 	player.name = str(id)
 	players.add_child(player)
+
+func get_spawn_position(id: int) -> Vector2:
+	for sp in spawn_points:
+		if sp.id == id:
+			return sp.global_position
+	# se non trova niente… vabbè, fai tornare un default
+	return Vector2.ZERO

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdsx85rblvywb"]
+[gd_scene load_steps=7 format=3 uid="uid://cdsx85rblvywb"]
 
 [ext_resource type="Texture2D" uid="uid://dl75gvbqk3dwe" path="res://Sprites/Assets/SavePoints/Trunk/Trunk.png" id="1_0n54p"]
 [ext_resource type="Script" uid="uid://coht7wa3vk3pd" path="res://Scenes/SavePoint/SavePointInteraction.gd" id="1_qgumw"]
+[ext_resource type="Script" uid="uid://c1n5x8hqs14di" path="res://Scenes/SavePoint/save_point.gd" id="1_r6xh1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r6xh1"]
 animations = [{
@@ -23,6 +24,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-317, -125, -317, 15, 323, 14, 325, -126)])
 
 [node name="SavePoint" type="Node2D"]
+script = ExtResource("1_r6xh1")
 
 [node name="Trunk" type="AnimatedSprite2D" parent="."]
 position = Vector2(-8, -536)
@@ -51,7 +53,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(-1, -5)
+position = Vector2(0, 3)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_0n54p")
