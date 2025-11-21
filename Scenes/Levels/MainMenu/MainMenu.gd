@@ -294,6 +294,7 @@ func _handle_2_input(event):
 	elif event.is_action_pressed("Click"):
 		match current_menu_button:
 			0:
+				SoundManager.stop_menu_music()
 				SteamLobbyManager.start_hosting_game()
 			1:
 				if SteamLobbyManager.lobby_id == 0:
