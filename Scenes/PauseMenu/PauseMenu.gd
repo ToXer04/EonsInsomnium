@@ -118,7 +118,7 @@ func loadAudioSettings(save_data):
 	%AmbienceValue.text = str(current_ambience_audio)
 
 func loadLanguageSettings(save_data):
-	#current_language_index = save_data.current_language
+	current_language_index = save_data.current_language
 	%LanguageValue.text = available_languages[current_language_index]
 
 func _ready() -> void:
@@ -126,9 +126,8 @@ func _ready() -> void:
 	update_selection_visual()
 
 func _input(event):
-	if tween_active or Singleton.current_scene != "Game" :
+	if tween_active or Singleton.current_scene != "Game":
 		return
-	print("Wwwwww")
 	if not settings_open:
 		_handle_main_input(event)
 	else:

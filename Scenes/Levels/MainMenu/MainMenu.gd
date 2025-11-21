@@ -194,9 +194,6 @@ func _input(event):
 						3:
 							_handle_language_settings_input(event)
 
-func _play_ent_sound() -> void:
-	SoundManager.play_sfx(SoundManager.SFX_ENT)
-
 func _play_nav_sound() -> void:
 	SoundManager.play_sfx(SoundManager.SFX_SWITCH)
 		
@@ -227,10 +224,10 @@ func _handle_0_input(event):
 	elif event.is_action_pressed("Click"):
 		if current_startup_button == 0:
 			go_to_horizontal_section(1)
-			_play_ent_sound() 
+			SoundManager.play_ent_sfx()
 		else:
 			go_to_vertical_section(1)
-			_play_ent_sound()
+			SoundManager.play_ent_sfx()
 	elif event.is_action_pressed("ui_cancel"):
 		_play_esc_sound() 
 		return
@@ -257,11 +254,11 @@ func _handle_1_input(event):
 	elif event.is_action_pressed("Click"):
 		if in_delete_layer:
 			print("Delete File selected for slot ", current_slot + 1)
-			_play_ent_sound() 
+			SoundManager.play_ent_sfx()
 		else:
 			SaveManager.load_game(current_slot + 1)
 			go_to_horizontal_section(2)
-			_play_ent_sound()
+			SoundManager.play_ent_sfx()
 	elif event.is_action_pressed("ui_cancel"):
 		go_to_horizontal_section(current_horizontal_section - 1)
 		_play_esc_sound() 
@@ -302,7 +299,7 @@ func _handle_2_input(event):
 				if SteamLobbyManager.lobby_id == 0:
 					SteamLobbyManager.host_lobby()
 				go_to_horizontal_section(3)
-				_play_ent_sound()
+				SoundManager.play_ent_sfx()
 				
 	elif event.is_action_pressed("ui_cancel"):
 		_play_esc_sound() 
@@ -348,7 +345,7 @@ func _handle_3_input(event):
 			_play_nav_sound()
 		lobby_nav_index = LOBBY_NAV_SLOTS
 	elif event.is_action_pressed("Click"):
-		_play_ent_sound()
+		SoundManager.play_ent_sfx()
 		_handle_lobby_click()
 	elif event.is_action_pressed("ui_cancel"):
 		_play_esc_sound() 
@@ -390,7 +387,7 @@ func _handle_settings_input(event):
 		if prev_slot != current_settings_button:
 			_play_nav_sound()
 	elif event.is_action_pressed("Click"):
-		_play_ent_sound()
+		SoundManager.play_ent_sfx()
 		match(current_settings_button):
 			0:
 				go_to_settings_section(1)
@@ -485,7 +482,7 @@ func _handle_video_settings_input(event):
 				else:
 					DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 			5:
-				_play_ent_sound()
+				SoundManager.play_ent_sfx()
 				DisplayServer.window_set_mode(window_modes[current_window_mode_index])
 				var preset = quality_presets[current_quality_index]
 				var root_vp = get_tree().get_root()
@@ -595,7 +592,7 @@ func _handle_audio_settings_input(event):
 				current_ambience_audio = default_ambience_audio
 				%AmbienceValue.text = str(current_ambience_audio)
 			5:
-				_play_ent_sound()
+				SoundManager.play_ent_sfx()
 				var master_idx = AudioServer.get_bus_index("Master")
 				var sfx_idx = AudioServer.get_bus_index("SFX")
 				var ambience_idx = AudioServer.get_bus_index("Ambience")

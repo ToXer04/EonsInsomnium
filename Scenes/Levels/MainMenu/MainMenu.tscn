@@ -117,6 +117,7 @@ _data = {
 }
 
 [node name="MainMenu" type="CanvasLayer" groups=["MainMenu"]]
+process_mode = 3
 script = ExtResource("1_n6m84")
 
 [node name="BlackBG" type="TextureRect" parent="."]
