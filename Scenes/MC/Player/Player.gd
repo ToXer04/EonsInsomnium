@@ -12,14 +12,16 @@ extends CharacterBody2D
 @onready var hud: CanvasLayer = $Hud
 
 # --- CAMERA LIMIT SYSTEM ---
-var base_limits := {}          # limiti base della Room
+var base_limits := {}          
 var limit_left_stack: Array = []
 var limit_right_stack: Array = []
 var limit_top_stack: Array = []
 var limit_bottom_stack: Array = []
 
-var camera_lerp_timer := 0.0  # timer da 0 a 1
-var camera_lerp_duration := 1  # durata in secondi della transizione
+var camera_lerp_timer := 0.0 
+var camera_lerp_duration := 1  
+
+
 var start_limit_left: float
 var start_limit_right: float
 var start_limit_top: float
@@ -36,8 +38,8 @@ var target_limit_right: float
 var target_limit_top: float
 var target_limit_bottom: float
 
-const CAMERA_LERP_SPEED: float = 2.0  # più alto = più veloce
-const offset := 120   # aumentalo se serve
+const CAMERA_LERP_SPEED: float = 2.0  
+const offset := 120   
 
 
 # ----------------------------
@@ -110,13 +112,11 @@ func _ready() -> void:
 	Health_ui()
 
 
-# ======================================================
-# ================ CAMERA LIMIT SYSTEM =================
-# ======================================================
+# ------ CAMERA LIMIT SYSTEM ------
 
 func apply_camera_limits():
 	await get_tree().process_frame
-	# salva limiti di partenza
+	
 	start_limit_left = camera.limit_left
 	start_limit_right = camera.limit_right
 	start_limit_top = camera.limit_top
@@ -126,10 +126,12 @@ func apply_camera_limits():
 	target_limit_right  = limit_right_stack.back()  if limit_right_stack.size() > 0 else base_limits.right
 	target_limit_top    = limit_top_stack.back()    if limit_top_stack.size() > 0 else base_limits.top
 	target_limit_bottom = limit_bottom_stack.back() if limit_bottom_stack.size() > 0 else base_limits.bottom
-	camera_lerp_timer = 0.0  # resetta timer
+
+	
+	
+	camera_lerp_timer = 0.0  
 
 
-# Quando entri in una Room
 func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 
 	# --------- ROOM ---------
@@ -139,7 +141,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 		var points = poly.polygon
 		
 
-		# Converti in globale
+		
 		var global_points : Array = []
 		for p in points:
 			global_points.append(poly.to_global(p))
@@ -156,7 +158,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 			min_y = min(min_y, p.y)
 			max_y = max(max_y, p.y)
 
-		# Salvo limiti base
+		
 		base_limits = {
 			"left": min_x - offset,
 			"right": max_x + offset,
@@ -199,7 +201,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 
 
 
-# Quando esci da CameraLimiter
+
 func _on_hurtbox_trigger_area_exited(area: Area2D) -> void:
 	print(area)
 	if area.name.begins_with("CameraLimiter"):
@@ -217,13 +219,6 @@ func _on_hurtbox_trigger_area_exited(area: Area2D) -> void:
 
 		apply_camera_limits()
 		return
-
-
-
-
-# ======================================================
-# ============= RESTO DEL TUO SCRIPT ===================
-# ======================================================
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
