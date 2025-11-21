@@ -69,3 +69,6 @@ func play_sfx(sfx_stream: AudioStream):
 func play_ent_sfx():
 	sfx_player.stream = SFX_ENT
 	sfx_player.play()
+	
+func stop_menu_music():
+	menu_music_player.stop()
