@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvk1dj1ccvcqo"
-path="res://.godot/imported/Eon_WallClimb_Spritesheet.png-66e4c428894dcc5c84128bd0dc46f1e2.ctex"
+uid="uid://bchv5ecccdn2x"
+path="res://.godot/imported/Eon_Climb_Lower_Spritesheet.png-fe77c200aa20bc62027372f520e5f810.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/WallClimb/Eon_WallClimb_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_WallClimb_Spritesheet.png-66e4c428894dcc5c84128bd0dc46f1e2.ctex"]
+source_file="res://Sprites/MC/Eon/WallClimb/Eon_Climb_Lower_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_Climb_Lower_Spritesheet.png-fe77c200aa20bc62027372f520e5f810.ctex"]
 
 [params]
 

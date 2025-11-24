@@ -1,4 +1,4 @@
-[gd_scene load_steps=156 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=160 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
@@ -23,6 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://wu4snkeg8koo" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOn_Upper_Spritesheet.png" id="12_8nv00"]
 [ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/Player/State_MC_JumpLand_Lower.gd" id="12_txbll"]
 [ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/Player/State_MC_AttackFrontalUpper.gd" id="14_rq7m6"]
+[ext_resource type="Texture2D" uid="uid://bchv5ecccdn2x" path="res://Sprites/MC/Eon/WallClimb/Eon_Climb_Lower_Spritesheet.png" id="15_pkbn6"]
+[ext_resource type="Texture2D" uid="uid://dx6a50qwsc2vb" path="res://Sprites/MC/Eon/WallClimb/Eon_Climb_Upper_Spritesheet.png" id="16_jjlgl"]
 [ext_resource type="Script" uid="uid://cutpkfeqi3mx4" path="res://Scenes/MC/Player/State_MC_Dash_Lower.gd" id="16_po2a2"]
 [ext_resource type="Script" uid="uid://dan1billuvdhn" path="res://Scenes/MC/Player/State_MC_WallClimb_Lower.gd" id="17_txbll"]
 [ext_resource type="Script" uid="uid://c5cjfobytyr56" path="res://Scenes/MC/Player/State_MC_SitOn_Lower.gd" id="19_rjt16"]
@@ -477,6 +479,14 @@ region = Rect2(7680, 3240, 1920, 1080)
 atlas = ExtResource("10_qoupd")
 region = Rect2(0, 4320, 1920, 1080)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2um3w"]
+atlas = ExtResource("15_pkbn6")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vxye"]
+atlas = ExtResource("16_jjlgl")
+region = Rect2(0, 0, 1920, 1080)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_rxg2u"]
 animations = [{
 "frames": [{
@@ -918,12 +928,18 @@ animations = [{
 "name": &"WalkUpper",
 "speed": 20.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2um3w")
+}],
 "loop": true,
 "name": &"WallClimbLower",
 "speed": 1.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vxye")
+}],
 "loop": true,
 "name": &"WallClimbUpper",
 "speed": 1.0
@@ -980,7 +996,7 @@ unique_name_in_owner = true
 [node name="LowerSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"IdleLower"
+animation = &"WallClimbUpper"
 offset = Vector2(0, -540)
 
 [node name="UpperSprite" type="AnimatedSprite2D" parent="Visuals"]

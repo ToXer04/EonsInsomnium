@@ -13,7 +13,8 @@ func _enter_state() -> void:
 
 # Called every frame when this state is active.
 func _process(_delta: float) -> void:
-	pass
+	if not player.wall_climbing:
+		lower_state_machine.set_current_state(lower_state_machine.get_node("IdleLower"))
 
 # Called when the state machine exits this state.
 func _exit_state() -> void:
