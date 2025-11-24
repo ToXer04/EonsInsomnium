@@ -343,7 +343,12 @@ func _input(event):
 			velocity.y *= 0.4
 
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
-		upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
+		if Input.is_action_pressed("Move_Up"):
+			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackUpUpper"))
+		elif Input.is_action_pressed("Move_Down"):
+			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackDownUpper"))
+		else:
+			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
 
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if AbilityManager.is_unlocked("dash"):
