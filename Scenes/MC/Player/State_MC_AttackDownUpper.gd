@@ -7,12 +7,12 @@ extends StateMachineState
 
 func _enter_state() -> void:
 	player.is_attacking = true
-	upper_sprite.play("AttackFrontalUpper")
+	upper_sprite.play("AttackDownUpper")
 	SoundManager.play_sfx(SoundManager.SFX_ATTACK)
 
 	# Do not stop walk timer → steps continue during attack
 
-	var hitbox = %HitboxTriggerFrontal
+	var hitbox = %HitboxTriggerDown
 	var overlapping_bodies = hitbox.get_overlapping_bodies()
 
 	for body in overlapping_bodies:

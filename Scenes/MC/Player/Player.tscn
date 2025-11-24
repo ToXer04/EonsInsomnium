@@ -1,9 +1,11 @@
-[gd_scene load_steps=160 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=170 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
-[ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackNormal/Eon_AttackNormal_Upper_Spritesheet.png" id="2_8bq3o"]
+[ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackFrontal/Eon_AttackFrontal_Upper_Spritesheet.png" id="2_8bq3o"]
+[ext_resource type="Texture2D" uid="uid://do6qgulmtggly" path="res://Sprites/MC/Eon/Attacks/AttackDown/Eon_AttackDown_Upper_Spritesheet.png" id="2_euoc6"]
 [ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/Player/State_MC_Idle_Lower.gd" id="3_qkdcl"]
+[ext_resource type="Texture2D" uid="uid://k8y5vxjs61fq" path="res://Sprites/MC/Eon/Attacks/AttackUp/Eon_AttackUp_Upper_Spritesheet.png" id="4_oxla6"]
 [ext_resource type="Texture2D" uid="uid://bkh6orvleb86u" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Lower_Spritesheet.png" id="4_qoupd"]
 [ext_resource type="Texture2D" uid="uid://k6xuh5evlx3b" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Upper_Spritesheet.png" id="5_y5rh2"]
 [ext_resource type="Texture2D" uid="uid://b77im3yejrdka" path="res://Sprites/MC/Eon/Jump/Eon_Jump_Lower_Spritesheet.png" id="6_8nv00"]
@@ -37,6 +39,8 @@
 [ext_resource type="Script" uid="uid://dcj8g77waqn4k" path="res://Scenes/MC/Player/State_MC_JumpTransition_Upper.gd" id="34_euoc6"]
 [ext_resource type="Script" uid="uid://bg80a27o8b32b" path="res://Scenes/MC/Player/State_MC_JumpFall_Upper.gd" id="35_oxla6"]
 [ext_resource type="Script" uid="uid://bku7p1jix4cc8" path="res://Scenes/MC/Player/State_MC_JumpLand_Upper.gd" id="36_fve7w"]
+[ext_resource type="Script" uid="uid://b7akccjh16ypg" path="res://Scenes/MC/Player/State_MC_AttackUpUpper.gd" id="38_ihe0k"]
+[ext_resource type="Script" uid="uid://ddt8lcwswag2i" path="res://Scenes/MC/Player/State_MC_AttackDownUpper.gd" id="39_8nv00"]
 [ext_resource type="Script" uid="uid://bo65rxdayf7f5" path="res://Scenes/MC/Player/State_MC_Dash_Upper.gd" id="39_upfrb"]
 [ext_resource type="Script" uid="uid://c1y330w85th3j" path="res://Scenes/MC/Player/State_MC_WallClimb_Upper.gd" id="40_eu5nx"]
 [ext_resource type="Script" uid="uid://1enx3bou42t2" path="res://Scenes/MC/Player/State_MC_SitOn_Upper.gd" id="41_adwwj"]
@@ -47,12 +51,28 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib8yh"]
+atlas = ExtResource("2_euoc6")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0osy"]
+atlas = ExtResource("2_euoc6")
+region = Rect2(1920, 0, 1920, 1080)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ul2uj"]
 atlas = ExtResource("2_8bq3o")
 region = Rect2(0, 0, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64d3c"]
 atlas = ExtResource("2_8bq3o")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0a2i"]
+atlas = ExtResource("4_oxla6")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywua2"]
+atlas = ExtResource("4_oxla6")
 region = Rect2(1920, 0, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3q6s1"]
@@ -491,13 +511,35 @@ region = Rect2(0, 0, 1920, 1080)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ib8yh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0osy")
+}],
+"loop": false,
+"name": &"AttackDownUpper",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ul2uj")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_64d3c")
 }],
 "loop": false,
-"name": &"AttackNormalUpper",
+"name": &"AttackFrontalUpper",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0a2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywua2")
+}],
+"loop": false,
+"name": &"AttackUpUpper",
 "speed": 5.0
 }, {
 "frames": [],
@@ -947,6 +989,12 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgxtr"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euoc6"]
+size = Vector2(40, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxla6"]
+size = Vector2(41.183914, 9.198737)
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xgxtr"]
 properties/0/path = NodePath(".:velocity")
 properties/0/spawn = true
@@ -996,7 +1044,7 @@ unique_name_in_owner = true
 [node name="LowerSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"WallClimbUpper"
+animation = &"AttackDownUpper"
 offset = Vector2(0, -540)
 
 [node name="UpperSprite" type="AnimatedSprite2D" parent="Visuals"]
@@ -1082,6 +1130,12 @@ script = ExtResource("36_fve7w")
 [node name="AttackFrontalUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("14_rq7m6")
 
+[node name="AttackUpUpper" type="Node" parent="Visuals/UpperStateMachine"]
+script = ExtResource("38_ihe0k")
+
+[node name="AttackDownUpper" type="Node" parent="Visuals/UpperStateMachine"]
+script = ExtResource("39_8nv00")
+
 [node name="DashUpper" type="Node" parent="Visuals/UpperStateMachine"]
 script = ExtResource("39_upfrb")
 
@@ -1112,6 +1166,28 @@ collision_mask = 8
 
 [node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerFrontal"]
 shape = SubResource("RectangleShape2D_xgxtr")
+
+[node name="HitboxTriggerUp" type="Area2D" parent="Visuals"]
+unique_name_in_owner = true
+position = Vector2(74, -73)
+scale = Vector2(5.361499, 9.64576)
+collision_layer = 0
+collision_mask = 8
+
+[node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerUp"]
+position = Vector2(-13.80211, -15.447203)
+shape = SubResource("RectangleShape2D_euoc6")
+
+[node name="HitboxTriggerDown" type="Area2D" parent="Visuals"]
+unique_name_in_owner = true
+position = Vector2(74, -73)
+scale = Vector2(5.361499, 9.64576)
+collision_layer = 0
+collision_mask = 8
+
+[node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerDown"]
+position = Vector2(-13.802111, 12.648046)
+shape = SubResource("RectangleShape2D_oxla6")
 
 [node name="Hud" parent="." instance=ExtResource("42_20td0")]
 
