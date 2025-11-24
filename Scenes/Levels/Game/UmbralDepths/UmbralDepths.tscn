@@ -1,4 +1,4 @@
-[gd_scene load_steps=174 format=4 uid="uid://btvv2efofeej"]
+[gd_scene load_steps=175 format=4 uid="uid://btvv2efofeej"]
 
 [ext_resource type="Texture2D" uid="uid://bi1vyxowyt5kk" path="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Grass.png" id="1_qa5vs"]
 [ext_resource type="Script" uid="uid://buy6mcia15psu" path="res://Scenes/Levels/Game/UmbralDepths/UmbralDepths.gd" id="1_v7d0a"]
@@ -126,6 +126,9 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(6250, 1225, 6409, 1225,
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iaahw"]
 size = Vector2(706, 960)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ms1qq"]
+size = Vector2(754, 1312)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvkg2"]
 size = Vector2(1529, 640)
@@ -1998,7 +2001,6 @@ position = Vector2(643, -1315)
 shape = SubResource("RectangleShape2D_lf03p")
 
 [node name="Room9" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2017,6 +2019,15 @@ collision_mask = 19
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room9/CameraLimiterLeft"]
 position = Vector2(81, -33)
 shape = SubResource("RectangleShape2D_iaahw")
+
+[node name="CameraLimiterRight" type="Area2D" parent="Rooms/Room9"]
+position = Vector2(7616, 2378)
+collision_layer = 16
+collision_mask = 19
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room9/CameraLimiterRight"]
+position = Vector2(1360, -881)
+shape = SubResource("RectangleShape2D_ms1qq")
 
 [node name="CameraLimiterTop" type="Area2D" parent="Rooms/Room9"]
 position = Vector2(7657, 2010)

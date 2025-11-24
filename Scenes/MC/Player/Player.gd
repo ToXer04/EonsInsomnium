@@ -18,8 +18,10 @@ var limit_right_stack: Array = []
 var limit_top_stack: Array = []
 var limit_bottom_stack: Array = []
 
+var can_change := true
+
 var camera_lerp_timer := 0.0 
-var camera_lerp_duration := 1  
+var camera_lerp_duration := 0.6
 
 
 var start_limit_left: float
@@ -38,7 +40,7 @@ var target_limit_right: float
 var target_limit_top: float
 var target_limit_bottom: float
 
-const CAMERA_LERP_SPEED: float = 2.0  
+const CAMERA_LERP_SPEED: float = 100.0  
 const offset := 120   
 
 
@@ -122,7 +124,8 @@ func _ready() -> void:
 # ------ CAMERA LIMIT SYSTEM ------
 
 func apply_camera_limits():
-	await get_tree().process_frame
+	camera_lerp_timer = 0.0
+	
 	
 	start_limit_left = camera.limit_left
 	start_limit_right = camera.limit_right
@@ -134,15 +137,12 @@ func apply_camera_limits():
 	target_limit_top    = limit_top_stack.back()    if limit_top_stack.size() > 0 else base_limits.top
 	target_limit_bottom = limit_bottom_stack.back() if limit_bottom_stack.size() > 0 else base_limits.bottom
 
-	
-	
-	camera_lerp_timer = 0.0  
-
 
 func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 
 	# --------- ROOM ---------
 	if area.name.begins_with("Room"):
+		print("enter")
 		print(area)
 		var poly: CollisionPolygon2D = area.get_node("CollisionPolygon2D")
 		var points = poly.polygon
@@ -174,7 +174,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 		}
 
 		apply_camera_limits()
-		return
+
 
 
 	# --------- CAMERA LIMITER ---------
@@ -203,13 +203,13 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 			limit_bottom_stack.append(bottom)
 
 		apply_camera_limits()
-		return
 
 
 
 
 
 func _on_hurtbox_trigger_area_exited(area: Area2D) -> void:
+	print("exit")
 	print(area)
 	if area.name.begins_with("CameraLimiter"):
 		if "Left" in area.name and limit_left_stack.size() > 0:
