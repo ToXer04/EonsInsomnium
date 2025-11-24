@@ -83,7 +83,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(4649, 905, 4649, 1225, 4809, 1225, 4809, 1545, 6250, 1545, 6250, 1225, 6089, 1225, 6089, 425, 6251, 425, 6251, 105, 6089, 105, 6089, -983, 8175, -983, 8175, -1303, 8009, -1303, 8009, -2039, 6409, -2039, 6409, -1303, 6089, -1303, 6089, -2039, 4809, -2039, 4809, -1335, 4647, -1335, 4647, -1015, 4809, -1015, 4809, -599, 4647, -599, 4647, -279, 4809, -279, 4809, 905)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egus6"]
-size = Vector2(162, 320)
+size = Vector2(142, 320)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrxld"]
 size = Vector2(1280, 736)
@@ -105,7 +105,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(6251, 105, 6251, 425, 10633, 425, 10633, 1385, 13449, 1385, 13449, 1865, 10633, 1865, 10633, 2505, 9944, 2505, 9944, 2825, 11113, 2825, 11113, 2345, 13929, 2345, 13929, 905, 11593, 905, 11593, 425, 13929, 425, 13929, -449, 13449, -449, 13449, 105, 12329, 105, 12329, -567, 6409, -567, 6409, 105)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ycvaf"]
-size = Vector2(1930, 960)
+size = Vector2(1910, 960)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3lmf8"]
 size = Vector2(2727, 640)
@@ -114,7 +114,7 @@ size = Vector2(2727, 640)
 size = Vector2(2336, 771)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_arsik"]
-size = Vector2(480, 874)
+size = Vector2(480, 804)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lf03p"]
 size = Vector2(960, 896)
@@ -134,7 +134,7 @@ size = Vector2(754, 1312)
 size = Vector2(1529, 640)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_55qga"]
-size = Vector2(783, 320)
+size = Vector2(763, 320)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_fa1d4"]
 vertices = PackedVector2Array(10111, -3661, 11423, -3661, 11423, -3021, 10451, -3361, 13919, -3021, 13919, -2401, 11091, -2401, 11091, -2721, 10451, -2721, 8639, -3361, 8639, -2760, 8339, -2760, 8339, -4301, 10111, -4301)
@@ -1735,20 +1735,18 @@ visible = false
 unique_name_in_owner = true
 
 [node name="Room1" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room1"]
 position = Vector2(2898, 2448)
-polygon = PackedVector2Array(-3209, 377, -905, 377, -905, 281, -649, 281, -649, 217, -553, 217, -553, 121, -457, 121, -457, 25, -137, 25, -137, 121, -41, 121, -41, 217, 55, 217, 55, 281, 439, 281, 439, 377, 4446, 377, 4446, 57, 4279, 57, 4279, -583, 1079, -583, 1079, 57, 759, 57, 759, -71, 311, -71, 311, -167, 23, -167, 23, -231, 439, -231, 439, -167, 759, -167, 759, -583, -2889, -583, -2889, -231, -2633, -231, -2633, -103, -2889, -103, -2889, 57, -3209, 57)
+polygon = PackedVector2Array(-3209, 377, -905, 377, -905, 281, -649, 281, -649, 217, -553, 217, -553, 121, -457, 121, -457, 25, -137, 25, -137, 121, -41, 121, -41, 217, 55, 217, 55, 281, 439, 281, 439, 377, 4426, 377, 4426, 57, 4279, 57, 4279, -583, 1079, -583, 1079, 57, 759, 57, 759, -71, 311, -71, 311, -167, 23, -167, 23, -231, 439, -231, 439, -167, 759, -167, 759, -583, -2889, -583, -2889, -231, -2633, -231, -2633, -103, -2889, -103, -2889, 57, -3209, 57)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room1"]
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_v7d0a")
 
 [node name="Room2" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -1805,7 +1803,6 @@ position = Vector2(2663, -1643)
 shape = SubResource("RectangleShape2D_f7cb4")
 
 [node name="Room3" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -1844,12 +1841,11 @@ position = Vector2(2430.5, -375)
 shape = SubResource("RectangleShape2D_0e64v")
 
 [node name="Room4" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room4"]
-polygon = PackedVector2Array(-375, -471, -375, -151, -119, -151, -119, 1225, 4649, 1225, 4649, 905, 4489, 905, 4489, 457, 521, 457, 521, -471)
+polygon = PackedVector2Array(-375, -471, -375, -151, -119, -151, -119, 1225, 4629, 1225, 4629, 905, 4489, 905, 4489, 457, 521, 457, 521, -471)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room4"]
 visible = false
@@ -1872,24 +1868,22 @@ position = Vector2(73, -351)
 shape = SubResource("RectangleShape2D_sd74r")
 
 [node name="Room5" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room5"]
-polygon = PackedVector2Array(1161, -375, 1161, -55, 1961, -55, 1961, 137, 2281, 137, 2281, -247, 2857, -247, 2857, 137, 3177, 137, 3177, -247, 3817, -247, 3817, 137, 4137, 137, 4137, -279, 4647, -279, 4647, -599, 1481, -599, 1481, -375)
+polygon = PackedVector2Array(1161, -375, 1161, -55, 1961, -55, 1961, 137, 2281, 137, 2281, -247, 2857, -247, 2857, 137, 3177, 137, 3177, -247, 3817, -247, 3817, 137, 4137, 137, 4137, -279, 4623, -279, 4622, -599, 1481, -599, 1481, -375)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room5"]
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_psove")
 
 [node name="Room6" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room6"]
-polygon = PackedVector2Array(4649, 1225, 4649, 905, 4809, 905, 4809, -279, 4647, -279, 4647, -599, 4809, -599, 4809, -1015, 4647, -1015, 4647, -1335, 4809, -1335, 4809, -2039, 6089, -2039, 6089, -1303, 6409, -1303, 6409, -2039, 8009, -2039, 8009, -1303, 8175, -1303, 8175, -983, 6089, -983, 6089, 105, 6251, 105, 6251, 425, 6089, 425, 6089, 1225, 6250, 1225, 6250, 1545, 4809, 1545, 4809, 1225)
+polygon = PackedVector2Array(4669, 1225, 4669, 905, 4809, 905, 4809, -279, 4667, -279, 4667, -599, 4809, -599, 4809, -1015, 4672, -1015, 4672, -1335, 4809, -1335, 4809, -2039, 6089, -2039, 6089, -1303, 6409, -1303, 6409, -2039, 8009, -2039, 8009, -1303, 8150, -1303, 8150, -983, 6089, -983, 6089, 105, 6226, 105, 6226, 425, 6089, 425, 6089, 1225, 6230, 1225, 6230, 1545, 4809, 1545, 4809, 1225)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room6"]
 visible = false
@@ -1901,7 +1895,7 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room6/CameraLimiterTop"]
-position = Vector2(-468, -639)
+position = Vector2(-458, -639)
 shape = SubResource("RectangleShape2D_egus6")
 
 [node name="CameraLimiterRight" type="Area2D" parent="Rooms/Room6"]
@@ -1923,12 +1917,11 @@ position = Vector2(2013, -1711)
 shape = SubResource("RectangleShape2D_qxs8p")
 
 [node name="Room7" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room7"]
-polygon = PackedVector2Array(8175, -983, 8175, -1303, 8329, -1303, 8329, -2750, 8649, -2750, 8649, -2039, 13929, -2039, 13929, -449, 13449, -449, 13449, -983)
+polygon = PackedVector2Array(8200, -983, 8200, -1303, 8329, -1303, 8329, -2750, 8649, -2750, 8649, -2039, 13929, -2039, 13929, -519, 13449, -519, 13449, -983)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room7"]
 visible = false
@@ -1944,12 +1937,11 @@ position = Vector2(816.5, -242.5)
 shape = SubResource("RectangleShape2D_bswbx")
 
 [node name="Room8" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room8"]
-polygon = PackedVector2Array(13929, -449, 13929, 425, 11593, 425, 11593, 905, 13929, 905, 13929, 2345, 11113, 2345, 11113, 2825, 9944, 2825, 9944, 2505, 10633, 2505, 10633, 1865, 13449, 1865, 13449, 1385, 10633, 1385, 10633, 425, 6251, 425, 6251, 105, 6409, 105, 6409, -567, 12329, -567, 12329, 105, 13449, 105, 13449, -449)
+polygon = PackedVector2Array(13929, -379, 13929, 425, 11593, 425, 11593, 905, 13929, 905, 13929, 2345, 11113, 2345, 11113, 2825, 9964, 2825, 9964, 2505, 10633, 2505, 10633, 1865, 13449, 1865, 13449, 1385, 10633, 1385, 10633, 425, 6276, 425, 6276, 105, 6409, 105, 6409, -567, 12329, -567, 12329, 105, 13449, 105, 13449, -379)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room8"]
 visible = false
@@ -1961,7 +1953,7 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room8/CameraLimiterLeft"]
-position = Vector2(439, 93)
+position = Vector2(449, 93)
 shape = SubResource("RectangleShape2D_ycvaf")
 
 [node name="CameraLimiterTop" type="Area2D" parent="Rooms/Room8"]
@@ -1988,7 +1980,7 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room8/CameraLimiterTop3"]
-position = Vector2(3219, -2264)
+position = Vector2(3219, -2229)
 shape = SubResource("RectangleShape2D_arsik")
 
 [node name="CameraLimiterLeft2" type="Area2D" parent="Rooms/Room8"]
@@ -2005,7 +1997,7 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room9"]
-polygon = PackedVector2Array(6250, 1225, 6409, 1225, 6409, 841, 9353, 841, 9353, 2153, 7817, 2153, 7817, 2505, 8137, 2505, 8137, 2249, 9353, 2249, 9353, 2505, 9944, 2505, 9944, 2825, 9161, 2825, 9161, 2729, 8969, 2729, 8969, 2665, 8489, 2665, 8489, 2729, 8361, 2729, 8361, 2761, 8265, 2761, 8265, 2825, 7344, 2825, 7344, 2505, 7497, 2505, 7497, 1865, 9033, 1865, 9033, 1545, 6250, 1545)
+polygon = PackedVector2Array(6270, 1225, 6409, 1225, 6409, 841, 9353, 841, 9353, 2153, 7817, 2153, 7817, 2505, 8137, 2505, 8137, 2249, 9353, 2249, 9353, 2505, 9924, 2505, 9924, 2825, 9161, 2825, 9161, 2729, 8969, 2729, 8969, 2665, 8489, 2665, 8489, 2729, 8361, 2729, 8361, 2761, 8265, 2761, 8265, 2825, 7364, 2825, 7364, 2505, 7497, 2505, 7497, 1865, 9033, 1865, 9033, 1545, 6270, 1545)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room9"]
 visible = false
@@ -2017,7 +2009,7 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room9/CameraLimiterLeft"]
-position = Vector2(81, -33)
+position = Vector2(101, -33)
 shape = SubResource("RectangleShape2D_iaahw")
 
 [node name="CameraLimiterRight" type="Area2D" parent="Rooms/Room9"]
@@ -2044,11 +2036,10 @@ collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room9/CameraLimiterTop2"]
-position = Vector2(1895.5, 655)
+position = Vector2(1885.5, 655)
 shape = SubResource("RectangleShape2D_55qga")
 
 [node name="Room10" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2060,7 +2051,6 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_fa1d4")
 
 [node name="Room11" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2072,7 +2062,6 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_8nybb")
 
 [node name="Room12" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2084,19 +2073,17 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_snjv6")
 
 [node name="Room13" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rooms/Room13"]
-polygon = PackedVector2Array(-375, -1015, 1961, -1015, 1961, -2135, 2601, -2135, 2601, -1975, 2761, -1975, 2761, -1815, 2921, -1815, 2921, -1655, 3081, -1655, 3081, -1495, 3241, -1495, 3241, -1335, 3401, -1335, 3401, -1175, 3561, -1175, 3561, -1015, 4647, -1015, 4647, -1335, 4489, -1335, 4489, -2903, 4041, -2903, 4041, -2871, 4009, -2871, 4009, -2839, 3977, -2839, 3977, -2807, 1961, -2807, 1961, -3255, -311, -3255, -311, -2807, 617, -2807, 617, -2647, 9, -2647, 9, -1815, 489, -1815, 489, -1655, 9, -1655, 9, -1335, -375, -1335)
+polygon = PackedVector2Array(-375, -1015, 1961, -1015, 1961, -2135, 2601, -2135, 2601, -1975, 2761, -1975, 2761, -1815, 2921, -1815, 2921, -1655, 3081, -1655, 3081, -1495, 3241, -1495, 3241, -1335, 3401, -1335, 3401, -1175, 3561, -1175, 3561, -1015, 4622, -1015, 4622, -1335, 4489, -1335, 4489, -2903, 4041, -2903, 4041, -2871, 4009, -2871, 4009, -2839, 3977, -2839, 3977, -2807, 1961, -2807, 1961, -3255, -311, -3255, -311, -2807, 617, -2807, 617, -2647, 9, -2647, 9, -1815, 489, -1815, 489, -1655, 9, -1655, 9, -1335, -375, -1335)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Rooms/Room13"]
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_m2pth")
 
 [node name="Room16" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2126,7 +2113,6 @@ position = Vector2(-2246, -413.5)
 shape = SubResource("RectangleShape2D_g8co2")
 
 [node name="Room14" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
@@ -2147,7 +2133,6 @@ position = Vector2(891, -30)
 shape = SubResource("RectangleShape2D_ccbyx")
 
 [node name="Room15" type="Area2D" parent="Rooms"]
-visible = false
 collision_layer = 16
 collision_mask = 19
 
