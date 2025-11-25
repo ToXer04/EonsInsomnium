@@ -1,4 +1,5 @@
 extends CharacterBody2D
+@onready var black_screen: CanvasLayer = $BlackScreen
 
 @onready var lower_state_machine: StateMachine = %LowerStateMachine
 @onready var upper_state_machine: StateMachine = %UpperStateMachine
@@ -146,6 +147,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 	if area.name.begins_with("Room"):
 		print("enter")
 		print(area)
+		black_screen.transition()
 		var poly: CollisionPolygon2D = area.get_node("CollisionPolygon2D")
 		var points = poly.polygon
 		
@@ -379,14 +381,14 @@ func spawn_attack_trail_rpc(pos: Vector2, type: String, scale_x):
 		var trail = AttackTrailScene.instantiate()
 		trail.scale.x = scale_x
 		trail.attack_type = type
-		add_child(trail)
+		add_child(trail, true)
 		trail.global_position = pos
 
 @rpc("any_peer", "call_local")
 func spawn_dash_trail_rpc(pos: Vector2):
 	if multiplayer.is_server():
 		var trail = DashTrailScene.instantiate()
-		get_node(Singleton.replicated_effects_path).add_child(trail)
+		get_node(Singleton.replicated_effects_path).add_child(trail, true)
 		trail.global_position = pos
 
 func takeDamage(damageTaken: int):
