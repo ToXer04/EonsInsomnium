@@ -17,6 +17,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-89, 1824, -91, 2116, 1
 script = ExtResource("1_puqyj")
 
 [node name="UmbralDepths" parent="." instance=ExtResource("2_26h6w")]
+visible = false
 
 [node name="NavigationRegions" type="Node" parent="."]
 
@@ -52,5 +53,5 @@ position = Vector2(627, 116)
 
 [node name="EffectsSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
-_spawnable_scenes = PackedStringArray("uid://dpicywmkkmjdd")
+_spawnable_scenes = PackedStringArray("uid://587lb8a686wk", "uid://dpicywmkkmjdd")
 spawn_path = NodePath("../ReplicatedEffects")

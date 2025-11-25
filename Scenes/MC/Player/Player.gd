@@ -1,4 +1,6 @@
 extends CharacterBody2D
+class_name Player
+
 @onready var black_screen: CanvasLayer = $BlackScreen
 
 @onready var lower_state_machine: StateMachine = %LowerStateMachine
@@ -362,7 +364,7 @@ func _input(event):
 			offset_position.x = 50
 			offset_position.y = 20
 		offset_position.x *= %Visuals.scale.x
-		rpc("spawn_attack_trail_rpc", global_position + offset_position, attack_type, %Visuals.scale.x)
+		rpc("spawn_attack_trail_rpc", offset_position, attack_type, %Visuals.scale.x, self)
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if not AbilityManager.is_unlocked("dash"):
 			rpc("spawn_dash_trail_rpc", global_position)
@@ -376,13 +378,15 @@ func _input(event):
 			dash_cooldown_timer = DASH_COOLDOWN
 
 @rpc("any_peer", "call_local")
-func spawn_attack_trail_rpc(pos: Vector2, type: String, scale_x):
+func spawn_attack_trail_rpc(position_offset: Vector2, type: String, scale_x: float, player_ref: Player):
 	if multiplayer.is_server():
 		var trail = AttackTrailScene.instantiate()
 		trail.scale.x = scale_x
 		trail.attack_type = type
-		add_child(trail, true)
-		trail.global_position = pos
+		trail.position_offset = position_offset
+		trail.player_ref = player_ref
+		get_node(Singleton.replicated_effects_path).add_child(trail, true)
+
 
 @rpc("any_peer", "call_local")
 func spawn_dash_trail_rpc(pos: Vector2):

@@ -1242,10 +1242,6 @@ shadow_filter_smooth = 1.0
 texture = SubResource("GradientTexture2D_pkbn6")
 texture_scale = 6.0
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://587lb8a686wk")
-spawn_path = NodePath("..")
-
 [connection signal="area_entered" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_area_entered"]
 [connection signal="area_exited" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_area_exited"]
 [connection signal="body_entered" from="HurtboxTrigger" to="." method="_on_hurtbox_trigger_body_entered"]
