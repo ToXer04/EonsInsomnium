@@ -13,7 +13,7 @@ func _ready() -> void:
 		"Down":
 			play("AttackDown")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	global_position = player_ref.global_position + position_offset
 
 func _on_animation_finished() -> void:
