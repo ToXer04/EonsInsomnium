@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://587lb8a686wk"]
+[gd_scene load_steps=43 format=3 uid="uid://587lb8a686wk"]
 
 [ext_resource type="Texture2D" uid="uid://pcmk7dolhbka" path="res://Sprites/MC/Eon/Attacks/AttackFrontal/Eon_AttackTrailFrontal_Spritesheet.png" id="1_3b5fg"]
 [ext_resource type="Texture2D" uid="uid://cfq3hgtodfc7a" path="res://Sprites/MC/Eon/Attacks/AttackDown/Eon_AttackTrailDown_Spritesheet.png" id="1_apmhm"]
@@ -275,10 +275,21 @@ animations = [{
 "speed": 30.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ai6im"]
+properties/0/path = NodePath(".:animation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="AttackTrail" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_apmhm")
 animation = &"AttackUp"
 offset = Vector2(0, -540)
 script = ExtResource("4_ai6im")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ai6im")
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

@@ -344,24 +344,23 @@ func _input(event):
 		if velocity.y < 0:
 			velocity.y *= 0.4
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
-		var trail = AttackTrailScene.instantiate()
-		var offset_position : Vector2
+		var offset_position := Vector2(0,0)
+		var attack_type : String
 		if Input.is_action_pressed("Move_Up"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackUpUpper"))
-			trail.attack_type = "Up"
+			attack_type = "Up"
 			offset_position.y = -30
 		elif Input.is_action_pressed("Move_Down"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackDownUpper"))
-			trail.attack_type = "Down"
+			attack_type = "Down"
 			offset_position.y = 75
 		else:
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
-			trail.attack_type = "Frontal"
+			attack_type = "Frontal"
 			offset_position.x = 50
 			offset_position.y = 20
-		%Visuals.add_child(trail)
 		offset_position.x *= %Visuals.scale.x
-		trail.global_position = global_position + offset_position
+		rpc("spawn_attack_trail_rpc", global_position + offset_position, attack_type, %Visuals.scale.x)
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if not AbilityManager.is_unlocked("dash"):
 			rpc("spawn_dash_trail_rpc", global_position)
@@ -375,13 +374,20 @@ func _input(event):
 			dash_cooldown_timer = DASH_COOLDOWN
 
 @rpc("any_peer", "call_local")
+func spawn_attack_trail_rpc(pos: Vector2, type: String, scale_x):
+	if multiplayer.is_server():
+		var trail = AttackTrailScene.instantiate()
+		trail.scale.x = scale_x
+		trail.attack_type = type
+		add_child(trail)
+		trail.global_position = pos
+
+@rpc("any_peer", "call_local")
 func spawn_dash_trail_rpc(pos: Vector2):
 	if multiplayer.is_server():
 		var trail = DashTrailScene.instantiate()
 		get_node(Singleton.replicated_effects_path).add_child(trail)
 		trail.global_position = pos
-
-
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken
