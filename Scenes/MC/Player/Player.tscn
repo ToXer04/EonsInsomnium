@@ -47,6 +47,7 @@
 [ext_resource type="PackedScene" uid="uid://h3kmrbd1l6kd" path="res://Scenes/MC/HUD/hud.tscn" id="42_20td0"]
 [ext_resource type="Script" uid="uid://dudyvh80gjb5l" path="res://Scenes/MC/Player/State_MC_SitIdle_Upper.gd" id="42_ihe0k"]
 [ext_resource type="Script" uid="uid://wknh26oc1o0m" path="res://Scenes/MC/Player/State_MC_SitOff_Upper.gd" id="43_8nv00"]
+[ext_resource type="PackedScene" uid="uid://cdafbic2h6ne2" path="res://Scenes/MC/Player/BlackScreen.tscn" id="48_oxla6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
@@ -1193,6 +1194,8 @@ position = Vector2(-13.802111, 12.648046)
 shape = SubResource("RectangleShape2D_oxla6")
 
 [node name="Hud" parent="." instance=ExtResource("42_20td0")]
+
+[node name="BlackScreen" parent="." instance=ExtResource("48_oxla6")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -200)
