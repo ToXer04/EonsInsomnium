@@ -364,7 +364,7 @@ func _input(event):
 			offset_position.x = 50
 			offset_position.y = 20
 		offset_position.x *= %Visuals.scale.x
-		rpc("spawn_attack_trail_rpc", offset_position, attack_type, %Visuals.scale.x, get_multiplayer_authority())
+		rpc("spawn_attack_trail_rpc", offset_position, attack_type, %Visuals.scale.x, multiplayer.get_unique_id())
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if not AbilityManager.is_unlocked("dash"):
 			rpc("spawn_dash_trail_rpc", global_position)
@@ -381,6 +381,9 @@ func _input(event):
 func spawn_attack_trail_rpc(position_offset: Vector2, type: String, scale_x: float, peer_id):
 	if multiplayer.is_server():
 		var player_ref = Singleton.players.get(peer_id)
+		if player_ref == null:
+			print("ERRORE: player_ref null per peer_id ", peer_id)
+			return
 		var trail = AttackTrailScene.instantiate()
 		trail.scale.x = scale_x
 		trail.attack_type = type
