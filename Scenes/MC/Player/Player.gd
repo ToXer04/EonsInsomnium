@@ -380,15 +380,11 @@ func _input(event):
 @rpc("any_peer", "call_local")
 func spawn_attack_trail_rpc(position_offset: Vector2, type: String, scale_x: float, peer_id):
 	if multiplayer.is_server():
-		var player_ref = Singleton.players.get(peer_id)
-		if player_ref == null:
-			print("ERRORE: player_ref null per peer_id ", peer_id)
-			return
 		var trail = AttackTrailScene.instantiate()
 		trail.scale.x = scale_x
 		trail.attack_type = type
 		trail.position_offset = position_offset
-		trail.player_ref = player_ref
+		trail.player_id = peer_id
 		get_node(Singleton.replicated_effects_path).add_child(trail, true)
 
 
