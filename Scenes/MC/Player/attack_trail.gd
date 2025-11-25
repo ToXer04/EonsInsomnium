@@ -14,7 +14,8 @@ func _ready() -> void:
 			play("AttackDown")
 
 func _process(_delta: float) -> void:
-	global_position = player_ref.global_position + position_offset
+	if multiplayer.is_server():
+		global_position = player_ref.global_position + position_offset
 
 func _on_animation_finished() -> void:
 	queue_free()
