@@ -364,9 +364,7 @@ func _input(event):
 		trail.global_position = global_position + offset_position
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if not AbilityManager.is_unlocked("dash"):
-			var trail = DashTrailScene.instantiate()
-			get_node(Singleton.replicated_effects_path).add_child(trail)
-			trail.global_position = global_position
+			rpc("spawn_dash_trail_rpc", global_position)
 			dashing = true
 			dash_time = 0.0
 			dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
@@ -375,6 +373,14 @@ func _input(event):
 			if not is_on_floor():
 				can_dash = false
 			dash_cooldown_timer = DASH_COOLDOWN
+
+@rpc("any_peer", "call_local")
+func spawn_dash_trail_rpc(pos: Vector2):
+	if multiplayer.is_server():
+		var trail = DashTrailScene.instantiate()
+		get_node(Singleton.replicated_effects_path).add_child(trail)
+		trail.global_position = pos
+
 
 
 func takeDamage(damageTaken: int):

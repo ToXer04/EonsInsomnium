@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dpicywmkkmjdd"]
+[gd_scene load_steps=17 format=3 uid="uid://dpicywmkkmjdd"]
 
 [ext_resource type="Texture2D" uid="uid://dil520yt7bd2j" path="res://Sprites/MC/Eon/Dash/DashTrail/Eon_DashTrail_Spritesheet.png" id="1_s52a7"]
 [ext_resource type="Script" uid="uid://bcowe0c4muhdd" path="res://Scenes/MC/Player/dash_trail.gd" id="2_8vlfn"]
@@ -95,10 +95,21 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_s52a7"]
+properties/0/path = NodePath(".:animation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="DashTrail" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_6ugfp")
 animation = &"Dash"
 offset = Vector2(0, -540)
 script = ExtResource("2_8vlfn")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_s52a7")
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

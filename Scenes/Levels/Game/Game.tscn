@@ -52,5 +52,5 @@ position = Vector2(627, 116)
 
 [node name="EffectsSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
-_spawnable_scenes = PackedStringArray("uid://587lb8a686wk")
+_spawnable_scenes = PackedStringArray("uid://dpicywmkkmjdd")
 spawn_path = NodePath("../ReplicatedEffects")
