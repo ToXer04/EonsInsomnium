@@ -25,8 +25,6 @@ func spawnPlayer(id: int, character: String):
 	var player = load(path).instantiate()
 	player.name = str(id)
 	players.add_child(player)
-	Singleton.players[id] = player
-	print("Players registrati:", Singleton.players.keys())
 
 func get_spawn_position(id: int) -> Vector2:
 	for sp in spawn_points:
