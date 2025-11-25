@@ -1,4 +1,7 @@
 extends CharacterBody2D
+class_name Player
+
+@onready var black_screen: CanvasLayer = $BlackScreen
 
 @onready var lower_state_machine: StateMachine = %LowerStateMachine
 @onready var upper_state_machine: StateMachine = %UpperStateMachine
@@ -77,9 +80,11 @@ var jump_holding: bool = false
 var jump_time: float = 0.0
 
 # Attack
+var AttackTrailScene: PackedScene = preload("res://Scenes/MC/Player/AttackTrail.tscn")
 var is_attacking: bool = false
 
 # Dash
+var DashTrailScene: PackedScene = preload("res://Scenes/MC/Player/DashTrail.tscn")
 const DASH_SPEED = 2000.0
 const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 0.5
@@ -144,6 +149,7 @@ func _on_hurtbox_trigger_area_entered(area: Area2D) -> void:
 	if area.name.begins_with("Room"):
 		print("enter")
 		print(area)
+		black_screen.transition()
 		var poly: CollisionPolygon2D = area.get_node("CollisionPolygon2D")
 		var points = poly.polygon
 		
@@ -341,27 +347,27 @@ func _input(event):
 		jump_holding = false
 		if velocity.y < 0:
 			velocity.y *= 0.4
-	var AttackTrailScene: PackedScene = preload("res://Scenes/MC/Player/AttackTrail.tscn")
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
-		var trail = AttackTrailScene.instantiate()
-		var offset_position : Vector2
+		var offset_position := Vector2(0,0)
+		var attack_type : String
 		if Input.is_action_pressed("Move_Up"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackUpUpper"))
-			trail.attack_type = "Up"
+			attack_type = "Up"
 			offset_position.y = -30
 		elif Input.is_action_pressed("Move_Down"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackDownUpper"))
-			trail.attack_type = "Down"
+			attack_type = "Down"
 			offset_position.y = 75
 		else:
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
-			trail.attack_type = "Frontal"
+			attack_type = "Frontal"
 			offset_position.x = 50
 			offset_position.y = 20
-		%Visuals.add_child(trail)
-		trail.global_position = global_position + offset_position
+		offset_position.x *= %Visuals.scale.x
+		rpc("spawn_attack_trail_rpc", offset_position, attack_type, %Visuals.scale.x, multiplayer.get_unique_id())
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
-		if AbilityManager.is_unlocked("dash"):
+		if not AbilityManager.is_unlocked("dash"):
+			rpc("spawn_dash_trail_rpc", global_position)
 			dashing = true
 			dash_time = 0.0
 			dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1
@@ -371,6 +377,27 @@ func _input(event):
 				can_dash = false
 			dash_cooldown_timer = DASH_COOLDOWN
 
+@rpc("any_peer", "call_local")
+func spawn_attack_trail_rpc(position_offset: Vector2, type: String, scale_x: float, peer_id):
+	if multiplayer.is_server():
+		var player_ref = Singleton.players.get(peer_id)
+		if player_ref == null:
+			print("ERRORE: player_ref null per peer_id ", peer_id)
+			return
+		var trail = AttackTrailScene.instantiate()
+		trail.scale.x = scale_x
+		trail.attack_type = type
+		trail.position_offset = position_offset
+		trail.player_ref = player_ref
+		get_node(Singleton.replicated_effects_path).add_child(trail, true)
+
+
+@rpc("any_peer", "call_local")
+func spawn_dash_trail_rpc(pos: Vector2):
+	if multiplayer.is_server():
+		var trail = DashTrailScene.instantiate()
+		get_node(Singleton.replicated_effects_path).add_child(trail, true)
+		trail.global_position = pos
 
 func takeDamage(damageTaken: int):
 	health -= damageTaken

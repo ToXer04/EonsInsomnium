@@ -13,7 +13,7 @@ func _ready() -> void:
 		await get_tree().process_frame
 	if multiplayer.is_server():
 		print("Sono Host")
-		spawnPlayer(1, Singleton.selectedChar)
+		spawnPlayer(multiplayer.get_unique_id(), Singleton.selectedChar)
 	else:
 		print("Sono Client")
 		rpc_id(1, "spawnPlayer", multiplayer.get_unique_id(), Singleton.selectedChar)
@@ -25,6 +25,8 @@ func spawnPlayer(id: int, character: String):
 	var player = load(path).instantiate()
 	player.name = str(id)
 	players.add_child(player)
+	Singleton.players[id] = player
+	print("Players registrati:", Singleton.players.keys())
 
 func get_spawn_position(id: int) -> Vector2:
 	for sp in spawn_points:
