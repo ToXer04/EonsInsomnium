@@ -1,9 +1,10 @@
-[gd_scene load_steps=171 format=3 uid="uid://ddonb1ria8edw"]
+[gd_scene load_steps=176 format=3 uid="uid://ddonb1ria8edw"]
 
 [ext_resource type="Script" uid="uid://vxxvnfnoxtam" path="res://Scenes/MC/Player/Player.gd" id="1_auuog"]
 [ext_resource type="Texture2D" uid="uid://cgcuy1x7ya1ru" path="res://Sprites/MC/Eon/Attacks/AttackFrontal/Eon_AttackFrontal_Upper_Spritesheet.png" id="2_8bq3o"]
 [ext_resource type="Texture2D" uid="uid://do6qgulmtggly" path="res://Sprites/MC/Eon/Attacks/AttackDown/Eon_AttackDown_Upper_Spritesheet.png" id="2_euoc6"]
 [ext_resource type="Script" uid="uid://dwqv65m8ieqgg" path="res://addons/finite_state_machine/scripts/state_machine.gd" id="2_kyqiw"]
+[ext_resource type="Texture2D" uid="uid://spw0g030hqv4" path="res://Sprites/MC/Eon/Dash/Eon_Dash_Lower_Spritesheet.png" id="2_upfrb"]
 [ext_resource type="Script" uid="uid://ca6dxl50x3vik" path="res://Scenes/MC/Player/State_MC_Idle_Lower.gd" id="3_qkdcl"]
 [ext_resource type="Texture2D" uid="uid://k8y5vxjs61fq" path="res://Sprites/MC/Eon/Attacks/AttackUp/Eon_AttackUp_Upper_Spritesheet.png" id="4_oxla6"]
 [ext_resource type="Texture2D" uid="uid://bkh6orvleb86u" path="res://Sprites/MC/Eon/Idle/Eon_Idle_Lower_Spritesheet.png" id="4_qoupd"]
@@ -23,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://dvygupmf00gt" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOn_Lower_Spritesheet.png" id="11_ihe0k"]
 [ext_resource type="Script" uid="uid://dhry0sfr5bnj0" path="res://Scenes/MC/Player/State_MC_JumpFall_Lower.gd" id="11_po2a2"]
 [ext_resource type="Texture2D" uid="uid://wu4snkeg8koo" path="res://Sprites/MC/Eon/SavePoints/Eon_SitOn_Upper_Spritesheet.png" id="12_8nv00"]
+[ext_resource type="Texture2D" uid="uid://c35r8ydnsn6vl" path="res://Sprites/MC/Eon/Dash/Eon_Dash_Upper_Spritesheet.png" id="12_fve7w"]
 [ext_resource type="Script" uid="uid://bxkto6ip4dr1w" path="res://Scenes/MC/Player/State_MC_JumpLand_Lower.gd" id="12_txbll"]
 [ext_resource type="Script" uid="uid://bpn1jin0ymrjf" path="res://Scenes/MC/Player/State_MC_AttackFrontalUpper.gd" id="14_rq7m6"]
 [ext_resource type="Texture2D" uid="uid://bchv5ecccdn2x" path="res://Sprites/MC/Eon/WallClimb/Eon_Climb_Lower_Spritesheet.png" id="15_pkbn6"]
@@ -51,6 +53,10 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xixlo"]
 size = Vector2(36, 139)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wkn1"]
+atlas = ExtResource("2_upfrb")
+region = Rect2(0, 0, 1920, 1080)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3q6s1"]
 atlas = ExtResource("4_qoupd")
@@ -270,7 +276,10 @@ region = Rect2(0, 0, 1920, 1080)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rxg2u"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wkn1")
+}],
 "loop": true,
 "name": &"DashLower",
 "speed": 1.0
@@ -517,6 +526,10 @@ region = Rect2(0, 0, 1920, 1080)
 atlas = ExtResource("4_oxla6")
 region = Rect2(1920, 0, 1920, 1080)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwxhj"]
+atlas = ExtResource("12_fve7w")
+region = Rect2(0, 0, 1920, 1080)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_q00j1"]
 atlas = ExtResource("5_y5rh2")
 region = Rect2(0, 0, 1920, 1080)
@@ -744,7 +757,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"AttackDownUpper",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -755,7 +768,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"AttackFrontalUpper",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -766,9 +779,12 @@ animations = [{
 }],
 "loop": false,
 "name": &"AttackUpUpper",
-"speed": 5.0
+"speed": 10.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwxhj")
+}],
 "loop": true,
 "name": &"DashUpper",
 "speed": 1.0
@@ -1048,14 +1064,14 @@ unique_name_in_owner = true
 [node name="LowerSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_rxg2u")
-animation = &"IdleLower"
+animation = &"DashLower"
 offset = Vector2(0, -540)
 
 [node name="UpperSprite" type="AnimatedSprite2D" parent="Visuals"]
 unique_name_in_owner = true
 modulate = Color(0.63375676, 0.6337568, 0.63375676, 1)
 sprite_frames = SubResource("SpriteFrames_oxla6")
-animation = &"AttackDownUpper"
+animation = &"DashUpper"
 offset = Vector2(0, -540)
 
 [node name="LowerStateMachine" type="Node" parent="Visuals" node_paths=PackedStringArray("current_state")]

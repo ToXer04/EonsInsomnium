@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u8yyr7q5hn0b"
-path="res://.godot/imported/Eon_Dash_Spritesheet.png-41b283827fd688cc9e058d25d3ac1113.ctex"
+uid="uid://spw0g030hqv4"
+path="res://.godot/imported/Eon_Dash_Lower_Spritesheet.png-7022adcad83473ae859f19efb61ec82a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/MC/Eon/Dash/Eon_Dash_Spritesheet.png"
-dest_files=["res://.godot/imported/Eon_Dash_Spritesheet.png-41b283827fd688cc9e058d25d3ac1113.ctex"]
+source_file="res://Sprites/MC/Eon/Dash/Eon_Dash_Lower_Spritesheet.png"
+dest_files=["res://.godot/imported/Eon_Dash_Lower_Spritesheet.png-7022adcad83473ae859f19efb61ec82a.ctex"]
 
 [params]
 

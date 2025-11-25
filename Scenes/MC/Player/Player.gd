@@ -77,9 +77,11 @@ var jump_holding: bool = false
 var jump_time: float = 0.0
 
 # Attack
+var AttackTrailScene: PackedScene = preload("res://Scenes/MC/Player/AttackTrail.tscn")
 var is_attacking: bool = false
 
 # Dash
+var DashTrailScene: PackedScene = preload("res://Scenes/MC/Player/DashTrail.tscn")
 const DASH_SPEED = 2000.0
 const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 0.5
@@ -341,7 +343,6 @@ func _input(event):
 		jump_holding = false
 		if velocity.y < 0:
 			velocity.y *= 0.4
-	var AttackTrailScene: PackedScene = preload("res://Scenes/MC/Player/AttackTrail.tscn")
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
 		var trail = AttackTrailScene.instantiate()
 		var offset_position : Vector2
@@ -359,9 +360,13 @@ func _input(event):
 			offset_position.x = 50
 			offset_position.y = 20
 		%Visuals.add_child(trail)
+		offset_position.x *= %Visuals.scale.x
 		trail.global_position = global_position + offset_position
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
-		if AbilityManager.is_unlocked("dash"):
+		if not AbilityManager.is_unlocked("dash"):
+			var trail = DashTrailScene.instantiate()
+			get_node(Singleton.replicated_effects_path).add_child(trail)
+			trail.global_position = global_position
 			dashing = true
 			dash_time = 0.0
 			dash_direction = sign(visuals.scale.x) if visuals.scale.x != 0 else 1

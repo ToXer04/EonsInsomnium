@@ -1,0 +1,104 @@
+[gd_scene load_steps=16 format=3 uid="uid://dpicywmkkmjdd"]
+
+[ext_resource type="Texture2D" uid="uid://dil520yt7bd2j" path="res://Sprites/MC/Eon/Dash/DashTrail/Eon_DashTrail_Spritesheet.png" id="1_s52a7"]
+[ext_resource type="Script" uid="uid://bcowe0c4muhdd" path="res://Scenes/MC/Player/dash_trail.gd" id="2_8vlfn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5pjs"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0sgh"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3gti"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(3840, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhxtp"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(5760, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1308"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nqij"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70yof"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(3840, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71nxy"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(5760, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bwos"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(0, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocla2"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(1920, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fepj"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(3840, 2160, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6swcw"]
+atlas = ExtResource("1_s52a7")
+region = Rect2(5760, 2160, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6ugfp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5pjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0sgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3gti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhxtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1308")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nqij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70yof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71nxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bwos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocla2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fepj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6swcw")
+}],
+"loop": false,
+"name": &"Dash",
+"speed": 20.0
+}]
+
+[node name="DashTrail" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_6ugfp")
+animation = &"Dash"
+offset = Vector2(0, -540)
+script = ExtResource("2_8vlfn")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
