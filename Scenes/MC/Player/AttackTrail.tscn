@@ -1,0 +1,116 @@
+[gd_scene load_steps=18 format=3 uid="uid://587lb8a686wk"]
+
+[ext_resource type="Texture2D" uid="uid://pcmk7dolhbka" path="res://Sprites/MC/Eon/Attacks/AttackFrontal/Eon_AttackTrailFrontal_Spritesheet.png" id="1_3b5fg"]
+[ext_resource type="Texture2D" uid="uid://cfq3hgtodfc7a" path="res://Sprites/MC/Eon/Attacks/AttackDown/Eon_AttackTrailDown_Spritesheet.png" id="1_apmhm"]
+[ext_resource type="Texture2D" uid="uid://p5h22njtt8nu" path="res://Sprites/MC/Eon/Attacks/AttackUp/Eon_AttackTrailUp_Spritesheet.png" id="3_ai6im"]
+[ext_resource type="Script" uid="uid://b0m34fj72dht4" path="res://Scenes/MC/Player/attack_trail.gd" id="4_ai6im"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwxhj"]
+atlas = ExtResource("1_apmhm")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wkn1"]
+atlas = ExtResource("1_apmhm")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_neqnh"]
+atlas = ExtResource("1_apmhm")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvsgb"]
+atlas = ExtResource("1_apmhm")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iql7"]
+atlas = ExtResource("1_3b5fg")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq87u"]
+atlas = ExtResource("1_3b5fg")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aupfi"]
+atlas = ExtResource("1_3b5fg")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbsvh"]
+atlas = ExtResource("1_3b5fg")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f62bb"]
+atlas = ExtResource("3_ai6im")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0rxf"]
+atlas = ExtResource("3_ai6im")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33hlv"]
+atlas = ExtResource("3_ai6im")
+region = Rect2(0, 1080, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0x4o5"]
+atlas = ExtResource("3_ai6im")
+region = Rect2(1920, 1080, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_apmhm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwxhj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wkn1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_neqnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvsgb")
+}],
+"loop": false,
+"name": &"AttackDown",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6iql7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq87u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aupfi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbsvh")
+}],
+"loop": false,
+"name": &"AttackFrontal",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f62bb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0rxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33hlv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0x4o5")
+}],
+"loop": false,
+"name": &"AttackUp",
+"speed": 20.0
+}]
+
+[node name="AttackTrail" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_apmhm")
+animation = &"AttackDown"
+offset = Vector2(0, -540)
+script = ExtResource("4_ai6im")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

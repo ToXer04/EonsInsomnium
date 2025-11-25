@@ -341,15 +341,25 @@ func _input(event):
 		jump_holding = false
 		if velocity.y < 0:
 			velocity.y *= 0.4
-
+	var AttackTrailScene: PackedScene = preload("res://Scenes/MC/Player/AttackTrail.tscn")
 	if event.is_action_pressed("Click") and not dashing and not stop and not is_attacking:
+		var trail = AttackTrailScene.instantiate()
+		var offset_position : Vector2
 		if Input.is_action_pressed("Move_Up"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackUpUpper"))
+			trail.attack_type = "Up"
+			offset_position.y = -30
 		elif Input.is_action_pressed("Move_Down"):
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackDownUpper"))
+			trail.attack_type = "Down"
+			offset_position.y = 75
 		else:
 			upper_state_machine.set_current_state(upper_state_machine.get_node("AttackFrontalUpper"))
-
+			trail.attack_type = "Frontal"
+			offset_position.x = 50
+			offset_position.y = 20
+		%Visuals.add_child(trail)
+		trail.global_position = global_position + offset_position
 	if event.is_action_pressed("Dash") and not dashing and can_dash and dash_cooldown_timer <= 0.0 and not wall_climbing and not stop:
 		if AbilityManager.is_unlocked("dash"):
 			dashing = true
@@ -456,7 +466,6 @@ func _on_hurtbox_trigger_body_entered(body: Node2D) -> void:
 		if health <= 0:
 			death()
 		print(health)
-
 
 
 func cubic_ease_in_out(t: float) -> float:

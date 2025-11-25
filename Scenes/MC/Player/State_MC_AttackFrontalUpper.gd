@@ -10,7 +10,7 @@ func _enter_state() -> void:
 	upper_sprite.play("AttackFrontalUpper")
 	SoundManager.play_sfx(SoundManager.SFX_ATTACK)
 
-	# Do not stop walk timer → steps continue during attack
+	
 
 	var hitbox = %HitboxTriggerFrontal
 	var overlapping_bodies = hitbox.get_overlapping_bodies()
