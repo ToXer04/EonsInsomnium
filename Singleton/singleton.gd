@@ -1,6 +1,6 @@
 extends Node
 
-var replicated_players_path := "/root/Game/Players"
+var replicated_players_path := "/root/Game/Players/"
 var synced := false
 var player: CharacterBody2D
 var selectedChar: String = "Eon"
