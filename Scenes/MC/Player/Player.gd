@@ -285,8 +285,8 @@ func _physics_process(delta: float) -> void:
 			wall_climbing = false
 
 		if jump_holding and jump_time < MAX_JUMP_HOLD_TIME:
-			var t = jump_time / MAX_JUMP_HOLD_TIME
-			var extra_force = (JUMP_HOLD_FORCE * (1.0 - t)) * delta
+			var jump_t = jump_time / MAX_JUMP_HOLD_TIME
+			var extra_force = (JUMP_HOLD_FORCE * (1.0 - jump_t)) * delta
 			velocity.y += extra_force
 			jump_time += delta
 			if jump_time >= MAX_JUMP_HOLD_TIME:
@@ -433,17 +433,12 @@ func move_to_target(pos: Vector2, callback: Callable = Callable()):
 	var dir = target_position.x - global_position.x
 	if dir != 0: visuals.scale.x = sign(dir)
 
-@onready var sfx_walk: AudioStreamPlayer = %WalkSFX 
-
 func _on_lower_sprite_frame_changed() -> void:
-	return
 	match (%LowerSprite.animation):
-		"IdleLower": 
-			return
 		"WalkLower":
 			match (%LowerSprite.frame):
-				1: sfx_walk.play()
-				10: sfx_walk.play()
+				1: SoundManager.play_mc_step_sfx()
+				10: SoundManager.play_mc_step_sfx()
 
 func Health_ui():
 	var Emptycontainer = hud.get_node("Control/HealthUIEmptyContainer")

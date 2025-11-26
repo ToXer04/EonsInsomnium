@@ -27,7 +27,7 @@ func _on_body_entered(body: Node2D) -> void:
 # ---------------------------------------------------------
 # ESCI DALL’AREA
 # ---------------------------------------------------------
-func _on_body_exited(body: Node2D) -> void:
+func _on_body_exited(_body: Node2D) -> void:
 	player_in_range = false
 	label.hide()
 
@@ -35,7 +35,7 @@ func _on_body_exited(body: Node2D) -> void:
 # ---------------------------------------------------------
 # PROCESS: INTERACT → APRI DIALOGO
 # ---------------------------------------------------------
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	# 🔒 se il player non c’è più, non fare nulla
 	if player_ref == null:
@@ -79,7 +79,7 @@ func _on_got_dialogue(line: DialogueLine) -> void:
 # ---------------------------------------------------------
 # DIALOGO FINITO
 # ---------------------------------------------------------
-func _on_dialogue_ended(resource) -> void:
+func _on_dialogue_ended(_resource) -> void:
 
 	if player_ref == null:
 		return

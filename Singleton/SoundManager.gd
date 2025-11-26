@@ -72,3 +72,7 @@ func play_ent_sfx():
 	
 func stop_menu_music():
 	menu_music_player.stop()
+
+func play_mc_step_sfx():
+	sfx_player.stream = SFX_STEP
+	sfx_player.play()
