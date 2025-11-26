@@ -213,6 +213,7 @@ func open_settings():
 
 func quit_to_menu():
 	_play_esc_sound()
+	SoundManager.stop_gameplay_music()
 	PauseManager.quit_to_menu()
 
 func close_settings():
