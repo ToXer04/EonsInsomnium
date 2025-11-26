@@ -17,9 +17,9 @@ func _ready() -> void:
 			play("AttackDown")
 
 func _process(_delta: float) -> void:
-	print(Singleton.replicated_players_path + str(player_id))
-	if multiplayer.get_unique_id() == player_id and player_ref != null:
+	if player_ref != null:
 		global_position = player_ref.global_position + position_offset
-
+		
 func _on_animation_finished() -> void:
+	await get_tree().create_timer(1).timeout
 	queue_free()
