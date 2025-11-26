@@ -1,4 +1,4 @@
-[gd_scene load_steps=175 format=4 uid="uid://btvv2efofeej"]
+[gd_scene load_steps=173 format=4 uid="uid://btvv2efofeej"]
 
 [ext_resource type="Texture2D" uid="uid://bi1vyxowyt5kk" path="res://Sprites/Assets/Biomes/UmbralDepths/UmbralDepths_Grass.png" id="1_qa5vs"]
 [ext_resource type="Script" uid="uid://buy6mcia15psu" path="res://Scenes/Levels/Game/UmbralDepths/UmbralDepths.gd" id="1_v7d0a"]
@@ -1298,13 +1298,6 @@ texture_region_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_vlluj")
 sources/0 = SubResource("TileSetAtlasSource_55qga")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l8yr7"]
-texture = ExtResource("1_qa5vs")
-texture_region_size = Vector2i(32, 32)
-208:9/0 = 0
-0:0/size_in_atlas = Vector2i(200, 16)
-0:0/0 = 0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_txg7u"]
 texture = ExtResource("6_xvkg2")
 texture_region_size = Vector2i(32, 32)
@@ -1355,7 +1348,6 @@ sources/4 = SubResource("TileSetAtlasSource_c6svx")
 sources/5 = SubResource("TileSetAtlasSource_52ej3")
 sources/6 = SubResource("TileSetAtlasSource_il01p")
 sources/7 = SubResource("TileSetAtlasSource_fa1d4")
-sources/0 = SubResource("TileSetAtlasSource_l8yr7")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g8co2"]
 texture = ExtResource("1_qa5vs")
@@ -1396,13 +1388,6 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_ccbyx"]
 sources/0 = SubResource("TileSetAtlasSource_g8co2")
 sources/1 = SubResource("TileSetAtlasSource_ycvaf")
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ms1qq"]
-texture = ExtResource("1_qa5vs")
-texture_region_size = Vector2i(32, 32)
-116:22/0 = 0
-0:0/size_in_atlas = Vector2i(200, 16)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uu0g4"]
 texture = ExtResource("6_xvkg2")
@@ -1445,7 +1430,6 @@ texture = ExtResource("5_iaahw")
 texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_10juw"]
-sources/0 = SubResource("TileSetAtlasSource_ms1qq")
 sources/13 = SubResource("TileSetAtlasSource_uu0g4")
 sources/14 = SubResource("TileSetAtlasSource_qcxfv")
 sources/15 = SubResource("TileSetAtlasSource_k11nm")
@@ -1733,6 +1717,7 @@ visible = false
 
 [node name="Rooms" type="Node2D" parent="."]
 unique_name_in_owner = true
+visible = false
 
 [node name="Room1" type="Area2D" parent="Rooms"]
 collision_layer = 16
