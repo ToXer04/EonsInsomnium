@@ -9,6 +9,7 @@ extends StateMachineState
 func _enter_state() -> void:
 	lower_sprite.play("SitOnLower")
 	player.stop = true
+	SoundManager.play_sfx_pitch(SoundManager.SFX_SITON, 0.9, 1.1)
 	if not player.is_attacking:
 		upper_state_machine.set_current_state(upper_state_machine.get_node("SitOnUpper"))
 

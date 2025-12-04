@@ -153,10 +153,12 @@ func loadLanguageSettings(save_data):
 	TranslationServer.set_locale(available_languages[current_language_index])
 
 func _ready() -> void:
+	SoundManager.stop_sitidle_sfx()
 	Singleton.current_scene = "MainMenu"
 	animation_player.play("FadeLogo")
 	initial_update_selection_visual()
 	_update_lobby_nav_visual()
+	
 
 func _process(_delta):
 	if SteamLobbyManager.lobby_id != 0:

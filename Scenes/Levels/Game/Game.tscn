@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://d1dj2nirm0m0x"]
+[gd_scene load_steps=10 format=3 uid="uid://d1dj2nirm0m0x"]
 
 [ext_resource type="Script" uid="uid://d1r51sl75kwp1" path="res://Scenes/Levels/Game/GameManager.gd" id="1_puqyj"]
 [ext_resource type="PackedScene" uid="uid://btvv2efofeej" path="res://Scenes/Levels/Game/UmbralDepths/UmbralDepths.tscn" id="2_26h6w"]
 [ext_resource type="PackedScene" uid="uid://dxqp5cf05hlf3" path="res://Scenes/Enemies/Spawner.tscn" id="4_nc57n"]
 [ext_resource type="PackedScene" uid="uid://bvqld2eer0h87" path="res://Scenes/NPC/NPC/NPC.tscn" id="6_5qxo6"]
 [ext_resource type="PackedScene" uid="uid://bww6vlqmdev31" path="res://Scenes/Levels/Game/Biome2/Biome2.tscn" id="7_nnv0b"]
+[ext_resource type="PackedScene" uid="uid://cdsx85rblvywb" path="res://Scenes/SavePoint/SavePoint.tscn" id="8_puhr0"]
 [ext_resource type="PackedScene" uid="uid://b0efhxa43vbs0" path="res://Scenes/Enemies/Slither/Slither.tscn" id="34_suycs"]
 [ext_resource type="PackedScene" uid="uid://6cbs51dn5yfs" path="res://Scenes/Enemies/Gloop/Gloop.tscn" id="37_ov705"]
 
@@ -30,7 +31,7 @@ position = Vector2(-3704, -2013)
 
 [node name="Players" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(2497, -2254)
+position = Vector2(5189, 2664)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
@@ -55,3 +56,6 @@ position = Vector2(627, 116)
 unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("uid://587lb8a686wk", "uid://dpicywmkkmjdd")
 spawn_path = NodePath("../ReplicatedEffects")
+
+[node name="SavePoint" parent="." instance=ExtResource("8_puhr0")]
+position = Vector2(4614, 2758)

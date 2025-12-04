@@ -13,10 +13,14 @@ func _input(event):
 		pause_game()
 
 func pause_game():
+	SoundManager.stop_sitidle_sfx()
+	SoundManager.stop_gameplay_music() 
 	get_tree().paused = true
 	pause_menu_instance.show()
 
 func resume_game():
+	SoundManager.play_sitidle_sfx()
+	SoundManager.play_gameplay_music()  
 	pause_menu_instance.hide()
 	get_tree().paused = false
 
