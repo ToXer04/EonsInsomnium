@@ -21,6 +21,7 @@ func _ready() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	SoundManager.play_sfx(SoundManager.SFX_FLASKS)
 	body.flasks += value
 	SaveManager.flasks = body.flasks
 	body.WriteFlasks()

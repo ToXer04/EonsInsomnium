@@ -14,6 +14,8 @@ const SFX_DEATH = preload("res://Content/SFX/MC/Death/MC_Death_SFX.WAV")
 const SFX_DAMAGE = preload("res://Content/SFX/Damages/Damages_1__SFX.WAV")
 const SFX_SITON = preload("res://Content/SFX/SavePoints/SavePoint_SFX.WAV")
 const SFX_SAVEPOINTIDLE = preload("res://Content/SFX/SavePoints/FirePlace_SFX.WAV")
+const SFX_FLASKS = preload("res://Content/SFX/Flasks/Flasks_SFX.WAV")
+const SFX_ABILITYOB = preload ("res://Content/SFX/Ability/Obtained/Ability_OBtained_SFX.WAV")
 
 # --- MENU SFX ---
 const SFX_ESC = preload("res://Content/SFX/MainMenu/Esc/Esc_SFX.WAV")
@@ -22,8 +24,11 @@ const SFX_APPLY = preload("res://Content/SFX/MainMenu/Apply/Apply_SFX.WAV")
 const SFX_DELETE = preload("res://Content/SFX/MainMenu/Delete/Delete_SFX.WAV")
 const SFX_SWITCH = preload("res://Content/SFX/MainMenu/Switch/Switch_SFX.WAV")
 
+# --- NPC SFX ---
+const SFX_TERALITH = preload("res://Content/SFX/NPC/Teralith/DIalogue/Teralith_Dialogue_SFX__1_.WAV")
+const SFX_TERALITH2 = preload("res://Content/SFX/NPC/Teralith/DIalogue/Teralith_Dialogue_SFX__2_.WAV")
 
-# --- AUDIO PLAYERS ---
+
 var gameplay_music_player: AudioStreamPlayer = null
 var menu_music_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
@@ -91,7 +96,7 @@ func play_sfx_pitch(sfx_stream: AudioStream, min_pitch := 0.9, max_pitch := 1.1)
 	add_child(p)
 	p.play()
 	p.finished.connect(p.queue_free)
-# Riproduce il sit idle e lo memorizza
+
 func play_sitidle_sfx():
 	if sit_idle_player:
 		sit_idle_player.stop()

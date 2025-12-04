@@ -396,12 +396,14 @@ func spawn_dash_trail_rpc(pos: Vector2):
 		trail.global_position = pos
 
 func takeDamage(damageTaken: int):
+	SoundManager.play_sfx(SoundManager.SFX_DAMAGE)
 	health -= damageTaken
 	Change_Health_UI()
 
 func death():
 	print("Dead!")
-	await get_tree().create_timer(0.5).timeout
+	SoundManager.play_sfx(SoundManager.SFX_DEATH)
+	await get_tree().create_timer(2).timeout
 	get_tree().reload_current_scene()
 
 func sit():

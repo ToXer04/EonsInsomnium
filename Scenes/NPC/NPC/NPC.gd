@@ -74,6 +74,11 @@ func _process(_delta: float) -> void:
 func _on_got_dialogue(line: DialogueLine) -> void:
 	if line.has_tag("choice"):
 		choice_tag = line.get_tag_value("choice")
+	if player_ref != null:
+		var chosen_sfx = SoundManager.SFX_TERALITH if randf() < 0.5 else SoundManager.SFX_TERALITH2
+		SoundManager.play_sfx(chosen_sfx)
+		
+		
 
 
 # ---------------------------------------------------------

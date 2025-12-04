@@ -19,3 +19,4 @@ func _process(_delta: float) -> void:
 # Called when the state machine exits this state.
 func _exit_state() -> void:
 	pass
+	

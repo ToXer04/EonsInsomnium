@@ -27,11 +27,11 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_3mrqo")
 
 [node name="Slither" parent="." instance=ExtResource("34_suycs")]
-position = Vector2(-3704, -2013)
+position = Vector2(-3824, -2008)
 
 [node name="Players" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(5189, 2664)
+position = Vector2(-75, 2683)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true

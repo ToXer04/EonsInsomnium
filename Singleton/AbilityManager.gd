@@ -31,6 +31,7 @@ func get_info(key: String) -> Dictionary:
 	return abilities.get(key, {})
 	
 func unlock_ability(key: String) -> void:
+	SoundManager.play_sfx(SoundManager.SFX_ABILITYOB)
 	if abilities.has(key):
 		abilities[key]["unlocked"] = true
 		var popup_instance = popup.instantiate()
