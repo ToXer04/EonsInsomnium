@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8t884s3o7ut7"]
+
+[ext_resource type="Script" uid="uid://c34dj1y13rsrl" path="res://Scenes/Breakable/breakable.gd" id="1_dc7di"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jdtwt"]
+radius = 37.0
+
+[node name="Breakable" type="StaticBody2D"]
+collision_layer = 16
+script = ExtResource("1_dc7di")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -503)
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jdtwt")

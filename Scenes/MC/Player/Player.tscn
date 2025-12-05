@@ -1182,7 +1182,7 @@ unique_name_in_owner = true
 position = Vector2(74, -73)
 scale = Vector2(5.361499, 9.64576)
 collision_layer = 0
-collision_mask = 8
+collision_mask = 24
 
 [node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerFrontal"]
 shape = SubResource("RectangleShape2D_xgxtr")
@@ -1192,7 +1192,7 @@ unique_name_in_owner = true
 position = Vector2(74, -73)
 scale = Vector2(5.361499, 9.64576)
 collision_layer = 0
-collision_mask = 8
+collision_mask = 24
 
 [node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerUp"]
 position = Vector2(-13.80211, -15.447203)
@@ -1203,7 +1203,7 @@ unique_name_in_owner = true
 position = Vector2(74, -73)
 scale = Vector2(5.361499, 9.64576)
 collision_layer = 0
-collision_mask = 8
+collision_mask = 24
 
 [node name="HitboxCollisionFrontal" type="CollisionShape2D" parent="Visuals/HitboxTriggerDown"]
 position = Vector2(-13.802111, 12.648046)

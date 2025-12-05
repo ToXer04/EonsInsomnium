@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://c24l7a8iy418e"]
+
+[ext_resource type="PackedScene" uid="uid://b8t884s3o7ut7" path="res://Scenes/Breakable/Breakable.tscn" id="1_6cehi"]
+[ext_resource type="Texture2D" uid="uid://d15ph8a6jgd0f" path="res://Sprites/Assets/Breakables/Breakable_Chest_Spritesheet.png" id="2_1yca2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c1hn"]
+atlas = ExtResource("2_1yca2")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trn2e"]
+atlas = ExtResource("2_1yca2")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fxfjm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c1hn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trn2e")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 1.0
+}]
+
+[node name="Chest" instance=ExtResource("1_6cehi")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_fxfjm")
+animation = &"destroyed"

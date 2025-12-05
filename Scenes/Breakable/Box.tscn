@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnchv72u4catj"]
+
+[ext_resource type="PackedScene" uid="uid://b8t884s3o7ut7" path="res://Scenes/Breakable/Breakable.tscn" id="1_cx48g"]
+[ext_resource type="Texture2D" uid="uid://d21nryne1dpnm" path="res://Sprites/Assets/Breakables/Breakable_Box_Spritesheet.png" id="2_7u363"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvyvj"]
+atlas = ExtResource("2_7u363")
+region = Rect2(0, 0, 1920, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx48g"]
+atlas = ExtResource("2_7u363")
+region = Rect2(1920, 0, 1920, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h8bja"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvyvj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx48g")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 1.0
+}]
+
+[node name="Box" instance=ExtResource("1_cx48g")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_h8bja")
+animation = &"destroyed"

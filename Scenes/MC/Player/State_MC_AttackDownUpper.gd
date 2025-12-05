@@ -19,6 +19,8 @@ func _enter_state() -> void:
 	for body in overlapping_bodies:
 		if body is Enemy:
 			body.onHit(owner.damage)
+		if body is Breakable:
+			body.destroy()
 
 
 func _process(_delta: float) -> void:
