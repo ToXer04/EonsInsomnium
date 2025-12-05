@@ -9,7 +9,6 @@ func destroy():
 		return
 	is_broken = true
 	
-	anim.play("destroyed")   # ← ANIMAZIONE DI DISTRUZIONE
+	anim.play("destroyed")   
 	
-	# Quando finisce l’animazione puoi eliminare l’oggetto
 	await anim.animation_finished
